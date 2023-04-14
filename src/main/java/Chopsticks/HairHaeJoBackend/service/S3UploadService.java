@@ -13,6 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class S3UploadService {
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
