@@ -28,25 +28,24 @@ public class UserController {
             .success(true)
             .message("회원가입 완료")
             .build();
-
         return ResponseEntity.ok(messages);
     }
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<APIMessages> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse response){
+    public ResponseEntity<APIMessages> login(@RequestBody LoginRequestDto requestDto,
+        HttpServletResponse response) {
         userService.login(requestDto, response);
         APIMessages messages = APIMessages.builder()
-                                .success(true)
-                                .message("로그인 성공")
-                                .build();
-
+            .success(true)
+            .message("로그인 성공")
+            .build();
         return ResponseEntity.ok(messages);
     }
 
     //인증
     @GetMapping("/auth")
-    public ResponseEntity<APIMessages> auth(){
+    public ResponseEntity<APIMessages> auth() {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("인증 성공")
