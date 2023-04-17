@@ -1,12 +1,14 @@
-package Chopsticks.HairHaeJoBackend.dto;
+package Chopsticks.HairHaeJoBackend.dto.user;
 
 import Chopsticks.HairHaeJoBackend.entity.Role;
 import Chopsticks.HairHaeJoBackend.entity.User;
+import Chopsticks.HairHaeJoBackend.service.S3UploadService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class SignupRequestDto {
     private int gender;
     private int age;
 
-    public User toUser(PasswordEncoder passwordEncoder) {
+    public User toUser(String image, PasswordEncoder passwordEncoder) {
         return User.builder()
             .email(email)
             .password(passwordEncoder.encode(password))
@@ -30,6 +32,7 @@ public class SignupRequestDto {
             .gender(gender)
             .age(age)
             .role(Role.ROLE_USER)
+            .profileImage(image)
             .build();
     }
 }

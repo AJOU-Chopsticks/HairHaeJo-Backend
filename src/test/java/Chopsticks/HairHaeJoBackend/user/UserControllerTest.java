@@ -3,7 +3,7 @@ package Chopsticks.HairHaeJoBackend.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import Chopsticks.HairHaeJoBackend.dto.SignupRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -5,36 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4923548a-3ca9-4bd8-ba2a-155ef19013c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/build/bootJarMainClassName" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/libs/HairHaeJo-Backend-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/tmp/bootJar/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/HairHaeJoBackendApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/HairHaeJoBackendApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/JwtSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/JwtSecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/WebSecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/GlobalExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/SecurityUtil.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/APIMessages$APIMessagesBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/APIMessages$APIMessagesBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/APIMessages.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/APIMessages.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto$AuthResponseDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto$AuthResponseDtoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto$LoginRequestDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto$LoginRequestDtoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto$SignupRequestDtoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto$SignupRequestDtoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/Role.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/User$UserBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/entity/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtAccessDeniedHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtAccessDeniedHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtAuthenticationEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtAuthenticationEntryPoint.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/JwtFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/TokenProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/jwt/TokenProvider.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto$AuthResponseDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto$LoginRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto$SignupRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/test/Chopsticks/HairHaeJoBackend/HairHaeJoBackendApplicationTests.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/test/Chopsticks/HairHaeJoBackend/user/UserControllerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/AwsS3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/AwsS3Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/SecurityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/jwt/SecurityUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/LoginRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Chopsticks/HairHaeJoBackend/user/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Chopsticks/HairHaeJoBackend/user/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,13 +102,14 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/lsgg0/HairHaeJo-Backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;64717f181aa56414540e0c763eb6f7a4&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -116,7 +118,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Gradle.HairHaeJo-Backend [bootJar]">
+  <component name="RunManager" selected="Spring Boot.HairHaeJoBackendApplication">
     <configuration name="HairHaeJo-Backend [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -159,7 +161,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="UserControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Tests in 'Chopsticks.HairHaeJoBackend'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -172,7 +174,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;Chopsticks.HairHaeJoBackend.user.UserControllerTest&quot;" />
+            <option value="&quot;Chopsticks.HairHaeJoBackend.*&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -182,30 +184,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="UserControllerTest.signup" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;Chopsticks.HairHaeJoBackend.user.UserControllerTest.signup&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="UserControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Chopsticks.HairHaeJoBackend.user in HairHaeJo-Backend.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="HairHaeJo-Backend.test" />
       <extension name="coverage">
         <pattern>
@@ -214,8 +193,23 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="Chopsticks.HairHaeJoBackend.user" />
-      <option name="MAIN_CLASS_NAME" value="Chopsticks.HairHaeJoBackend.user.UserControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="S3UploadServiceTest.testUpload" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="HairHaeJo-Backend.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Chopsticks.HairHaeJoBackend.s3.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Chopsticks.HairHaeJoBackend.s3" />
+      <option name="MAIN_CLASS_NAME" value="Chopsticks.HairHaeJoBackend.s3.S3UploadServiceTest" />
+      <option name="METHOD_NAME" value="testUpload" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -229,11 +223,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.Chopsticks.HairHaeJoBackend.user in HairHaeJo-Backend.test" />
+        <item itemvalue="JUnit.S3UploadServiceTest.testUpload" />
+        <item itemvalue="Gradle.Tests in 'Chopsticks.HairHaeJoBackend'" />
         <item itemvalue="Gradle.HairHaeJo-Backend [bootJar]" />
         <item itemvalue="Gradle.HairHaeJo-Backend [clean]" />
-        <item itemvalue="JUnit.UserControllerTest" />
-        <item itemvalue="Gradle.UserControllerTest" />
-        <item itemvalue="Gradle.UserControllerTest.signup" />
       </list>
     </recent_temporary>
   </component>
@@ -250,6 +244,8 @@
       <workItem from="1681668313390" duration="1626000" />
       <workItem from="1681669967678" duration="339000" />
       <workItem from="1681705854992" duration="1746000" />
+      <workItem from="1681708521131" duration="825000" />
+      <workItem from="1681709374257" duration="3362000" />
     </task>
     <servers />
   </component>
