@@ -27,6 +27,7 @@ public class AwsS3Config {
         return AmazonS3ClientBuilder.standard()
             .withRegion(region)
             .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+            .enablePathStyleAccess()
             .build();
     }
 }

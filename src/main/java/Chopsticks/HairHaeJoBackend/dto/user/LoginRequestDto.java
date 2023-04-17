@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.dto;
+package Chopsticks.HairHaeJoBackend.dto.user;
 
 import lombok.Builder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
