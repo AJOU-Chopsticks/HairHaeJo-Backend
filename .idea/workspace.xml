@@ -5,37 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4923548a-3ca9-4bd8-ba2a-155ef19013c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/config/SecurityUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto$AuthResponseDtoBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto$LoginRequestDtoBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto$SignupRequestDtoBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Chopsticks/HairHaeJoBackend/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/AwsS3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/AwsS3Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/config/SecurityUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/jwt/SecurityUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/LoginRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/LoginRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Chopsticks/HairHaeJoBackend/user/UserControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Chopsticks/HairHaeJoBackend/user/UserControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -30,7 +32,7 @@ public class UserController {
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<APIMessages> signup(@RequestPart("profileImage") MultipartFile image,
+    public ResponseEntity<APIMessages> signup(@RequestPart(value = "profileImage", required = false) MultipartFile image,
         @RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         SignupRequestDto requestDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
