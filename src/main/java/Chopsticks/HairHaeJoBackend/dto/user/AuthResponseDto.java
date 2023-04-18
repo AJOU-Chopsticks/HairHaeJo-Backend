@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.dto;
+package Chopsticks.HairHaeJoBackend.dto.user;
 
 import Chopsticks.HairHaeJoBackend.entity.Role;
 import Chopsticks.HairHaeJoBackend.entity.User;
