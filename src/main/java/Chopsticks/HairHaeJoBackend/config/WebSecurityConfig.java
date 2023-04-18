@@ -6,6 +6,7 @@ import Chopsticks.HairHaeJoBackend.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -45,6 +46,7 @@ public class WebSecurityConfig {
             .and()
             .authorizeRequests()
             .antMatchers("/user/signup", "/user/login").permitAll() // 토큰이 필요없는 uri
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated()
 
             .and()
