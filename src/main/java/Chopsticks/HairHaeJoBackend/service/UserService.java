@@ -36,7 +36,7 @@ public class UserService {
         if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
             throw new RuntimeException("중복된 휴대폰 번호입니다.");
         }
-        if (image.isEmpty()){
+        if (image == null){
             userRepository.save(requestDto.toUser(null, passwordEncoder));
         }else {
             userRepository.save(requestDto.toUser(s3UploadService.upload(image), passwordEncoder));
