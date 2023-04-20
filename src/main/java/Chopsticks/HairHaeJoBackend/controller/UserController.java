@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +64,29 @@ public class UserController {
             .success(true)
             .message("인증 성공")
             .data(userService.auth())
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //계정 정보 변경
+    @PutMapping("/account")
+    public ResponseEntity<APIMessages> changeAccountInfo(){
+        //userService.changeAccountInfo();
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("계정 정보 변경 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //헤어 디자이너 인증
+    @PostMapping("/license")
+    public ResponseEntity<APIMessages> licenseRegister(@RequestPart(value = "licenseImage") MultipartFile image)
+        throws IOException {
+        userService.licenseRegister(image);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("신청 완료")
             .build();
         return ResponseEntity.ok(messages);
     }

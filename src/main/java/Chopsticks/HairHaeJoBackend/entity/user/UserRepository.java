@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.user;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
