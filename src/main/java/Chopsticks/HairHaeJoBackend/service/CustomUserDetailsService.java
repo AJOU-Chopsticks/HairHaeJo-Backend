@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +33,14 @@ public class CustomUserDetailsService implements UserDetailsService {
             user.getPassword(),
             Collections.singleton(grantedAuthority)
         );
+    }
+
+    public boolean isUserValid(String username, String password) {
+        try {
+            UserDetails userDetails = loadUserByUsername(username);
+            return new BCryptPasswordEncoder().matches(password, userDetails.getPassword());
+        } catch (UsernameNotFoundException e) {
+            return false;
+        }
     }
 }

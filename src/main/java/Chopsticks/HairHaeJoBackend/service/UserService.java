@@ -27,6 +27,7 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder managerBuilder;
     private final S3UploadService s3UploadService;
+    private final CustomUserDetailsService userDetailsService;
 
     // 회원가입 로직
     public void signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
@@ -67,5 +68,15 @@ public class UserService {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
             .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
         return AuthResponseDto.of(user);
+    }
+
+    // 회원탈퇴 로직
+    public void withdrawal(LoginRequestDto requestDto) {
+        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
+            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+
+        if (userDetailsService.isUserValid(user.getEmail(),requestDto.getPassword())){
+            userRepository.deleteById(user.getId());
+        } else throw new RuntimeException("비밀번호가 일치하지 않습니다.");
     }
 }
