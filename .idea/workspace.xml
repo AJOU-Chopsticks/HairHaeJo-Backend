@@ -11,16 +11,14 @@
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f640c650-0c33-42a5-9f9b-4535601c53b3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f640c650-0c33-42a5-9f9b-4535601c53b3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/LoginRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/LoginRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/jwt/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/jwt/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" afterDir="false" />
     </list>
@@ -74,6 +72,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -248,7 +247,12 @@
       <workItem from="1681709374257" duration="3362000" />
       <workItem from="1681814365261" duration="268000" />
       <workItem from="1681897665511" duration="1406000" />
-      <workItem from="1681975930463" duration="2065000" />
+      <workItem from="1681975930463" duration="8245000" />
+      <workItem from="1681987445461" duration="206000" />
+      <workItem from="1681987721117" duration="1617000" />
+      <workItem from="1681989917788" duration="41000" />
+      <workItem from="1681990024158" duration="323000" />
+      <workItem from="1681990410731" duration="2042000" />
     </task>
     <servers />
   </component>

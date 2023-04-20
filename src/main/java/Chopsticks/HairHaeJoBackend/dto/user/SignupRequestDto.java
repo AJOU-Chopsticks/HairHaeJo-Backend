@@ -1,14 +1,12 @@
 package Chopsticks.HairHaeJoBackend.dto.user;
 
-import Chopsticks.HairHaeJoBackend.entity.Role;
-import Chopsticks.HairHaeJoBackend.entity.User;
-import Chopsticks.HairHaeJoBackend.service.S3UploadService;
+import Chopsticks.HairHaeJoBackend.entity.user.Role;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
