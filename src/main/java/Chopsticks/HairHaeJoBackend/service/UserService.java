@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
@@ -17,10 +18,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -49,13 +52,10 @@ public class UserService {
     // 로그인 로직
     public String login(LoginRequestDto requestDto, HttpServletResponse response) {
 
-        // 비밀번호 검증
         UsernamePasswordAuthenticationToken token = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(token);
 
-        // 토큰 생성 -> 쿠키 설정
         String jwt = tokenProvider.generateToken(authentication);
-
 /*
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효 기간 설정
@@ -63,7 +63,6 @@ public class UserService {
         cookie.setPath("/"); // 모든 경로에서 쿠키 접근 가능하도록 설정
         response.addCookie(cookie);
 */
-
         return jwt;
     }
 
@@ -75,8 +74,32 @@ public class UserService {
     }
 
     // 계정 정보 변경 로직
-    public void account(MultipartFile image, SignupRequestDto requestDto){
+    public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto) throws IOException {
+        if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
+            throw new RuntimeException("중복된 휴대폰 번호입니다.");
+        }
+        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
+            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        user.setName(requestDto.getName());
+        user.setPhoneNumber(requestDto.getPhoneNumber());
+        user.setGender(requestDto.getGender());
+        user.setAge(requestDto.getAge());
+        if(image != null){
+            user.setProfileImage(s3UploadService.upload(image));
+        }
 
+        userRepository.save(user);
+    }
+
+    // 비밀번호 변경 로직
+    public void changePassword(ChangePasswordRequestDto requestDto){
+        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
+            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        if (!passwordEncoder.matches(requestDto.getExPassword(), user.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        }
+        user.setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
+        userRepository.save(user);
     }
 
     // 헤어디자이너 등록 로직
@@ -92,10 +115,9 @@ public class UserService {
     public void withdrawal(LoginRequestDto requestDto) {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
             .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
-
-        if (userDetailsService.isUserValid(user.getEmail(),requestDto.getPassword())){
-            userRepository.deleteById(user.getId());
-        } else throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        }
+        userRepository.deleteById(user.getId());
     }
-
 }

@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4923548a-3ca9-4bd8-ba2a-155ef19013c4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/AuthResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/user/SignupRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/user/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +56,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -252,7 +237,9 @@
       <workItem from="1681987721117" duration="1617000" />
       <workItem from="1681989917788" duration="41000" />
       <workItem from="1681990024158" duration="323000" />
-      <workItem from="1681990410731" duration="2042000" />
+      <workItem from="1681990410731" duration="2952000" />
+      <workItem from="1682080407401" duration="6926000" />
+      <workItem from="1682153820431" duration="627000" />
     </task>
     <servers />
   </component>
