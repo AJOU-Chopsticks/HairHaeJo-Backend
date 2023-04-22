@@ -13,10 +13,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,4 +52,5 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
 }

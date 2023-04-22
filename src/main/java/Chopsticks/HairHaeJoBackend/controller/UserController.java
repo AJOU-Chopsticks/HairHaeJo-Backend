@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
+import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
 import Chopsticks.HairHaeJoBackend.service.UserService;
@@ -35,9 +36,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<APIMessages> signup(@RequestPart(value = "profileImage", required = false) MultipartFile image,
         @RequestParam("jsonList") String jsonList) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        SignupRequestDto requestDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-        userService.signup(image, requestDto);
+        userService.signup(image, jsonToSignupRequestDto(jsonList));
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("회원가입 완료")
@@ -70,11 +69,23 @@ public class UserController {
 
     //계정 정보 변경
     @PutMapping("/account")
-    public ResponseEntity<APIMessages> changeAccountInfo(){
-        //userService.changeAccountInfo();
+    public ResponseEntity<APIMessages> changeAccountInfo(@RequestPart(value = "profileImage", required = false) MultipartFile image,
+        @RequestParam("jsonList") String jsonList) throws IOException {
+        userService.changeAccountInfo(image, jsonToSignupRequestDto(jsonList));
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("계정 정보 변경 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //비밀번호 변경
+    @PutMapping("/password")
+    public ResponseEntity<APIMessages> changePassword(@RequestBody ChangePasswordRequestDto requestDto){
+        userService.changePassword(requestDto);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("비밀번호 변경 완료")
             .build();
         return ResponseEntity.ok(messages);
     }
@@ -100,5 +111,12 @@ public class UserController {
             .message("회원탈퇴 완료")
             .build();
         return ResponseEntity.ok(messages);
+    }
+
+    public SignupRequestDto jsonToSignupRequestDto(String jsonList) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        SignupRequestDto requestDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
+        return requestDto;
     }
 }
