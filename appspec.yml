@@ -6,12 +6,6 @@ files:
     destination: /home/chopsticks/springApplication
     overwrite: yes
 
-permissions:
-  - object: /
-    pattern: "**"
-    owner: chopsticks
-    group: chopsticks
-
 hooks:
   AfterInstall:
     - location: scripts/stop.sh
