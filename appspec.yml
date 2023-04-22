@@ -6,12 +6,16 @@ files:
     destination: /home/chopsticks/springApplication
     overwrite: yes
 
+permissions:
+  - object: /
+    pattern: "**"
+    owner: chopsticks
+    group: chopsticks
+
 hooks:
   AfterInstall:
     - location: scripts/stop.sh
       timeout: 60
-      runas: chopsticks
   ApplicationStart:
     - location: scripts/start.sh
       timeout: 60
-      runas: chopsitcks
