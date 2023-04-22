@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/chopsticks/springApplication"
+PROJECT_ROOT="/home/ubuntu/app"
 JAR_FILE="$PROJECT_ROOT/HairHaeJo-Backend.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
