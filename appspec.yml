@@ -3,21 +3,21 @@ os: linux
 
 files:
   - source:  /
-    destination: /home/chopsticks/springApplication
+    destination: /home/ubuntu/app
     overwrite: yes
 
 permissions:
   - object: /
     pattern: "**"
-    owner: chopsticks
-    group: chopsticks
+    owner: ubuntu
+    group: ubuntu
 
 hooks:
   AfterInstall:
     - location: scripts/stop.sh
       timeout: 60
-      runas: chopsticks
+      runas: ubuntu
   ApplicationStart:
     - location: scripts/start.sh
       timeout: 60
-      runas: chopsticks
+      runas: ubuntu
