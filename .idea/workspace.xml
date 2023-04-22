@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4923548a-3ca9-4bd8-ba2a-155ef19013c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/Article.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/Articlestate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/Chopsticks/HairHaeJoBackend/article/ArticleControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="4923548a-3ca9-4bd8-ba2a-155ef19013c4" name="Changes" comment="테스트 및 dto entity 생성">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/controller/ArticleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/dto/article/MakeArticleDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/entity/ArticleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Chopsticks/HairHaeJoBackend/service/ArticleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,8 +60,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -270,6 +270,14 @@
       <workItem from="1681708521131" duration="825000" />
       <workItem from="1681709374257" duration="3362000" />
     </task>
+    <task id="LOCAL-00001" summary="테스트 및 dto entity 생성">
+      <created>1681731238571</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681731238571</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,5 +293,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="테스트 및 dto entity 생성" />
+    <option name="LAST_COMMIT_MESSAGE" value="테스트 및 dto entity 생성" />
   </component>
 </project>
