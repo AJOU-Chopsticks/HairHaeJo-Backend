@@ -10,6 +10,8 @@ hooks:
   AfterInstall:
     - location: scripts/stop.sh
       timeout: 60
+      runas: chopsticks
   ApplicationStart:
     - location: scripts/start.sh
       timeout: 60
+      runas: chopsitcks
