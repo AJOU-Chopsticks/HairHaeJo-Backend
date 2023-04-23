@@ -42,9 +42,9 @@ public class UserService {
         if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
             throw new RuntimeException("중복된 휴대폰 번호입니다.");
         }
-        if (image == null){
+        if (image == null) {
             userRepository.save(requestDto.toUser(null, passwordEncoder));
-        }else {
+        } else {
             userRepository.save(requestDto.toUser(s3UploadService.upload(image), passwordEncoder));
         }
     }
@@ -74,7 +74,8 @@ public class UserService {
     }
 
     // 계정 정보 변경 로직
-    public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto) throws IOException {
+    public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto)
+        throws IOException {
         if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
             throw new RuntimeException("중복된 휴대폰 번호입니다.");
         }
@@ -84,7 +85,7 @@ public class UserService {
         user.setPhoneNumber(requestDto.getPhoneNumber());
         user.setGender(requestDto.getGender());
         user.setAge(requestDto.getAge());
-        if(image != null){
+        if (image != null) {
             user.setProfileImage(s3UploadService.upload(image));
         }
 
@@ -92,7 +93,7 @@ public class UserService {
     }
 
     // 비밀번호 변경 로직
-    public void changePassword(ChangePasswordRequestDto requestDto){
+    public void changePassword(ChangePasswordRequestDto requestDto) {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
             .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
         if (!passwordEncoder.matches(requestDto.getExPassword(), user.getPassword())) {
@@ -105,9 +106,9 @@ public class UserService {
     // 헤어디자이너 등록 로직
     public void licenseRegister(MultipartFile image) throws IOException {
         LicenseRequest licenseRequest = LicenseRequest.builder()
-                                        .designerId(SecurityUtil.getCurrentMemberId())
-                                        .image(s3UploadService.upload(image))
-                                        .build();
+            .designerId(SecurityUtil.getCurrentMemberId())
+            .image(s3UploadService.upload(image))
+            .build();
         licenseRequestRepository.save(licenseRequest);
     }
 
