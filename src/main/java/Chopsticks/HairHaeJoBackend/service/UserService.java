@@ -32,7 +32,6 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder managerBuilder;
     private final S3UploadService s3UploadService;
-    private final CustomUserDetailsService userDetailsService;
 
     // 회원가입 로직
     public void signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {

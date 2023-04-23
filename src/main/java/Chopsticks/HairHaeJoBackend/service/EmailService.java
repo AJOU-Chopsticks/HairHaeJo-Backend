@@ -1,23 +1,30 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.user.ResetPasswordRequestDto;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
+import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final UserRepository userRepository;
+    private final JavaMailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
 
     public static final String ePw = createKey();
 
-    private MimeMessage createMessage(String to) throws Exception {
+    private MimeMessage createConfirmMessage(String to) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(RecipientType.TO, to);//보내는 대상
         message.setSubject("[헤어해죠~] 회원가입을 위한 이메일 인증 코드입니다.");//제목
@@ -32,6 +39,31 @@ public class EmailService {
         msgg += "<br>";
         msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg += "<h3 style='color:blue;'>이메일 인증 코드</h3>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "CODE : <strong>";
+        msgg += ePw + "</strong><div><br/> ";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
+
+        return message;
+    }
+
+    private MimeMessage createPasswordMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("[헤어해죠~] 비밀번호 초기화 안내");//제목
+
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1>안녕하세요. 헤어해죠~입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>로그인을 위해 아래 초기화된 새 비밀번호를 이용해주세요. <p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다. <p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>새 비밀번호</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
         msgg += ePw + "</strong><div><br/> ";
@@ -63,13 +95,32 @@ public class EmailService {
         return key.toString();
     }
 
-    public String sendSimpleMessage(String to) throws Exception {
-        MimeMessage message = createMessage(to);
+    public String sendConfirmMessage(String to) throws Exception {
+        MimeMessage message = createConfirmMessage(to);
         try {
             emailSender.send(message);
         } catch (MailException e) {
             throw new RuntimeException("메일 전송에 실패했습니다.");
         }
         return ePw;
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequestDto requestDto) throws Exception {
+        User user = userRepository.findByEmail(requestDto.getEmail())
+            .orElseThrow(() -> new RuntimeException("일치하는 사용자가 없습니다."));
+        if (!user.getName().equals(requestDto.getName())) {
+            throw new RuntimeException("일치하는 사용자가 없습니다.");
+        }
+
+        user.setPassword(passwordEncoder.encode(ePw));
+        userRepository.save(user);
+
+        MimeMessage message = createPasswordMessage(user.getEmail());
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송에 실패했습니다.");
+        }
     }
 }

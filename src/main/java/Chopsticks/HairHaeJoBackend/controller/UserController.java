@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.user.ResetPasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
 import Chopsticks.HairHaeJoBackend.service.EmailService;
 import Chopsticks.HairHaeJoBackend.service.UserService;
@@ -14,7 +15,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -124,8 +124,20 @@ public class UserController {
     public ResponseEntity<APIMessages> email(@RequestParam String email) throws Exception {
         APIMessages messages = APIMessages.builder()
             .success(true)
-            .message("인증코드 생성 및 발송 완료")
-            .data(emailService.sendSimpleMessage(email))
+            .message("인증코드 생성 및 이메일 발송 완료")
+            .data(emailService.sendConfirmMessage(email))
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    // 비밀번호 찾기
+    @PostMapping("/resetPassword")
+    public ResponseEntity<APIMessages> resetPassword(@RequestBody ResetPasswordRequestDto requestDto)
+        throws Exception {
+        emailService.resetPassword(requestDto);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("비밀번호 초기화 및 이메일 발송 완료")
             .build();
         return ResponseEntity.ok(messages);
     }
