@@ -22,9 +22,7 @@ public class EmailService {
     private final JavaMailSender emailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public static final String ePw = createKey();
-
-    private MimeMessage createConfirmMessage(String to) throws Exception {
+    private MimeMessage createConfirmMessage(String to, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(RecipientType.TO, to);//보내는 대상
         message.setSubject("[헤어해죠~] 회원가입을 위한 이메일 인증 코드입니다.");//제목
@@ -41,7 +39,7 @@ public class EmailService {
         msgg += "<h3 style='color:blue;'>이메일 인증 코드</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> ";
+        msgg += code + "</strong><div><br/> ";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
@@ -49,7 +47,7 @@ public class EmailService {
         return message;
     }
 
-    private MimeMessage createPasswordMessage(String to) throws Exception {
+    private MimeMessage createPasswordMessage(String to, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         message.addRecipients(RecipientType.TO, to);//보내는 대상
         message.setSubject("[헤어해죠~] 비밀번호 초기화 안내");//제목
@@ -65,8 +63,8 @@ public class EmailService {
         msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
         msgg += "<h3 style='color:blue;'>새 비밀번호</h3>";
         msgg += "<div style='font-size:130%'>";
-        msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> ";
+        msgg += "PASSWORD : <strong>";
+        msgg += code + "</strong><div><br/> ";
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");//내용
         message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
@@ -74,35 +72,36 @@ public class EmailService {
         return message;
     }
 
-    public static String createKey() {
-        StringBuffer key = new StringBuffer();
+    private String createCode() {
+        StringBuffer code = new StringBuffer();
         Random rnd = new Random();
 
         for (int i = 0; i < 8; i++) {
             int index = rnd.nextInt(3);
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    code.append((char) ((int) (rnd.nextInt(26)) + 97));
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    code.append((char) ((int) (rnd.nextInt(26)) + 65));
                     break;
                 case 2:
-                    key.append((rnd.nextInt(10)));
+                    code.append((rnd.nextInt(10)));
                     break;
             }
         }
-        return key.toString();
+        return code.toString();
     }
 
     public String sendConfirmMessage(String to) throws Exception {
-        MimeMessage message = createConfirmMessage(to);
+        String code = createCode();
+        MimeMessage message = createConfirmMessage(to, code);
         try {
             emailSender.send(message);
         } catch (MailException e) {
             throw new RuntimeException("메일 전송에 실패했습니다.");
         }
-        return ePw;
+        return code;
     }
 
     @Transactional
@@ -113,10 +112,11 @@ public class EmailService {
             throw new RuntimeException("일치하는 사용자가 없습니다.");
         }
 
-        user.setPassword(passwordEncoder.encode(ePw));
+        String pw = createCode();
+        user.setPassword(passwordEncoder.encode(pw));
         userRepository.save(user);
 
-        MimeMessage message = createPasswordMessage(user.getEmail());
+        MimeMessage message = createPasswordMessage(user.getEmail(), pw);
         try {
             emailSender.send(message);
         } catch (MailException e) {
