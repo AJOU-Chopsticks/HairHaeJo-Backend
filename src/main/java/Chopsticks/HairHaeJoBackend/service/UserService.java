@@ -36,7 +36,7 @@ public class UserService {
         if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
             throw new RuntimeException("중복된 휴대폰 번호입니다.");
         }
-        if (image.isEmpty()){
+        if (image == null){
             userRepository.save(requestDto.toUser(null, passwordEncoder));
         }else {
             userRepository.save(requestDto.toUser(s3UploadService.upload(image), passwordEncoder));
@@ -44,7 +44,7 @@ public class UserService {
     }
 
     // 로그인 로직
-    public void login(LoginRequestDto requestDto, HttpServletResponse response) {
+    public String login(LoginRequestDto requestDto, HttpServletResponse response) {
 
         // 비밀번호 검증
         UsernamePasswordAuthenticationToken token = requestDto.toAuthentication();
@@ -55,9 +55,11 @@ public class UserService {
 
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setMaxAge(60 * 60 * 24); // 쿠키 유효 기간 설정
-        cookie.setHttpOnly(true); // 자바스크립트에서 쿠키에 접근하지 못하도록 설정
+        //cookie.setHttpOnly(true); // 자바스크립트에서 쿠키에 접근하지 못하도록 설정
         cookie.setPath("/"); // 모든 경로에서 쿠키 접근 가능하도록 설정
         response.addCookie(cookie);
+
+        return jwt;
     }
 
     // Auth 로직

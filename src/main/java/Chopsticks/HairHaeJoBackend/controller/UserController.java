@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class UserController {
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<APIMessages> signup(@RequestPart("profileImage") MultipartFile image,
+    public ResponseEntity<APIMessages> signup(@RequestPart(value = "profileImage", required = false) MultipartFile image,
         @RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         SignupRequestDto requestDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
@@ -46,10 +47,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<APIMessages> login(@RequestBody LoginRequestDto requestDto,
         HttpServletResponse response) {
-        userService.login(requestDto, response);
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("로그인 성공")
+            .data(userService.login(requestDto, response))
             .build();
         return ResponseEntity.ok(messages);
     }
