@@ -16,9 +16,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    // request 쿠키에서 토큰 정보를 꺼내오는 메소드
     private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken)) {
+            return bearerToken;
+        }
+        return null;
+    }
+    // request 쿠키에서 토큰 정보를 꺼내오는 메소드
+/*    private String resolveToken(HttpServletRequest request) {
         // 쿠키에서 JWT 토큰 추출
         Cookie[] cookies = request.getCookies();
         String jwt = null;
@@ -31,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
         return jwt;
-    }
+    }*/
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
