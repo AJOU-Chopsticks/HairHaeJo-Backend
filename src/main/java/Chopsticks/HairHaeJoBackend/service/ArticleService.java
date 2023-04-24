@@ -15,6 +15,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
     public void post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
+
         if (before.isEmpty()){
             if(after.isEmpty()) {
                 articleRepository.save(articleDto.toArticle(currentMemberId,null,null));
