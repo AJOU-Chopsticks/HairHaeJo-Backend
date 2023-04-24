@@ -2,17 +2,15 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
-import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
+
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ArticleService;
-import Chopsticks.HairHaeJoBackend.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/advice/article")
+@RequestMapping("/advice")
 public class ArticleController {
 
     private final ArticleService articleService;
 
     //게시글 작성
-    @PostMapping("/")
+    @PostMapping("/article")
     public ResponseEntity<APIMessages> posting(@RequestPart("beforeimage") MultipartFile beforeimage,@RequestPart("afterimage") MultipartFile afterimage,@RequestParam("jsonList") String jsonList) throws IOException
 
     {
