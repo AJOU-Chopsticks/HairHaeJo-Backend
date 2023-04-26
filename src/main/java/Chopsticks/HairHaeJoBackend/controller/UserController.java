@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 
@@ -48,10 +47,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<APIMessages> login(@RequestBody LoginRequestDto requestDto,
         HttpServletResponse response) {
-        userService.login(requestDto, response);
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("로그인 성공")
+            .data(userService.login(requestDto, response))
             .build();
         return ResponseEntity.ok(messages);
     }
