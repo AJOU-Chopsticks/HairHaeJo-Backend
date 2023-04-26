@@ -89,18 +89,27 @@ public class ArticleController {
 
      */
     //검색
-    @GetMapping("/article")
+    @GetMapping("/article/search")
     public ResponseEntity<APIMessages> Searching(@RequestParam("keyword") String keyword) throws IOException
 
     {
-
-
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 검색 성공")
                 .data(articleService.searchkeyword(keyword))
                 .build();
 
+        return ResponseEntity.ok(apiMessages);
+    }
+    @GetMapping("/article")
+    public ResponseEntity<APIMessages> viewing(@RequestParam("articleId") String articleId) throws IOException
+
+    {
+
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("게시글 조회 성공")
+                .data(articleService.view(Integer.parseInt(articleId)))
+                .build();
         return ResponseEntity.ok(apiMessages);
     }
 
