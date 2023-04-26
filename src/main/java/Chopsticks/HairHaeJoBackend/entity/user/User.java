@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.user;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

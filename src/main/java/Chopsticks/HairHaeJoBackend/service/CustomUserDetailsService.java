@@ -1,6 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
-import Chopsticks.HairHaeJoBackend.entity.UserRepository;
+import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException(username + " 을 DB에서 찾을 수 없습니다"));
     }
 
-    private UserDetails createUserDetails(Chopsticks.HairHaeJoBackend.entity.User user) {
+    private UserDetails createUserDetails(Chopsticks.HairHaeJoBackend.entity.user.User user) {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().toString());
 
         return new User(
