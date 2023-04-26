@@ -51,7 +51,7 @@ public class ArticleService {
         }
     }
 
-    public void delete(int currentArticleId) throws IOException {
+    public void delete(int currentArticleId)  {
         articleRepository.deleteById(Integer.toUnsignedLong(currentArticleId));
 
     }
@@ -82,6 +82,14 @@ public class ArticleService {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String list=objectMapper.writeValueAsString(articleCollection);
         return list;
+    }
+
+    public String view(int articleId) throws IOException {
+        Article article=articleRepository.findById(Integer.toUnsignedLong(articleId))
+                .orElseThrow(() -> new RuntimeException("해당 게시글이 만료되었습니다"));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        String articlelist=objectMapper.writeValueAsString(article);
+        return articlelist;
     }
 
 
