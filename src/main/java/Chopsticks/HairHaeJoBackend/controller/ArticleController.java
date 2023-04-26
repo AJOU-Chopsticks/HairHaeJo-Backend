@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
+import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.DeleteArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 
@@ -35,11 +36,9 @@ public class ArticleController {
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         MakeArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-        int articleid=articleService.post(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId());
-        APIMessages apiMessages;
-        apiMessages=APIMessages.builder().success(true)
+        APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 작성 성공")
-                .data(Integer.toString(articleid))
+                .data(articleService.post(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId()))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
@@ -51,8 +50,8 @@ public class ArticleController {
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        MakeArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-        articleService.retouch(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId());
+        ChangeArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        articleService.retouch(beforeimage,afterimage,articleDto);
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 수정 성공")
                 .build();

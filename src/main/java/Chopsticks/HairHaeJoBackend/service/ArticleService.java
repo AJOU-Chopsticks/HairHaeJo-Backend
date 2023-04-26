@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.entity.ArticleRepository;
@@ -21,7 +22,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
 
-    public int post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
+    public String post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
         Article nowarticle;
         if (before.isEmpty()) {
             if (after.isEmpty()) {
@@ -34,20 +35,20 @@ public class ArticleService {
             } else
                 nowarticle = articleRepository.save(articleDto.toArticle(currentMemberId, s3UploadService.upload(before), s3UploadService.upload(after)));
         }
-        return nowarticle.getId();
+        return Integer.toString(nowarticle.getId());
     }
 
-    public void retouch(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
+    public void retouch(MultipartFile before, MultipartFile after, ChangeArticleDto articleDto) throws IOException {
         if (before.isEmpty()) {
             if (after.isEmpty()) {
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, null, articleDto.getRegion(), articleDto.getCategory(), currentMemberId, Articlestate.WATING);
+                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, null, articleDto.getRegion(), articleDto.getCategory(),  Integer.parseInt(articleDto.getArticleId()));
             } else
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), currentMemberId, Articlestate.WATING);
+                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId())) ;
         } else {
             if (after.isEmpty()) {
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), null, articleDto.getRegion(), articleDto.getCategory(), currentMemberId, Articlestate.WATING);
+                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), null, articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId()));
             } else
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), currentMemberId, Articlestate.WATING);
+                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId())) ;
         }
     }
 
