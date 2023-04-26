@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DeleteArticleDto {
-    private int articleId;
+    private String articleId;
 }
