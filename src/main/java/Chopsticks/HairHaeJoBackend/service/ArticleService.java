@@ -78,7 +78,7 @@ public class ArticleService {
         if(keyword.isEmpty()) {
             throw new RuntimeException("키워드 입력후 검색해 주세요");
         }
-        Collection<Article> articleCollection=articleRepository.findBytitleContaining(keyword);
+        Collection<Article> articleCollection=articleRepository.findIdAndwriterIdAndtitleBytitleContaining(keyword);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String list=objectMapper.writeValueAsString(articleCollection);
         return list;
