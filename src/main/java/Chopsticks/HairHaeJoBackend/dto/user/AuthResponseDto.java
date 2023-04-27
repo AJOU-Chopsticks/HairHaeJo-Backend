@@ -1,7 +1,7 @@
 package Chopsticks.HairHaeJoBackend.dto.user;
 
-import Chopsticks.HairHaeJoBackend.entity.Role;
-import Chopsticks.HairHaeJoBackend.entity.User;
+import Chopsticks.HairHaeJoBackend.entity.user.Role;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
