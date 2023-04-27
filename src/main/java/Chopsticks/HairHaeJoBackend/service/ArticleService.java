@@ -5,16 +5,14 @@ import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.entity.ArticleRepository;
 
-import Chopsticks.HairHaeJoBackend.entity.Articlestate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,17 +37,29 @@ public class ArticleService {
     }
 
     public void retouch(MultipartFile before, MultipartFile after, ChangeArticleDto articleDto) throws IOException {
-        if (before.isEmpty()) {
-            if (after.isEmpty()) {
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, null, articleDto.getRegion(), articleDto.getCategory(),  Integer.parseInt(articleDto.getArticleId()));
-            } else
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), null, s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId())) ;
-        } else {
-            if (after.isEmpty()) {
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), null, articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId()));
-            } else
-                articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), s3UploadService.upload(before), s3UploadService.upload(after), articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId())) ;
+        Article article=articleRepository.findById(Long.parseLong(articleDto.getArticleId()))
+                .orElseThrow(() -> new RuntimeException("해당 게시글이 만료되었습니다"));
+        String beforeurl,afterurl;
+        boolean notbefore=false,notafter=false;
+        if (before==null)  {
+            beforeurl=null;
+            notbefore=true;
         }
+        else beforeurl=s3UploadService.upload(before);
+
+        if(after==null)  {
+            afterurl=null;
+            notafter=true;
+        }
+        else afterurl= s3UploadService.upload(after);
+
+        if(notafter&&article.getAfterImage() != null) afterurl = article.getAfterImage();
+
+        if(notbefore&&article.getBeforeImage() != null)  beforeurl = article.getAfterImage();
+
+
+
+        articleRepository.changeArticle(articleDto.getTitle(), articleDto.getBody(), beforeurl,afterurl, articleDto.getRegion(), articleDto.getCategory(), Integer.parseInt(articleDto.getArticleId())) ;
     }
 
     public void delete(int currentArticleId)  {
