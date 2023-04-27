@@ -1,9 +1,11 @@
 package Chopsticks.HairHaeJoBackend.dto.user;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Builder
+@Getter
 public class LoginRequestDto {
 
     private String email;

@@ -45,7 +45,7 @@ public class WebSecurityConfig {
 
             .and()
             .authorizeRequests()
-            .antMatchers("/user/signup", "/user/login").permitAll() // 토큰이 필요없는 uri
+            .antMatchers("/user/signup", "/user/login", "/user/email", "/user/resetPassword").permitAll() // 토큰이 필요없는 uri
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated()
 
