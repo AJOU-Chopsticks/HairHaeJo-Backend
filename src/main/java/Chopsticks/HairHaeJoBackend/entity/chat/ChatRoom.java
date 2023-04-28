@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.entity.chat;
 
+import Chopsticks.HairHaeJoBackend.dto.chat.ChatRoomResponseDto;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
