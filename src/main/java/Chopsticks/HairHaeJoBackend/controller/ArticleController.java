@@ -30,23 +30,26 @@ public class ArticleController {
     private final ArticleService articleService;
 
     //게시글 작성
-    @PostMapping("/article")
-    public ResponseEntity<APIMessages> posting(@RequestPart("beforeimage") MultipartFile beforeimage,@RequestPart("afterimage") MultipartFile afterimage,@RequestParam("jsonList") String jsonList) throws IOException
+    @PostMapping(value="/article")
+    public ResponseEntity<APIMessages> posting(@RequestPart(value = "beforeimage",required = false) MultipartFile beforeimage,@RequestPart(value = "afterimage",required = false) MultipartFile afterimage,@RequestParam("jsonlist") String jsonList) throws IOException
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         MakeArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 작성 성공")
                 .data(articleService.post(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId()))
                 .build();
+
+
         return ResponseEntity.ok(apiMessages);
     }
 
 
     //게시글 변경
     @PutMapping("/article")
-    public ResponseEntity<APIMessages> retouching(@RequestPart("beforeimage") MultipartFile beforeimage,@RequestPart("afterimage") MultipartFile afterimage,@RequestParam("jsonList") String jsonList) throws IOException
+    public ResponseEntity<APIMessages> retouching(@RequestPart(value = "beforeimage",required = false) MultipartFile beforeimage,@RequestPart(value = "afterimage",required = false) MultipartFile afterimage,@RequestParam("jsonList") String jsonList) throws IOException
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
@@ -65,7 +68,7 @@ public class ArticleController {
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         DeleteArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-        articleService.delete(Integer.parseInt(articleDto.getArticleId()));
+        //articleService.delete(Integer.parseInt(articleDto.getArticleId()));
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 삭제 성공")
                 .build();
@@ -88,6 +91,7 @@ public class ArticleController {
 
      */
     //검색
+    /*
     @GetMapping("/article/search")
     public ResponseEntity<APIMessages> Searching(@RequestParam("keyword") String keyword) throws IOException
 
@@ -100,6 +104,8 @@ public class ArticleController {
 
         return ResponseEntity.ok(apiMessages);
     }
+
+     */
     @GetMapping("/article")
     public ResponseEntity<APIMessages> viewing(@RequestParam("articleId") String articleId) throws IOException
 
