@@ -4,6 +4,7 @@ package Chopsticks.HairHaeJoBackend.dto.article;
 import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.entity.Articlestate;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +23,12 @@ public class MakeArticleDto {
     public Article toArticle(long writer,String before,String after) {
         return Article.builder()
                 .writerId(writer)
-                .abstractionLocation(region)
+                .abstractLocation(region)
                 .category(category)
                 .title(title)
+                .body(body)
                 .beforeImage(before)
                 .afterImage(after)
-                .body(body)
                 .state(Articlestate.WATING)
                 .build();
     }

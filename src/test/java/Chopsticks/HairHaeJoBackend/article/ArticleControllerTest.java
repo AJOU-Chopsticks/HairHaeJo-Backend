@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,11 +42,12 @@ public class ArticleControllerTest {
                 .region("수원시")
                 .category("1-2-3-4")
                 .build());
-
+        Cookie cookie = new Cookie("jwt", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODI1NTczNzl9.IohEhUn_G9-LAMUnXWuq0v71H83KkmmFKAgdxdIkcv3O76lH7OQvghcxULuA3S0wwxZtDLfC7gCy-VBOtoD90A");
         ResultActions actions= mockMvc
 
                 .perform(post("/advice/article")
-                        .header(HttpHeaders.AUTHORIZATION,"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODIwOTI4Mzl9.KqaWdIp8kOQfjnqedDd50EXtFv0rZaESb0DlfKZZWBjOqkjqvUYU8xMVeDT-x-xN_BmlB-qD3vRcVzrPeYUvRQ")
+                        .header("AUTHORIZATION","eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODI1OTU1ODV9.pVLrziY_kiE912fiL6ckWoo3r-nPf-uAktBCqiuIxjCgA24O6YFDzbqHH7H43Zp_QzLdTLAzbYi02nNfmz9GEQ")
+                        .cookie(cookie)
                         .content(article1)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON));

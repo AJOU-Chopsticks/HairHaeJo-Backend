@@ -1,26 +1,20 @@
 package Chopsticks.HairHaeJoBackend.entity;
 
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+
+import com.sun.istack.NotNull;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User")
+@Table(name = "Article")
 public class Article {
 
     @Id
@@ -30,24 +24,32 @@ public class Article {
 
     @Column(name="writer_id")
     private long writerId;
-    @Column(name="abstraction_location")
-    private String abstractionLocation;
+    @Column(name="abstract_location")
+    private String abstractLocation;
+
     @Column
     private String category;
     private String title;
     private String body;
+
+    @Enumerated(EnumType.STRING)
+    private Articlestate state;
+
     @Column(name="before_image")
     private String beforeImage;
     @Column(name="after_image")
     private String afterImage;
-    @Enumerated(EnumType.STRING)
-    private Articlestate state;
+
+
+
 
 
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt=LocalDateTime.now();;
+
+
 }
