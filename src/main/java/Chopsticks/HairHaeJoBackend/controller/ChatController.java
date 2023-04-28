@@ -40,8 +40,8 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
-    @GetMapping("/chat/enter")
-    public ResponseEntity<APIMessages> enter(@RequestParam Long roomId){
+    @GetMapping("/chat/history")
+    public ResponseEntity<APIMessages> getMessageHistory(@RequestParam Long roomId){
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("메시지 내역 조회 완료")
@@ -50,12 +50,9 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
-
     @MessageMapping("/chat/message")
     public void message(ChatMessageDto message){
-        //메시지 DB 저장
-
-        //메시지 SEND
+        //chatService.saveMessage(message);
         template.convertAndSend("/sub/chat/" + message.getRoomId(), message);
     }
 }
