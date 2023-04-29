@@ -37,6 +37,9 @@ public class ChatMessage {
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoomId;
 
+    @Column(name = "message_type")
+    private Type type;
+
     @Column(name = "text_message")
     private String textMessage;
 
@@ -46,4 +49,8 @@ public class ChatMessage {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public enum Type{
+        TYPE_TEXT, TYPE_IMAGE;
+    }
 }
