@@ -12,6 +12,11 @@ import org.springframework.data.repository.query.Param;
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
 
+    @Query
+            ("Select Count(*) from Article A where A.writerId=:writerId And A.state=:state")
+    long thereiswrote(@Param(value="writerId")Long writerid,@Param(value="state")Articlestate state);
+
+
 
 
 
