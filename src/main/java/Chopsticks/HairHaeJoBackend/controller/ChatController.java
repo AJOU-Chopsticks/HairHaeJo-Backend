@@ -1,8 +1,7 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
-import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageDto;
-import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessage;
+import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageRequestDto;
 import Chopsticks.HairHaeJoBackend.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +50,7 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/message")
-    public void message(ChatMessageDto message){
-        //chatService.saveMessage(message);
-        template.convertAndSend("/sub/chat/" + message.getRoomId(), message);
+    public void message(ChatMessageRequestDto message){
+        template.convertAndSend("/sub/chat/" + message.getRoomId(), chatService.saveMessage(message));
     }
 }
