@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.dto.article;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +15,6 @@ public class ChangeArticleDto {
     private String body;
     private String region;
     private String category;
+    @JsonSetter("articleId")
     private String ArticleId;
 }

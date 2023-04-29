@@ -24,7 +24,7 @@ public class MakeArticleDto {
         return Article.builder()
                 .writerId(writer)
                 .abstractLocation(region)
-                .category(category)
+                .category("-"+category+"-")
                 .title(title)
                 .body(body)
                 .beforeImage(before)
