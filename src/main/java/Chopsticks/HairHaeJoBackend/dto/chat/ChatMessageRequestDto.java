@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ChatMessageDto {
+public class ChatMessageRequestDto {
 
     private Long roomId;
-    private String userName;
-    private String textMessage;
+    private Long writerId;
+    private String text;
+    private String image;
 }
