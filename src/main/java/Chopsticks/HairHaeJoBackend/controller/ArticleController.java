@@ -48,8 +48,8 @@ public class ArticleController {
 
 
     //게시글 변경
-    @PutMapping("/article")
-    public ResponseEntity<APIMessages> retouching(@RequestPart(value = "beforeimage",required = false) MultipartFile beforeimage,@RequestPart(value = "afterimage",required = false) MultipartFile afterimage,@RequestParam("jsonList") String jsonList) throws IOException
+    @PutMapping(value="/article")
+    public ResponseEntity<APIMessages> retouching(@RequestPart(value = "beforeimage",required = false) MultipartFile beforeimage,@RequestPart(value = "afterimage",required = false) MultipartFile afterimage,@RequestParam("jsonlist") String jsonList) throws IOException
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
@@ -63,12 +63,12 @@ public class ArticleController {
     }
     //게시글 삭제
     @DeleteMapping("/article")
-    public ResponseEntity<APIMessages> Deleting(@RequestParam("jsonList") String jsonList) throws IOException
+    public ResponseEntity<APIMessages> Deleting(@RequestParam("jsonlist") String jsonList) throws IOException
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         DeleteArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-        //articleService.delete(Integer.parseInt(articleDto.getArticleId()));
+        articleService.delete(Integer.parseInt(articleDto.getArticleId()));
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 삭제 성공")
                 .build();
@@ -106,6 +106,7 @@ public class ArticleController {
     }
 
      */
+    /*
     @GetMapping("/article")
     public ResponseEntity<APIMessages> viewing(@RequestParam("articleId") String articleId) throws IOException
 
@@ -117,5 +118,7 @@ public class ArticleController {
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
+
+     */
 
 }

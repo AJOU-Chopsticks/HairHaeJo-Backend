@@ -50,6 +50,16 @@ public class Article {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();;
+    public void retouching(String title,String body,String region,String Category,String beforeurl,String afterurl) {
+        this.title=title;
+        this.body=body;
+        abstractLocation=region;
+
+        category="-"+Category+"-";
+        beforeImage=beforeurl;
+        afterImage=afterurl;
+
+    }
 
 
 }
