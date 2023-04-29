@@ -15,5 +15,8 @@ public class ChatRoomResponseDto {
 	private Long designerId;
 	private String clientName;
 	private String designerName;
-	private LocalDateTime createdAt;
+	private String clientImage;
+	private String designerImage;
+	private LocalDateTime updatedAt;
+	private String lastMessage;
 }

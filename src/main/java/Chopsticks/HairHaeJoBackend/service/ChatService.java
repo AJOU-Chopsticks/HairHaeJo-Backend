@@ -4,6 +4,7 @@ import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatRoomResponseDto;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessage;
+import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessage.Type;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessageRepository;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatRoom;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatRoomRepository;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChatService {
 
 	private final ChatMessageRepository chatMessageRepository;
@@ -56,13 +59,12 @@ public class ChatService {
 	public List<ChatRoomResponseDto> getChatRoomList() {
 		User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
 			.orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
-		List<ChatRoom> chatRooms = chatRoomRepository.findByClientIdOrDesignerId(user, user);
 
+		List<ChatRoom> chatRooms = chatRoomRepository.findByClientIdOrDesignerId(user, user);
 		List<ChatRoomResponseDto> chatRoomResponseDtoList = new ArrayList<>();
 		for (ChatRoom room : chatRooms) {
 			chatRoomResponseDtoList.add(toChatRoomResponseDto(room));
 		}
-
 		return chatRoomResponseDtoList;
 	}
 
@@ -90,6 +92,8 @@ public class ChatService {
 			.imageMessage(messageDto.getImage())
 			.textMessage(messageDto.getText())
 			.build();
+		chatRoom.updateTimeStamp();
+		chatRoomRepository.save(chatRoom);
 		return toChatMessageResponseDto(chatMessageRepository.save(chatMessage));
 	}
 
@@ -101,14 +105,34 @@ public class ChatService {
 		return chatRoomRepository.save(chatRoom);
 	}
 
+	public String getLastMessage(ChatRoom chatRoom){
+		ChatMessage message = chatMessageRepository.findFirstByChatRoomIdOrderByCreatedAtDesc(
+			chatRoom);
+		if(message == null){
+			return null;
+		}
+		else if(message.getType() == Type.TYPE_TEXT){
+			return message.getTextMessage();
+		}
+		else if(message.getType() == Type.TYPE_IMAGE) {
+			return "사진";
+		}
+		else return null;
+	}
+
 	public ChatRoomResponseDto toChatRoomResponseDto(ChatRoom chatRoom) {
+		User client = chatRoom.getClientId();
+		User designer = chatRoom.getDesignerId();
 		ChatRoomResponseDto responseDto = ChatRoomResponseDto.builder()
 			.chatRoomId(chatRoom.getId())
-			.clientId(chatRoom.getClientId().getId())
-			.designerId(chatRoom.getDesignerId().getId())
-			.clientName(chatRoom.getClientId().getName())
-			.designerName(chatRoom.getDesignerId().getName())
-			.createdAt(chatRoom.getCreatedAt())
+			.clientId(client.getId())
+			.designerId(designer.getId())
+			.clientName(client.getName())
+			.designerName(designer.getName())
+			.clientImage(client.getProfileImage())
+			.designerImage(designer.getProfileImage())
+			.updatedAt(chatRoom.getUpdatedAt())
+			.lastMessage(getLastMessage(chatRoom))
 			.build();
 		return responseDto;
 	}

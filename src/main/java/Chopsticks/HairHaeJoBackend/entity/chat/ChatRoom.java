@@ -1,6 +1,5 @@
 package Chopsticks.HairHaeJoBackend.entity.chat;
 
-import Chopsticks.HairHaeJoBackend.dto.chat.ChatRoomResponseDto;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -16,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
@@ -39,6 +39,10 @@ public class ChatRoom {
     private User designerId;
 
     @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public void updateTimeStamp(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }
