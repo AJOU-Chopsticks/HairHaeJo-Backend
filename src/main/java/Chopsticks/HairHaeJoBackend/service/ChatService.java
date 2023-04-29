@@ -84,6 +84,7 @@ public class ChatService {
 		ChatRoom chatRoom = chatRoomRepository.findById(messageDto.getRoomId())
 			.orElseThrow(() -> new RuntimeException("채팅방 정보가 없습니다."));
 		ChatMessage chatMessage = ChatMessage.builder()
+			.type(messageDto.getType())
 			.writerId(user)
 			.chatRoomId(chatRoom)
 			.imageMessage(messageDto.getImage())
@@ -114,6 +115,7 @@ public class ChatService {
 
 	public ChatMessageResponseDto toChatMessageResponseDto(ChatMessage message) {
 		ChatMessageResponseDto responseDto = ChatMessageResponseDto.builder()
+			.type(message.getType())
 			.writerName(message.getWriterId().getName())
 			.text(message.getTextMessage())
 			.image(message.getImageMessage())
