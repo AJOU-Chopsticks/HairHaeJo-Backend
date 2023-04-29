@@ -87,7 +87,7 @@ public class ChatService {
 			.writerId(user)
 			.chatRoomId(chatRoom)
 			.imageMessage(messageDto.getImage())
-			.textMessage(messageDto.getImage())
+			.textMessage(messageDto.getText())
 			.build();
 		return toChatMessageResponseDto(chatMessageRepository.save(chatMessage));
 	}
