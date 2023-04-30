@@ -1,9 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
-import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
-import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
-import Chopsticks.HairHaeJoBackend.dto.article.DeleteArticleDto;
-import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
+import Chopsticks.HairHaeJoBackend.dto.article.*;
 import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.entity.ArticleRepository;
 
@@ -102,10 +99,10 @@ public class ArticleService {
     }
 
     public String view(int articleId) throws IOException {
-        Article article=articleRepository.findById(articleId)
-                .orElseThrow(() -> new RuntimeException("해당 게시글이 만료되었습니다"));
+        ArticleViewDto articleview =articleRepository.viewArticle(articleId,Articlestate.WATING);
+
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        String articlelist=objectMapper.writeValueAsString(article);
+        String articlelist=objectMapper.writeValueAsString(articleview);
         return articlelist;
     }
 
