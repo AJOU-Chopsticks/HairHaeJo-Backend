@@ -50,7 +50,7 @@ public class ChatMessage {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public enum Type{
-        TYPE_TEXT, TYPE_IMAGE;
+    public enum Type {
+        TYPE_TEXT, TYPE_IMAGE, TYPE_INFO;
     }
 }

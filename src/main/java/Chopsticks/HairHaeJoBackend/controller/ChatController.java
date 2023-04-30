@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +25,9 @@ public class ChatController {
     private final ChatService chatService;
     private final S3UploadService s3UploadService;
 
-    @PostMapping ("/chat")
-    public ResponseEntity<APIMessages> getChatRoom(@RequestParam Long userId){
+    //채팅방 조회 or 생성
+    @PostMapping("/chat")
+    public ResponseEntity<APIMessages> getChatRoom(@RequestParam Long userId) {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("채팅방 조회 완료")
@@ -34,8 +36,9 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
+    //채팅방 리스트 조회
     @GetMapping("/chat")
-    public ResponseEntity<APIMessages> getChatRoomList(){
+    public ResponseEntity<APIMessages> getChatRoomList() {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("채팅방 리스트 조회 완료")
@@ -44,8 +47,9 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
+    //채팅 내역 조회
     @GetMapping("/chat/history")
-    public ResponseEntity<APIMessages> getMessageHistory(@RequestParam Long roomId){
+    public ResponseEntity<APIMessages> getChatHistory(@RequestParam Long roomId) {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("메시지 내역 조회 완료")
@@ -54,8 +58,10 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
+    //채팅 이미지 업로드
     @PostMapping("/chat/image")
-    public ResponseEntity<APIMessages> uploadChatImage(@RequestPart(value = "chatImage") MultipartFile image)
+    public ResponseEntity<APIMessages> uploadChatImage(
+        @RequestPart(value = "chatImage") MultipartFile image)
         throws IOException {
         APIMessages messages = APIMessages.builder()
             .success(true)
@@ -65,8 +71,24 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
+    //메시지 전송
     @MessageMapping("/chat/message")
-    public void message(ChatMessageRequestDto message){
-        template.convertAndSend("/sub/chat/" + message.getRoomId(), chatService.saveMessage(message));
+    public void message(ChatMessageRequestDto message) {
+        template.convertAndSend("/sub/chat/" + message.getRoomId(),
+            chatService.saveMessage(message));
     }
+
+    //채팅방 나가기
+    @DeleteMapping("/chat/leave")
+    public ResponseEntity<APIMessages> leaveChatRoom(@RequestParam Long roomId) {
+        chatService.leaveChatRoom(roomId);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("채팅방 나가기 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //채팅 신고
+
 }
