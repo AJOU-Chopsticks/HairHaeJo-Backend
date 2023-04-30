@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.entity;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +23,7 @@ public class Article {
     @Column(name = "article_id")
     private int Id;
 
-    @Column(name="writer_id")
+    @Column(name="writer_id",insertable = false, updatable = false)
     private long writerId;
     @Column(name="abstract_location")
     private String abstractLocation;
@@ -50,6 +51,7 @@ public class Article {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();;
+
     public void retouching(String title,String body,String region,String Category,String beforeurl,String afterurl) {
         this.title=title;
         this.body=body;
@@ -60,6 +62,9 @@ public class Article {
         afterImage=afterurl;
 
     }
+    @ManyToOne
+    @JoinColumn(name="writer_id")
+    private User user;
 
 
 }
