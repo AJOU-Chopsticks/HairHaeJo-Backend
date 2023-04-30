@@ -91,7 +91,7 @@ public class ArticleController {
 
      */
     //검색
-    /*
+
     @GetMapping("/article/search")
     public ResponseEntity<APIMessages> Searching(@RequestParam("keyword") String keyword) throws IOException
 
@@ -105,7 +105,7 @@ public class ArticleController {
         return ResponseEntity.ok(apiMessages);
     }
 
-     */
+
     /*
     @GetMapping("/article")
     public ResponseEntity<APIMessages> viewing(@RequestParam("articleId") String articleId) throws IOException

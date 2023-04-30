@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.DeleteArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.Collection;
 
 
 @Service
@@ -87,11 +89,13 @@ public class ArticleService {
 
 
 
+    */
+
      public String searchkeyword(String keyword) throws IOException {
         if(keyword.isEmpty()) {
             throw new RuntimeException("키워드 입력후 검색해 주세요");
         }
-        Collection<Article> articleCollection=articleRepository.findIdAndwriterIdAndtitleBytitleContaining(keyword);
+        Collection<ArticlelistResponseDto> articleCollection=articleRepository.findkeyword(keyword);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String list=objectMapper.writeValueAsString(articleCollection);
         return list;
@@ -106,7 +110,7 @@ public class ArticleService {
     }
 
 
-    */
+
     private String thereexistimage(MultipartFile now,String last) throws IOException {
         if(now!=null) {
             return s3UploadService.upload(now);
