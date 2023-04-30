@@ -106,7 +106,7 @@ public class ArticleController {
     }
 
 
-    /*
+    //게시글 조회
     @GetMapping("/article")
     public ResponseEntity<APIMessages> viewing(@RequestParam("articleId") String articleId) throws IOException
 
@@ -119,6 +119,5 @@ public class ArticleController {
         return ResponseEntity.ok(apiMessages);
     }
 
-     */
 
 }
