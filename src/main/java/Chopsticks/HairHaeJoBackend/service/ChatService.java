@@ -103,21 +103,19 @@ public class ChatService {
             .orElseThrow(() -> new RuntimeException("채팅방 정보가 없습니다."));
         chatMessageRepository.save(ChatMessage.builder()
             .type(Type.TYPE_INFO)
-            .writerId(null)
+            .writerId(user)
             .chatRoomId(chatRoom)
             .textMessage(user.getName() + "님이 상담을 종료했습니다.")
             .build());
         chatRoomRepository.save(chatRoom.updateTimeStamp());
         if (user.getRole() == Role.ROLE_USER) {
-            if (chatRoom.getDesignerId() == null) {
-                chatRoomRepository.delete(chatRoom);
-            }
-            chatRoom.setClientId(null);
+            if (chatRoom.getDesignerStatus()) {
+                chatRoom.setClientStatus(false);
+            } else chatRoomRepository.delete(chatRoom);
         } else {
-            if (chatRoom.getClientId() == null) {
-                chatRoomRepository.delete(chatRoom);
-            }
-            chatRoom.setDesignerId(null);
+            if (chatRoom.getClientStatus()) {
+                chatRoom.setDesignerStatus(false);
+            } else chatRoomRepository.delete(chatRoom);
         }
         chatRoomRepository.save(chatRoom);
     }
@@ -131,7 +129,7 @@ public class ChatService {
             .build());
         chatMessageRepository.save(ChatMessage.builder()
             .type(Type.TYPE_INFO)
-            .writerId(null)
+            .writerId(user)
             .chatRoomId(chatRoom)
             .textMessage(user.getName() + "님이 상담을 시작했습니다.")
             .build());

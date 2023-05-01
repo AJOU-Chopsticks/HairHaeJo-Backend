@@ -44,6 +44,12 @@ public class ChatRoom {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Column(name = "client_status")
+    private Boolean clientStatus;
+
+    @Column(name = "designer_status")
+    private Boolean designerStatus;
+
     public ChatRoom updateTimeStamp() {
         this.updatedAt = LocalDateTime.now();
         return this;
