@@ -76,12 +76,13 @@ public class ArticleController {
     }
 
     @GetMapping("/article/list")
-    public void loadinglist(@RequestParam("region") String region, @RequestParam(value = "category",required = false) String category, Model model) throws IOException {
+    public ResponseEntity<APIMessages> loadlist(@RequestParam("region") String region, @RequestParam(value = "category",required = false) String category, Model model) throws IOException {
 
         APIMessages apiMessages=APIMessages.builder().success(true)
-                .message("게시글 삭제 성공")
+                .message("게시글 조회 성공")
                 .data(articleService.loadlist(region,category))
                 .build();
+        return ResponseEntity.ok(apiMessages);
     }
 
 

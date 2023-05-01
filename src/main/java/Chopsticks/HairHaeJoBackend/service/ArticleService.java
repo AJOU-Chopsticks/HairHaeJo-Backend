@@ -65,10 +65,11 @@ public class ArticleService {
 
 
     public String loadlist(String region, String category) throws IOException {
-        List<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category);
+        Collection<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-
-        return objectMapper.writeValueAsString(articleCollection);
+        String temp=objectMapper.writeValueAsString(articleCollection);
+        System.out.println(temp);
+        return temp;
     }
 
 
