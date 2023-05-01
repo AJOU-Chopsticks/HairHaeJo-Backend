@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 
 @Service
@@ -27,15 +28,11 @@ public class ArticleService {
         String beforeurl,afterurl;
         if(articleRepository.thereiswrote(currentMemberId,Articlestate.WATING)!=0)
             throw new RuntimeException("이미 대기중인 작성글이 존재합니다");
-
-        if (before==null) beforeurl=null;
-        else beforeurl=s3UploadService.upload(before);
-
-        if(after==null) afterurl=null;
-        else afterurl= s3UploadService.upload(after);
+        beforeurl=thereexistimage(before,null);
+        afterurl= thereexistimage(after,null);
 
         nowarticle = articleRepository.save(articleDto.toArticle(currentMemberId, beforeurl, afterurl));
-        DeleteArticleDto returndata=new DeleteArticleDto(Integer.toString(nowarticle.getId()));
+        ArticleIdDto returndata=new ArticleIdDto(Integer.toString(nowarticle.getId()));
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String articlenumber=objectMapper.writeValueAsString(returndata);
         return articlenumber;
@@ -66,27 +63,19 @@ public class ArticleService {
     }
 
 
-   /*
-    public Collection<Article> loadlist(String region, String category) throws IOException {
-        Collection<Article> articleCollection=null;
-        if (category.isEmpty()) {
-            articleCollection = articleRepository.findByabstractionLocation(region);
-        }
-        else {
-            List<String> categorylist = new ArrayList<String>();
-            String[] splitStr = category.split("-");
-            for(int i=0; i<splitStr.length; i++){
-                categorylist.add("-"+splitStr[i]+"-");
-            }
-            articleRepository.findBycategoryContaining(categorylist);
 
-        }
-        return articleCollection;
+    public String loadlist(String region, String category) throws IOException {
+        List<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category);
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+
+        return objectMapper.writeValueAsString(articleCollection);
     }
 
 
 
-    */
+
+
+
 
      public String searchkeyword(String keyword) throws IOException {
         if(keyword.isEmpty()) {
@@ -100,7 +89,8 @@ public class ArticleService {
 
     public String view(int articleId) throws IOException {
         ArticleViewDto articleview =articleRepository.viewArticle(articleId,Articlestate.WATING);
-
+        if(articleview==null)
+            throw new RuntimeException("존재하지 않는 게시글입니다");
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String articlelist=objectMapper.writeValueAsString(articleview);
         return articlelist;
