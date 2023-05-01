@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
@@ -21,7 +22,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
 
 
-    public List<ArticlelistResponseDto> listfilter(String region, String category) {
+    public Collection<ArticlelistResponseDto> listfilter(String region, String category) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QArticle Article = QArticle.article;
         QUser User= QUser.user;
