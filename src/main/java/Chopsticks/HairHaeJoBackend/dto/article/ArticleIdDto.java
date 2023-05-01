@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeleteArticleDto {
+public class ArticleIdDto {
     @JsonSetter("articleId")
     private String articleId;
 }

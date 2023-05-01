@@ -2,7 +2,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
-import Chopsticks.HairHaeJoBackend.dto.article.DeleteArticleDto;
+import Chopsticks.HairHaeJoBackend.dto.article.ArticleIdDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 
 import Chopsticks.HairHaeJoBackend.entity.Article;
@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
 import java.util.Collection;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -67,7 +66,7 @@ public class ArticleController {
 
     {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        DeleteArticleDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        ArticleIdDto articleDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
         articleService.delete(Integer.parseInt(articleDto.getArticleId()));
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 삭제 성공")
@@ -75,21 +74,17 @@ public class ArticleController {
 
         return ResponseEntity.ok(apiMessages);
     }
-    /* 카테고리 검색 기능 오류로 임시 주석처리
+
     @GetMapping("/article/list")
-    public void loadinglist(@RequestParam String region, @RequestParam String category, Model model) throws IOException {
-        model.addAttribute("region",region);
-        model.addAttribute("category",category);
-        Collection<Article> articlelist=articleService.loadlist(region,category);
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        String list=objectMapper.writeValueAsString(articlelist);
+    public void loadinglist(@RequestParam("region") String region, @RequestParam(value = "category",required = false) String category, Model model) throws IOException {
+
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 삭제 성공")
-                .data(list)
+                .data(articleService.loadlist(region,category))
                 .build();
     }
 
-     */
+
     //검색
 
     @GetMapping("/article/search")
