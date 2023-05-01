@@ -23,7 +23,7 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
 
-    public String post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
+    public ArticleIdDto post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
         Article nowarticle;
         String beforeurl,afterurl;
         if(articleRepository.thereiswrote(currentMemberId,Articlestate.WATING)!=0)
@@ -33,9 +33,7 @@ public class ArticleService {
 
         nowarticle = articleRepository.save(articleDto.toArticle(currentMemberId, beforeurl, afterurl));
         ArticleIdDto returndata=new ArticleIdDto(Integer.toString(nowarticle.getId()));
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        String articlenumber=objectMapper.writeValueAsString(returndata);
-        return articlenumber;
+        return returndata;
     }
 
     public void retouch(MultipartFile before, MultipartFile after, ChangeArticleDto articleDto) throws IOException {
@@ -64,12 +62,11 @@ public class ArticleService {
 
 
 
-    public String loadlist(String region, String category) throws IOException {
+    public Collection<ArticlelistResponseDto> loadlist(String region, String category) throws IOException {
         Collection<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String temp=objectMapper.writeValueAsString(articleCollection);
-        System.out.println(temp);
-        return temp;
+        return articleCollection;
     }
 
 
@@ -78,23 +75,22 @@ public class ArticleService {
 
 
 
-     public String searchkeyword(String keyword) throws IOException {
+     public Collection<ArticlelistResponseDto> searchkeyword(String keyword) throws IOException {
         if(keyword.isEmpty()) {
             throw new RuntimeException("키워드 입력후 검색해 주세요");
         }
         Collection<ArticlelistResponseDto> articleCollection=articleRepository.findkeyword(keyword);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String list=objectMapper.writeValueAsString(articleCollection);
-        return list;
+        return articleCollection;
     }
 
-    public String view(int articleId) throws IOException {
+    public ArticleViewDto view(int articleId) throws IOException {
         ArticleViewDto articleview =articleRepository.viewArticle(articleId,Articlestate.WATING);
         if(articleview==null)
             throw new RuntimeException("존재하지 않는 게시글입니다");
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        String articlelist=objectMapper.writeValueAsString(articleview);
-        return articlelist;
+
+        return articleview;
     }
 
 
