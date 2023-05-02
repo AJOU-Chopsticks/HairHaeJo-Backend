@@ -2,11 +2,13 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ResetPasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
 import Chopsticks.HairHaeJoBackend.service.EmailService;
 import Chopsticks.HairHaeJoBackend.service.UserService;
+import Chopsticks.HairHaeJoBackend.service.ClientProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,16 +35,17 @@ public class UserController {
 
     private final UserService userService;
     private final EmailService emailService;
+    private final ClientProfileService clientProfileService;
 
     //회원가입
     @PostMapping("/signup")
     public ResponseEntity<APIMessages> signup(
         @RequestPart(value = "profileImage", required = false) MultipartFile image,
         @RequestParam("jsonList") String jsonList) throws IOException {
-        userService.signup(image, jsonToSignupRequestDto(jsonList));
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("회원가입 완료")
+            .data(userService.signup(image, jsonToSignupRequestDto(jsonList)))
             .build();
         return ResponseEntity.ok(messages);
     }
@@ -148,4 +151,22 @@ public class UserController {
         });
         return requestDto;
     }
+
+    @PostMapping("/profile")
+    public ResponseEntity<APIMessages> defaultClientProfile(@RequestBody ClientProfileRequestDto requestDto)
+    {
+        clientProfileService.defaultClientProfile(requestDto);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("초기 고객 프로필 생성완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+
+
+
+
 }
+
+
