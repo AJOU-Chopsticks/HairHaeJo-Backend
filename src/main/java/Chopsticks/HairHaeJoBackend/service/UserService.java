@@ -34,7 +34,7 @@ public class UserService {
     private final S3UploadService s3UploadService;
 
     // 회원가입 로직
-    public void signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
+    public String signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new RuntimeException("중복된 이메일입니다.");
         }
@@ -46,6 +46,14 @@ public class UserService {
         } else {
             userRepository.save(requestDto.toUser(s3UploadService.upload(image), passwordEncoder));
         }
+
+        UsernamePasswordAuthenticationToken token = LoginRequestDto.builder()
+            .email(requestDto.getEmail()).password(requestDto.getPassword()).build()
+            .toAuthentication();
+        Authentication authentication = managerBuilder.getObject().authenticate(token);
+        String jwt = tokenProvider.generateToken(authentication);
+
+        return jwt;
     }
 
     // 로그인 로직
