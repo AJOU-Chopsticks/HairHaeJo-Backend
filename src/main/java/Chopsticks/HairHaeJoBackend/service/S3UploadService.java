@@ -27,6 +27,7 @@ public class S3UploadService {
 
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
 
+
         return amazonS3.getUrl(bucket, s3FileName).toString();
     }
 }

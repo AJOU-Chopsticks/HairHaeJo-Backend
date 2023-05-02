@@ -38,7 +38,7 @@ public class ArticleController {
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 작성 성공")
-                .data(articleService.post(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId()))
+                .data(articleService.post(beforeimage,afterimage,articleDto))
                 .build();
 
 
