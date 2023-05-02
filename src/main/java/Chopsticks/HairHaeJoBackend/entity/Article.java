@@ -23,7 +23,7 @@ public class Article {
     @Column(name = "article_id")
     private int Id;
 
-    @Column(name="writer_id",insertable = false, updatable = false)
+    @Column(name="writer_id")
     private long writerId;
     @Column(name="abstract_location")
     private String abstractLocation;
@@ -63,8 +63,9 @@ public class Article {
 
     }
     @ManyToOne
-    @JoinColumn(name="writer_id")
+    @JoinColumn(name="writer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
+
 
 
 }

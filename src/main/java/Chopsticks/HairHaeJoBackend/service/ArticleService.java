@@ -5,6 +5,7 @@ import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.entity.ArticleRepository;
 
 import Chopsticks.HairHaeJoBackend.entity.Articlestate;
+import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,22 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
 
-    public ArticleIdDto post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto, Long currentMemberId) throws IOException {
+    public ArticleIdDto post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto) throws IOException {
         Article nowarticle;
         String beforeurl,afterurl;
-        if(articleRepository.thereiswrote(currentMemberId,Articlestate.WATING)!=0)
+        long currentId=SecurityUtil.getCurrentMemberId();
+        if (articleRepository.thereiswrote(currentId, Articlestate.WATING) != 0)
             throw new RuntimeException("이미 대기중인 작성글이 존재합니다");
-        beforeurl=thereexistimage(before,null);
-        afterurl= thereexistimage(after,null);
 
-        nowarticle = articleRepository.save(articleDto.toArticle(currentMemberId, beforeurl, afterurl));
-        ArticleIdDto returndata=new ArticleIdDto(Integer.toString(nowarticle.getId()));
-        return returndata;
+        if(before==null) beforeurl=null;
+        else beforeurl=s3UploadService.upload(before);
+        if(after==null) afterurl=null;
+        else afterurl=s3UploadService.upload(after);
+        System.out.println(SecurityUtil.getCurrentMemberId());
+
+        nowarticle = articleRepository.save(articleDto.toArticle(currentId, beforeurl, afterurl));
+
+        return new ArticleIdDto(Integer.toString(nowarticle.getId()));
     }
 
     public void retouch(MultipartFile before, MultipartFile after, ChangeArticleDto articleDto) throws IOException {
@@ -96,12 +102,13 @@ public class ArticleService {
 
 
     private String thereexistimage(MultipartFile now,String last) throws IOException {
-        if(now!=null) {
-            return s3UploadService.upload(now);
-        }
-        else {
+        if(now==null) {
             if(last==null) return null;
             else return last;
+
+        }
+        else {
+            return s3UploadService.upload(now);
         }
 
     }
