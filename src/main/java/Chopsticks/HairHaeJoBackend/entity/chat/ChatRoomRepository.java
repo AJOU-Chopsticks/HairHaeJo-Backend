@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-    List<ChatRoom> findByClientIdOrDesignerId(User clientId, User designerId);
+    List<ChatRoom> findByClientIdAndClientStatus(User userId, boolean status);
+
+    List<ChatRoom> findByDesignerIdAndDesignerStatus(User userId, boolean status);
 
     ChatRoom findByClientIdAndDesignerId(User clientId, User designerId);
 
