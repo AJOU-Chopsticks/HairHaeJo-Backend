@@ -34,32 +34,40 @@ public class ChatService {
             .orElseThrow(() -> new RuntimeException("상대방 정보가 없습니다."));
 
         if (user.getRole() == Role.ROLE_USER) {
-            if (chatRoomRepository.existsByClientIdAndDesignerId(user, other)) {
-                ChatRoomResponseDto responseDto = toChatRoomResponseDto(
-                    chatRoomRepository.findByClientIdAndDesignerId(user, other));
-                return responseDto;
-            } else {
+            ChatRoom chatRoom = chatRoomRepository.findByClientIdAndDesignerId(user, other);
+            if (chatRoom == null) {
                 ChatRoomResponseDto responseDto = toChatRoomResponseDto(
                     createChatRoom(user, other));
                 return responseDto;
             }
+            chatRoom.setClientStatus(true);
+            chatRoom.setDesignerStatus(true);
+            ChatRoomResponseDto responseDto = toChatRoomResponseDto(chatRoom);
+            return responseDto;
         } else {
-            if (chatRoomRepository.existsByClientIdAndDesignerId(other, user)) {
-                ChatRoomResponseDto responseDto = toChatRoomResponseDto(
-                    chatRoomRepository.findByClientIdAndDesignerId(other, user));
-                return responseDto;
-            } else {
+            ChatRoom chatRoom = chatRoomRepository.findByClientIdAndDesignerId(other, user);
+            if (chatRoom == null) {
                 ChatRoomResponseDto responseDto = toChatRoomResponseDto(
                     createChatRoom(other, user));
                 return responseDto;
             }
+            chatRoom.setClientStatus(true);
+            chatRoom.setDesignerStatus(true);
+            ChatRoomResponseDto responseDto = toChatRoomResponseDto(chatRoom);
+            return responseDto;
         }
     }
 
     //채팅방 리스트 조회
     public List<ChatRoomResponseDto> getChatRoomList() {
         User user = getCurrentUser();
-        List<ChatRoom> chatRooms = chatRoomRepository.findByClientIdOrDesignerId(user, user);
+        List<ChatRoom> chatRooms;
+        if (user.getRole() == Role.ROLE_USER) {
+            chatRooms = chatRoomRepository.findByClientIdAndClientStatus(user, true);
+        } else {
+            chatRooms = chatRoomRepository.findByDesignerIdAndDesignerStatus(user, true);
+        }
+
         List<ChatRoomResponseDto> chatRoomResponseDtoList = new ArrayList<>();
         for (ChatRoom room : chatRooms) {
             chatRoomResponseDtoList.add(toChatRoomResponseDto(room));
@@ -109,15 +117,14 @@ public class ChatService {
             .build());
         chatRoomRepository.save(chatRoom.updateTimeStamp());
         if (user.getRole() == Role.ROLE_USER) {
-            if (chatRoom.getDesignerStatus()) {
-                chatRoom.setClientStatus(false);
-            } else chatRoomRepository.delete(chatRoom);
+            chatRoom.setClientStatus(false);
         } else {
-            if (chatRoom.getClientStatus()) {
-                chatRoom.setDesignerStatus(false);
-            } else chatRoomRepository.delete(chatRoom);
+            chatRoom.setDesignerStatus(false);
         }
         chatRoomRepository.save(chatRoom);
+        if(!chatRoom.getClientStatus() && !chatRoom.getDesignerStatus()){
+            chatRoomRepository.delete(chatRoom);
+        }
     }
 
     //채팅방 생성
@@ -143,10 +150,10 @@ public class ChatService {
         if (message == null) {
             return null;
         } else if (message.getType() == Type.TYPE_IMAGE) {
-			return "사진";
-		} else {
-			return message.getTextMessage();
-		}
+            return "사진";
+        } else {
+            return message.getTextMessage();
+        }
     }
 
     private User getCurrentUser() {
