@@ -33,7 +33,8 @@ public class UserService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final S3UploadService s3UploadService;
 
-    // 회원가입 로직
+
+    // 회원가입
     public String signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
             throw new RuntimeException("중복된 이메일입니다.");
@@ -56,7 +57,7 @@ public class UserService {
         return jwt;
     }
 
-    // 로그인 로직
+    // 로그인
     public String login(LoginRequestDto requestDto, HttpServletResponse response) {
 
         UsernamePasswordAuthenticationToken token = requestDto.toAuthentication();
@@ -73,21 +74,19 @@ public class UserService {
         return jwt;
     }
 
-    // Auth 로직
+    // Auth
     public AuthResponseDto auth() {
-        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
-            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        User user = getCurrentUser();
         return AuthResponseDto.of(user);
     }
 
-    // 계정 정보 변경 로직
+    // 계정 정보 변경
     public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto)
         throws IOException {
         if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
             throw new RuntimeException("중복된 휴대폰 번호입니다.");
         }
-        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
-            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        User user = getCurrentUser();
         user.setName(requestDto.getName());
         user.setPhoneNumber(requestDto.getPhoneNumber());
         user.setGender(requestDto.getGender());
@@ -99,10 +98,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // 비밀번호 변경 로직
+    // 비밀번호 변경
     public void changePassword(ChangePasswordRequestDto requestDto) {
-        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
-            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        User user = getCurrentUser();
         if (!passwordEncoder.matches(requestDto.getExPassword(), user.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
@@ -110,7 +108,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // 헤어디자이너 등록 로직
+    // 헤어디자이너 등록
     public void licenseRegister(MultipartFile image) throws IOException {
         LicenseRequest licenseRequest = LicenseRequest.builder()
             .designerId(SecurityUtil.getCurrentMemberId())
@@ -119,13 +117,18 @@ public class UserService {
         licenseRequestRepository.save(licenseRequest);
     }
 
-    // 회원탈퇴 로직
+    // 회원탈퇴
     public void withdrawal(LoginRequestDto requestDto) {
-        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
-            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        User user = getCurrentUser();
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
         userRepository.deleteById(user.getId());
+    }
+
+    private User getCurrentUser() {
+        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
+            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        return user;
     }
 }
