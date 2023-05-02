@@ -42,10 +42,10 @@ public class UserController {
     public ResponseEntity<APIMessages> signup(
         @RequestPart(value = "profileImage", required = false) MultipartFile image,
         @RequestParam("jsonList") String jsonList) throws IOException {
-        userService.signup(image, jsonToSignupRequestDto(jsonList));
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("회원가입 완료")
+            .data(userService.signup(image, jsonToSignupRequestDto(jsonList)))
             .build();
         return ResponseEntity.ok(messages);
     }
