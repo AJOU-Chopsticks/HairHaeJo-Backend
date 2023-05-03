@@ -16,8 +16,7 @@ public class ArticleViewDto {
     private String body;
     private String beforeimage;
     private String afterimage;
-    @JsonSetter("region")
-    private String abstractLocation;
+    private String region;
     private String category;
     private String gender;
     private String tag;
