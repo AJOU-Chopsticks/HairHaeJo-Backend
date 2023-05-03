@@ -38,7 +38,7 @@ public class ArticleController {
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 작성 성공")
-                .data(articleService.post(beforeimage,afterimage,articleDto,SecurityUtil.getCurrentMemberId()))
+                .data(articleService.post(beforeimage,afterimage,articleDto))
                 .build();
 
 
@@ -76,11 +76,11 @@ public class ArticleController {
     }
 
     @GetMapping("/article/list")
-    public ResponseEntity<APIMessages> loadlist(@RequestParam("region") String region, @RequestParam(value = "category",required = false) String category, Model model) throws IOException {
+    public ResponseEntity<APIMessages> loadlist(@RequestParam("region") String region, @RequestParam(value = "category",required = false) String category, @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "tag",required = false) String tag) throws IOException {
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 조회 성공")
-                .data(articleService.loadlist(region,category))
+                .data(articleService.loadlist(region,category,gender,tag))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
