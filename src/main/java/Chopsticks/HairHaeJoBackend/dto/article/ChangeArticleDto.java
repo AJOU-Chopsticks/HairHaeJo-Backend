@@ -15,6 +15,7 @@ public class ChangeArticleDto {
     private String body;
     private String region;
     private String category;
-    @JsonSetter("articleId")
-    private String ArticleId;
+    private String gender;
+    private String tag;
+    private String articleId;
 }

@@ -23,7 +23,7 @@ public class Article {
     @Column(name = "article_id")
     private int Id;
 
-    @Column(name="writer_id",insertable = false, updatable = false)
+    @Column(name="writer_id")
     private long writerId;
     @Column(name="abstract_location")
     private String abstractLocation;
@@ -32,6 +32,9 @@ public class Article {
     private String category;
     private String title;
     private String body;
+
+    private String gender;
+    private String tag;
 
     @Enumerated(EnumType.STRING)
     private Articlestate state;
@@ -52,19 +55,22 @@ public class Article {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();;
 
-    public void retouching(String title,String body,String region,String Category,String beforeurl,String afterurl) {
+    public void retouching(String title,String body,String region,String Category,String Gender,String Tag,String beforeurl,String afterurl) {
         this.title=title;
         this.body=body;
         abstractLocation=region;
 
-        category="-"+Category+"-";
+        category=Category;
+        gender=Gender;
+        tag=Tag;
         beforeImage=beforeurl;
         afterImage=afterurl;
 
     }
     @ManyToOne
-    @JoinColumn(name="writer_id")
+    @JoinColumn(name="writer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
+
 
 
 }
