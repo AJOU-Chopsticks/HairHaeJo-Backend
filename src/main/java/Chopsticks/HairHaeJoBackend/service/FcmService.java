@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FcmService {
-    private final String API_URL = "https://fcm.googleapis.com/v1/projects/codelivery-fdee0/messages:send";
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/hairhaejo-91afb/messages:send";
     private final ObjectMapper objectMapper;
 
     public void sendMessageTo(String token, String title, String body) throws Exception {
@@ -50,7 +50,7 @@ public class FcmService {
     }
 
     private String getAccessToken() throws Exception {
-        String firebaseConfigPath = "fireBase/codelivery-fdee0-firebase-adminsdk-7awyi-4b1dd8cf8f.json";
+        String firebaseConfigPath = "fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json";
 
         GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
             .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
