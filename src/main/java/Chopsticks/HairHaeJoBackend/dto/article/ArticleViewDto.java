@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.dto.article;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,8 @@ public class ArticleViewDto {
     private String body;
     private String beforeimage;
     private String afterimage;
-    private String region;
+    @JsonSetter("region")
+    private String abstractLocation;
     private String category;
     private String gender;
     private String tag;
