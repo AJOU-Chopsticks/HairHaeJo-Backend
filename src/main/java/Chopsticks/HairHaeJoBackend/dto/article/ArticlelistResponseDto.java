@@ -18,7 +18,7 @@ public class ArticlelistResponseDto {
         @JsonSetter("articleId")
         private int Id;
         @JsonSetter("region")
-        private String region;
+        private String abstractLocation;
         @JsonSetter("category")
         private String category;
         @JsonSetter("gender")
