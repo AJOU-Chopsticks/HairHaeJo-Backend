@@ -14,8 +14,20 @@ public class ArticlelistResponseDto {
         private String name;
         @JsonSetter("articleTitle")
         private String title;
+
         @JsonSetter("articleId")
         private int Id;
+        @JsonSetter("region")
+        private String region;
+        @JsonSetter("category")
+        private String category;
+        @JsonSetter("gender")
+        private String gender;
+        @JsonSetter("tag")
+        private String tag;
+        @JsonSetter("profielImage")
+        private String profileImage;
+
 
 
 

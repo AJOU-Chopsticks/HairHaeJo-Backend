@@ -29,6 +29,6 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(Article.abstractLocation.contains(region));
 
-       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name,Article.title,Article.Id)).from(Article).innerJoin(Article.user,User).where(Article.abstractLocation.contains(region)).fetch();
+       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name,Article.title,Article.Id,Article.abstractLocation,Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(Article.abstractLocation.contains(region)).fetch();
     }
 }
