@@ -32,6 +32,6 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         if(gender!=null) booleanBuilder.and(Article.gender.contains(gender));
         if(tag!=null) booleanBuilder.and(Article.tag.contains(tag));
 
-       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name,Article.title,Article.Id,Article.abstractLocation,Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(booleanBuilder).fetch();
+       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name.as("userName"),Article.title.as("articleTitle"),Article.Id.as("articleId"),Article.abstractLocation.as("region"),Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(booleanBuilder).fetch();
     }
 }
