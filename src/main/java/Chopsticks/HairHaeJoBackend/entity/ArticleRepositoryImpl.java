@@ -22,13 +22,16 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
 
 
-    public Collection<ArticlelistResponseDto> listfilter(String region, String category) {
+    public Collection<ArticlelistResponseDto> listfilter(String region, String category,String gender,String tag) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QArticle Article = QArticle.article;
         QUser User= QUser.user;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(Article.abstractLocation.contains(region));
+        if(category!=null) booleanBuilder.and(Article.category.contains(category));
+        if(gender!=null) booleanBuilder.and(Article.gender.contains(gender));
+        if(tag!=null) booleanBuilder.and(Article.tag.contains(tag));
 
-       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name,Article.title,Article.Id,Article.abstractLocation,Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(Article.abstractLocation.contains(region)).fetch();
+       return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name,Article.title,Article.Id,Article.abstractLocation,Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(booleanBuilder).fetch();
     }
 }

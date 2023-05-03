@@ -67,8 +67,8 @@ public class ArticleService {
 
 
 
-    public Collection<ArticlelistResponseDto> loadlist(String region, String category) throws IOException {
-        Collection<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category);
+    public Collection<ArticlelistResponseDto> loadlist(String region, String category,String gender,String tag) throws IOException {
+        Collection<ArticlelistResponseDto> articleCollection=articleRepository.listfilter(region,category,gender,tag);
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         String temp=objectMapper.writeValueAsString(articleCollection);
         return articleCollection;
