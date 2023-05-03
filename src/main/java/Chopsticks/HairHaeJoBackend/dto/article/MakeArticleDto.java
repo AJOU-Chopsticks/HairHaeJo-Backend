@@ -20,6 +20,8 @@ public class MakeArticleDto {
     private String body;
     private String region;
     private String category;
+    private String gender;
+    private String tag;
     public Article toArticle(long writer,String before,String after) {
         return Article.builder()
 
@@ -27,7 +29,9 @@ public class MakeArticleDto {
                 .afterImage(after)
                 .beforeImage(before)
                 .body(body)
-                .category("-"+category+"-")
+                .category(category)
+                .gender(gender)
+                .tag(tag)
                 .state(Articlestate.WATING)
                 .title(title)
                 .writerId(writer)
