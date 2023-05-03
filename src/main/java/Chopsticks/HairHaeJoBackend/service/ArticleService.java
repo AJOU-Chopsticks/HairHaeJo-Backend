@@ -91,7 +91,7 @@ public class ArticleService {
     }
 
     public ArticleViewDto view(int articleId) throws IOException {
-        ArticleViewDto articleview =articleRepository.viewArticle(articleId,Articlestate.WATING);
+        ArticleViewDto articleview =articleRepository.viewArticle(articleId);
         if(articleview==null)
             throw new RuntimeException("존재하지 않는 게시글입니다");
 

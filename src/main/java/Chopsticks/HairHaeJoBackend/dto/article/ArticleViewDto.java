@@ -17,4 +17,8 @@ public class ArticleViewDto {
     private String afterimage;
     private String region;
     private String category;
+    private String gender;
+    private String tag;
+    private String userName;
+    private String profileImage;
 }
