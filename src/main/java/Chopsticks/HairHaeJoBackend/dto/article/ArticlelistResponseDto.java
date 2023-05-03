@@ -11,14 +11,14 @@ import lombok.*;
 
 public class ArticlelistResponseDto {
         @JsonSetter("userName")
-        private String name;
+        private String userName;
         @JsonSetter("articleTitle")
-        private String title;
+        private String articleTitle;
 
         @JsonSetter("articleId")
-        private int Id;
+        private int articleId;
         @JsonSetter("region")
-        private String abstractLocation;
+        private String region;
         @JsonSetter("category")
         private String category;
         @JsonSetter("gender")
