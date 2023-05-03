@@ -31,11 +31,8 @@ public class ArticleService {
         if (articleRepository.thereiswrote(currentId, Articlestate.WATING) != 0)
             throw new RuntimeException("이미 대기중인 작성글이 존재합니다");
 
-        if(before==null) beforeurl=null;
-        else beforeurl=s3UploadService.upload(before);
-        if(after==null) afterurl=null;
-        else afterurl=s3UploadService.upload(after);
-        System.out.println(SecurityUtil.getCurrentMemberId());
+        beforeurl=thereexistimage(before,null);
+        afterurl=thereexistimage(after,null);
 
         nowarticle = articleRepository.save(articleDto.toArticle(currentId, beforeurl, afterurl));
 
@@ -56,6 +53,8 @@ public class ArticleService {
                         articleDto.getBody(),
                         articleDto.getRegion(),
                         articleDto.getCategory(),
+                        articleDto.getGender(),
+                        articleDto.getTag(),
                         beforeurl,
                         afterurl);
         articleRepository.save(article);
