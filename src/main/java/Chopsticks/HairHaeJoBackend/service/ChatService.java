@@ -3,11 +3,15 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatRoomResponseDto;
+import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessage;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessage.Type;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatMessageRepository;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatRoom;
 import Chopsticks.HairHaeJoBackend.entity.chat.ChatRoomRepository;
+import Chopsticks.HairHaeJoBackend.entity.report.Report;
+import Chopsticks.HairHaeJoBackend.entity.report.Report.reportType;
+import Chopsticks.HairHaeJoBackend.entity.report.ReportRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.Role;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
@@ -26,6 +30,7 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
+    private final ReportRepository reportRepository;
 
     //채팅방 생성 or 조회
     public ChatRoomResponseDto getChatRoom(Long otherId) {
