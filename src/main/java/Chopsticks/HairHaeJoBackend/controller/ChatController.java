@@ -76,7 +76,6 @@ public class ChatController {
     //메시지 전송
     @MessageMapping("/chat/message")
     public void message(ChatMessageRequestDto message) {
-        System.out.println("*********test**********");
         template.convertAndSend("/sub/chat/" + message.getRoomId(),
             chatService.saveMessage(message));
     }
@@ -91,5 +90,4 @@ public class ChatController {
             .build();
         return ResponseEntity.ok(messages);
     }
-
 }
