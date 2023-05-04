@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.dto.designer;
+package Chopsticks.HairHaeJoBackend.dto.portfolio;
 
 import lombok.Builder;
 import lombok.Getter;

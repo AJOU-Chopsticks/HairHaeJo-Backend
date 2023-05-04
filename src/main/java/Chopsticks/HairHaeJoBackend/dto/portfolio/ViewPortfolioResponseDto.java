@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.dto.designer;
+package Chopsticks.HairHaeJoBackend.dto.portfolio;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

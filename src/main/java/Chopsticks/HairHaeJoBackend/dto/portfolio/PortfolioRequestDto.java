@@ -1,8 +1,7 @@
-package Chopsticks.HairHaeJoBackend.dto.designer;
+package Chopsticks.HairHaeJoBackend.dto.portfolio;
 
-import Chopsticks.HairHaeJoBackend.entity.designer.Portfolio;
+import Chopsticks.HairHaeJoBackend.entity.portfolio.Portfolio;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
-import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
