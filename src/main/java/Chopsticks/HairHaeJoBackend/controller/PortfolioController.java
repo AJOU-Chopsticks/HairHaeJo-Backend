@@ -1,8 +1,8 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
-import Chopsticks.HairHaeJoBackend.dto.designer.ChangePortfolioRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.PortfolioRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.ChangePortfolioRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.PortfolioRequestDto;
 import Chopsticks.HairHaeJoBackend.service.PortfolioService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

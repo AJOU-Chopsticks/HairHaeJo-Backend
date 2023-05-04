@@ -1,15 +1,15 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
-import Chopsticks.HairHaeJoBackend.dto.designer.ChangePortfolioRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.PortfolioRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.PortfolioResponseDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.ViewPortfolioResponseDto;
-import Chopsticks.HairHaeJoBackend.entity.designer.Portfolio;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.ChangePortfolioRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.PortfolioRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.PortfolioResponseDto;
+import Chopsticks.HairHaeJoBackend.dto.portfolio.ViewPortfolioResponseDto;
+import Chopsticks.HairHaeJoBackend.entity.portfolio.Portfolio;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.PortfolioRepository;
+import Chopsticks.HairHaeJoBackend.entity.portfolio.PortfolioRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

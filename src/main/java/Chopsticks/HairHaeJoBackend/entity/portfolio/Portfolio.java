@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.entity.designer;
+package Chopsticks.HairHaeJoBackend.entity.portfolio;
 
 
 import Chopsticks.HairHaeJoBackend.entity.user.User;
@@ -33,7 +33,7 @@ public class Portfolio {
     private Long id; //pk
 
     @ManyToOne
-    @JoinColumn(name="profile_id")
+    @JoinColumn(name="designer_id")
     private User designerId; //fk
     
     @Column(name = "image")

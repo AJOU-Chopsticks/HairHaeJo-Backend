@@ -1,6 +1,5 @@
-package Chopsticks.HairHaeJoBackend.repository;
+package Chopsticks.HairHaeJoBackend.entity.portfolio;
 
-import Chopsticks.HairHaeJoBackend.entity.designer.Portfolio;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
