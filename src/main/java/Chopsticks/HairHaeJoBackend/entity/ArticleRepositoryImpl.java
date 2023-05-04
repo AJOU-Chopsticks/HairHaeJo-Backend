@@ -28,9 +28,9 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         QUser User= QUser.user;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         booleanBuilder.and(Article.abstractLocation.contains(region));
-        if(category!=null) booleanBuilder.and(Article.category.contains(category));
-        if(gender!=null) booleanBuilder.and(Article.gender.contains(gender));
-        if(tag!=null) booleanBuilder.and(Article.tag.contains(tag));
+        if(!category.equals("all")) booleanBuilder.and(Article.category.contains(category));
+        if(!gender.equals("all")) booleanBuilder.and(Article.gender.contains(gender));
+        if(!tag.equals("all")) booleanBuilder.and(Article.tag.contains(tag));
 
        return queryFactory.select(Projections.fields(ArticlelistResponseDto.class,User.name.as("userName"),Article.title.as("articleTitle"),Article.Id.as("articleId"),Article.abstractLocation.as("region"),Article.category,Article.gender,Article.tag,User.profileImage)).from(Article).innerJoin(Article.user,User).where(booleanBuilder).fetch();
     }
