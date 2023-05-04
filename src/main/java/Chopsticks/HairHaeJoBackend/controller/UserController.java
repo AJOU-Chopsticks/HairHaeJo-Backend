@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
+import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
@@ -141,6 +142,17 @@ public class UserController {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("비밀번호 초기화 및 이메일 발송 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //사용자 신고
+    @PostMapping("/report")
+    public ResponseEntity<APIMessages> report(@RequestBody ReportRequestDto requestDto){
+        userService.report(requestDto);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("사용자 신고 완료")
             .build();
         return ResponseEntity.ok(messages);
     }
