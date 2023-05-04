@@ -27,7 +27,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         QArticle Article = QArticle.article;
         QUser User= QUser.user;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        booleanBuilder.and(Article.abstractLocation.contains(region));
+        if(!region.equals("all"))booleanBuilder.and(Article.abstractLocation.contains(region));
         if(!category.equals("all")) booleanBuilder.and(Article.category.contains(category));
         if(!gender.equals("all")) booleanBuilder.and(Article.gender.contains(gender));
         if(!tag.equals("all")) booleanBuilder.and(Article.tag.contains(tag));
