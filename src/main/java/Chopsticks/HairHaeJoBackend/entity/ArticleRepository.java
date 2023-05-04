@@ -31,7 +31,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Arti
     @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto(B.name,A.title,A.Id,A.abstractLocation,A.category,A.gender,A.tag,B.profileImage) FROM Article A JOIN A.user B WHERE A.title like %:title%")
     Collection<ArticlelistResponseDto> findkeyword(@Param("title") String title);
 
-    @Query(value="SELECT new Chopsticks.HairHaeJoBackend.dto.article.ArticleViewDto(A.title,A.body,A.beforeImage,A.afterImage,A.abstractLocation,A.category,A.gender,A.tag,B.name,B.profileImage) FROM Article A JOIN A.user B WHERE A.Id=:articleid")
+    @Query(value="SELECT new Chopsticks.HairHaeJoBackend.dto.article.ArticleViewDto(A.title,A.body,A.beforeImage,A.afterImage,A.abstractLocation,A.category,A.gender,A.tag,B.name,B.profileImage,B.id) FROM Article A JOIN A.user B WHERE A.Id=:articleid")
     ArticleViewDto viewArticle(@Param(value="articleid") int id);
 
 

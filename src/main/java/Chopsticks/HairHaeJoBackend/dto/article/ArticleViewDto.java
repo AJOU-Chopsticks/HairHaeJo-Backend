@@ -22,4 +22,5 @@ public class ArticleViewDto {
     private String tag;
     private String userName;
     private String profileImage;
+    private Long userId;
 }
