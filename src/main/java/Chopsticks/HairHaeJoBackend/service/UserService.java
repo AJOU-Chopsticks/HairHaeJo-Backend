@@ -1,8 +1,12 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
+import Chopsticks.HairHaeJoBackend.entity.report.Report;
+import Chopsticks.HairHaeJoBackend.entity.report.Report.reportType;
+import Chopsticks.HairHaeJoBackend.entity.report.ReportRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.dto.user.AuthResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
@@ -33,6 +37,7 @@ public class UserService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final S3UploadService s3UploadService;
 
+    private final ReportRepository reportRepository;
 
     // 회원가입
     public String signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
@@ -124,6 +129,19 @@ public class UserService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
         userRepository.deleteById(user.getId());
+    }
+
+    //사용자 신고
+    public void report(ReportRequestDto requestDto){
+        User target = userRepository.findById(requestDto.getTargetUserId())
+            .orElseThrow(() -> new RuntimeException("상대방 정보가 없습니다."));
+        Report report = Report.builder()
+            .reportType(requestDto.getReportType())
+            .reporterId(getCurrentUser())
+            .targetId(target)
+            .reportReason(requestDto.getReason())
+            .build();
+        reportRepository.save(report);
     }
 
     private User getCurrentUser() {
