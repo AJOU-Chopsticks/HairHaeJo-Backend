@@ -16,13 +16,8 @@ import javax.persistence.*;
 public class DesignerProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
-    private int profileId; //pk
-
-
     @Column(name="user_id")
-    private Long userId; //fk
+    private Long userId;
 
     @Column(name = "introduction")
     private String introduction;
