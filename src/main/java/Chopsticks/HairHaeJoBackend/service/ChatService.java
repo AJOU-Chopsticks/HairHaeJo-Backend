@@ -114,12 +114,6 @@ public class ChatService {
         User user = getCurrentUser();
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
             .orElseThrow(() -> new RuntimeException("채팅방 정보가 없습니다."));
-        chatMessageRepository.save(ChatMessage.builder()
-            .type(Type.TYPE_INFO)
-            .writerId(user)
-            .chatRoomId(chatRoom)
-            .textMessage(user.getName() + "님이 상담을 종료했습니다.")
-            .build());
         chatRoomRepository.save(chatRoom.updateTimeStamp());
         if (user.getRole() == Role.ROLE_USER) {
             chatRoom.setClientStatus(false);
