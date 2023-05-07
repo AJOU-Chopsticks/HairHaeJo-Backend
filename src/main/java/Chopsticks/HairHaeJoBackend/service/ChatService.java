@@ -138,6 +138,7 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
             .clientId(client)
             .designerId(designer)
+            .clientStatus(true).designerStatus(true)
             .build());
         chatMessageRepository.save(ChatMessage.builder()
             .type(Type.TYPE_INFO)
