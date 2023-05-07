@@ -88,12 +88,14 @@ public class UserService {
     // 계정 정보 변경
     public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto)
         throws IOException {
-        if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
-            throw new RuntimeException("중복된 휴대폰 번호입니다.");
-        }
         User user = getCurrentUser();
+        if (!requestDto.getPhoneNumber().equals(user.getPhoneNumber())){
+            if (userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())) {
+                throw new RuntimeException("중복된 휴대폰 번호입니다.");
+            }
+            user.setPhoneNumber(requestDto.getPhoneNumber());
+        }
         user.setName(requestDto.getName());
-        user.setPhoneNumber(requestDto.getPhoneNumber());
         user.setGender(requestDto.getGender());
         user.setAge(requestDto.getAge());
         if (image != null) {
