@@ -2,6 +2,7 @@ package Chopsticks.HairHaeJoBackend.dto.designer;
 
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +18,11 @@ public class DesignerProfileRequestDto {
     private String hairSalonName;
     private String hairSalonAddress;
     private String hairSalonNumber;
-    private  Long userId;
+    private Long id;
 
-    public DesignerProfile toDesignerProfile() {
+    public DesignerProfile toDesignerProfile(User user) {
         return DesignerProfile.builder()
-            .userId(SecurityUtil.getCurrentMemberId())
+                .user(user)
                 .introduction(introduction)
                 .hairSalonName(hairSalonName)
                 .hairSalonAddress(hairSalonAddress)
