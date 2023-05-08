@@ -5,19 +5,15 @@ import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ArticleIdDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 
-import Chopsticks.HairHaeJoBackend.entity.Article;
-import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ArticleService;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
-import java.util.Collection;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
