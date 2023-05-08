@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.entity.menu;
 
 import Chopsticks.HairHaeJoBackend.dto.menu.MenuListDto;
 import Chopsticks.HairHaeJoBackend.entity.article.Article;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

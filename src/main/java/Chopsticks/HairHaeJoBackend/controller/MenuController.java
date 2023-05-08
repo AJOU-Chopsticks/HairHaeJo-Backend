@@ -23,20 +23,19 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping("")
-    public ResponseEntity<APIMessages> viewMenu(@RequestParam("jsonList") String jsonList) throws IOException
+    public ResponseEntity<APIMessages> viewMenu(@RequestParam("menuId") int menuId) throws IOException
 
     {
 
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        MenuIdDto menuDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("디자이너 메뉴 조회 성공")
-                .data(menuService.viewMenu(menuDto.getMenuId()))
+                .data(menuService.viewMenu(menuId))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
     @GetMapping("/list")
-    public ResponseEntity<APIMessages> viewMenuList(@RequestParam(value = "designerId") String designerId, @RequestParam(value = "reservationday") String nowday) throws IOException
+    public ResponseEntity<APIMessages> viewMenuList(@RequestParam(value = "designerId") String designerId) throws IOException
 
     {
 

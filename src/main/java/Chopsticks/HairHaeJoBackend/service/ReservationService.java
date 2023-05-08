@@ -5,13 +5,18 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @Service
-public class ReservationService {
+@RequiredArgsConstructor
 
+public class ReservationService {
+    @Autowired
     private ReservationRepository reservationRepository;
     private DesignerMenuRepository designerMenuRepository;
     public Collection<PossibleDayResponse> viewReservationDay(long designerId,String day) {
