@@ -181,7 +181,7 @@ public class UserController {
 
     //고객 프로필 조회
     @GetMapping("/profile/{id}")
-    public ResponseEntity<APIMessages> ClientProfileSearchResponseDto(@PathVariable String id) {
+    public ResponseEntity<APIMessages> ClientProfileSearchResponseDto(@PathVariable Long id) {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("조회 성공")

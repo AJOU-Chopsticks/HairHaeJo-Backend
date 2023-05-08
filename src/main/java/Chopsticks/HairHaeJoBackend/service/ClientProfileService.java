@@ -40,9 +40,9 @@ public class ClientProfileService {
 
 
 	//유저 프로필 조회 로직
-	public ClientProfileSearchResponseDto SearchClientProfile(String id) {
+	public ClientProfileSearchResponseDto SearchClientProfile(Long id) {
 
-		ClientProfile clientProfile = clientProfileRepository.findByUser_Email(id);
+		ClientProfile clientProfile = clientProfileRepository.findByUser_Id(id);
 
 
 		return ClientProfileSearchResponseDto.of(clientProfile);
