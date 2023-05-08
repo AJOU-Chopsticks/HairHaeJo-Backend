@@ -5,7 +5,6 @@ import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
 import Chopsticks.HairHaeJoBackend.entity.report.Report;
-import Chopsticks.HairHaeJoBackend.entity.report.Report.reportType;
 import Chopsticks.HairHaeJoBackend.entity.report.ReportRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.dto.user.AuthResponseDto;
@@ -76,6 +75,11 @@ public class UserService {
         cookie.setPath("/"); // 모든 경로에서 쿠키 접근 가능하도록 설정
         response.addCookie(cookie);
 */
+        User user = userRepository.findByEmail(requestDto.getEmail())
+            .orElseThrow(() -> new RuntimeException("계정 정보가 없습니다."));
+        user.setFcmToken(requestDto.getFcmToken());
+        userRepository.save(user);
+
         return jwt;
     }
 
