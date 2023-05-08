@@ -1,8 +1,6 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.article;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import Chopsticks.HairHaeJoBackend.dto.article.ArticleViewDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
@@ -20,7 +18,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Arti
 
     @Query
             ("Select Count(*) from Article A where A.writerId=:writerId And A.state=:state")
-    long thereiswrote(@Param(value="writerId")Long writerid,@Param(value="state")Articlestate state);
+    long thereiswrote(@Param(value="writerId")Long writerid,@Param(value="state") Articlestate state);
 
 
 
