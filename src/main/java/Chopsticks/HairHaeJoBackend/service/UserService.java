@@ -128,6 +128,13 @@ public class UserService {
         licenseRequestRepository.save(licenseRequest);
     }
 
+    // 로그아웃 (FCM token 초기화)
+    public void logout(){
+        User user = getCurrentUser();
+        user.setFcmToken(null);
+        userRepository.save(user);
+    }
+
     // 회원탈퇴
     public void withdrawal(LoginRequestDto requestDto) {
         User user = getCurrentUser();

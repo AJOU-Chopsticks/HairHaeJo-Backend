@@ -149,6 +149,17 @@ public class UserController {
         return ResponseEntity.ok(messages);
     }
 
+    //로그아웃 (FCM token 삭제)
+    @PutMapping("/logout")
+    public ResponseEntity<APIMessages> logout(){
+        userService.logout();
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("FCM token 초기화 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
     //사용자 신고
     @PostMapping("/report")
     public ResponseEntity<APIMessages> report(@RequestBody ReportRequestDto requestDto){
