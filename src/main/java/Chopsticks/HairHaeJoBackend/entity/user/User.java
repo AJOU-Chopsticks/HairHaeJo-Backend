@@ -1,11 +1,8 @@
 package Chopsticks.HairHaeJoBackend.entity.user;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
 
-import Chopsticks.HairHaeJoBackend.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
