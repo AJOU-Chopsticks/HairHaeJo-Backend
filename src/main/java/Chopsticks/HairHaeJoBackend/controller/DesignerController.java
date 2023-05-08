@@ -37,7 +37,7 @@ public class DesignerController {
 
 	//디자이너 프로필 조회
 	@GetMapping("/profile/{designerId}")
-	public ResponseEntity<APIMessages> DesignerProfileSearchResponseDto(@PathVariable String designerId) {
+	public ResponseEntity<APIMessages> DesignerProfileSearchResponseDto(@PathVariable Long designerId) {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("조회 성공")
