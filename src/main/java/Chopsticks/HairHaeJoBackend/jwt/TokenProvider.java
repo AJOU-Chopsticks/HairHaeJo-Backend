@@ -30,7 +30,7 @@ public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
     // 토큰 만료 시간
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30 * 4;
     // JWT 를 만들 때 사용하는 암호화 키값을 사용하기 위해 security에서 불러옴
     private final Key key;
 
