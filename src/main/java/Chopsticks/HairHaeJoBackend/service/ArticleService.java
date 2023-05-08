@@ -9,6 +9,7 @@ import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 @Transactional
 public class ArticleService {
+    @Autowired
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
 
