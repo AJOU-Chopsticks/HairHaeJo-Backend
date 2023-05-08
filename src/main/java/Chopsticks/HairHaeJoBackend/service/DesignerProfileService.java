@@ -43,9 +43,9 @@ public class DesignerProfileService {
 	}
 
 	//디자이너 프로필 조회 로직
-	public DesignerProfileSearchResponseDto SearchDesignerProfile(String id) {
+	public DesignerProfileSearchResponseDto SearchDesignerProfile(Long id) {
 
-		DesignerProfile designerProfile = designerProfileRepository.findByUser_Email(id);
+		DesignerProfile designerProfile = designerProfileRepository.findByUser_Id(id);
 
 		return DesignerProfileSearchResponseDto.of(designerProfile);
 
