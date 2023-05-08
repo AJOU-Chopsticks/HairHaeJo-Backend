@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.dto.user;
 
 import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,12 +23,13 @@ public class ClientProfileRequestDto {
     private  int dyeingHistory;
     private  int decolorizationHistory;
     private  String abstractLocation;
-    private  Long userId;
+    private Long id;
 
 
-    public ClientProfile toClientProfile() {
+
+    public ClientProfile toClientProfile(User user) {
         return ClientProfile.builder()
-            .userId(SecurityUtil.getCurrentMemberId())
+            .user(user)
         .skinType(skinType)
         .hairType(hairType)
         .hairThickness(hairThickness)
