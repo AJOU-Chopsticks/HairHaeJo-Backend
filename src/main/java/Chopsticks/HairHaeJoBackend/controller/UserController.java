@@ -1,7 +1,9 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
+import Chopsticks.HairHaeJoBackend.dto.designer.ChangeDesignerProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.user.ChangeClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -164,6 +167,7 @@ public class UserController {
         return requestDto;
     }
 
+    //고객 프로필 생성
     @PostMapping("/profile")
     public ResponseEntity<APIMessages> defaultClientProfile(@RequestBody ClientProfileRequestDto requestDto)
     {
@@ -175,7 +179,27 @@ public class UserController {
         return ResponseEntity.ok(messages);
     }
 
+    //고객 프로필 조회
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<APIMessages> ClientProfileSearchResponseDto(@PathVariable String id) {
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("조회 성공")
+            .data(clientProfileService.SearchClientProfile(id))
+            .build();
+        return ResponseEntity.ok(messages);
+    }
 
+    //고객 프로필 수정
+    @PutMapping("/profile")
+    public ResponseEntity<APIMessages> changeClientProfile(@RequestBody ChangeClientProfileRequestDto requestDto){
+        clientProfileService.changeClientProfile(requestDto);
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("고객 프로필 변경 성공")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
 
 
 
