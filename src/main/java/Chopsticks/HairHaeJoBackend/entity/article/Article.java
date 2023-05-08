@@ -1,10 +1,9 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.article;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import Chopsticks.HairHaeJoBackend.entity.user.User;
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

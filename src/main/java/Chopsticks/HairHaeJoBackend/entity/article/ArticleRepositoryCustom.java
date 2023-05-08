@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.article;
 
 import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
 
