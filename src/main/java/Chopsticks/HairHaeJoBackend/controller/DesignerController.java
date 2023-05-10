@@ -58,5 +58,14 @@ public class DesignerController {
 		return ResponseEntity.ok(messages);
 	}
 
-
+	// 추천 디자이너
+	@GetMapping("/recommend")
+	public ResponseEntity<APIMessages> recommendDesigner(){
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("추천 디자이너 조회 완료")
+			.data()
+			.build();
+		return ResponseEntity.ok(messages);
+	}
 }
