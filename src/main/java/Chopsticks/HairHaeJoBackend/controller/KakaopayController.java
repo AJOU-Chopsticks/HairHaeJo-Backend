@@ -3,11 +3,20 @@ package Chopsticks.HairHaeJoBackend.controller;
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayApproveResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelResponse;
+import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelrequest;
+import Chopsticks.HairHaeJoBackend.dto.Payment.Kakaopayrequest;
+import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.service.KakaoPayService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/payment")
@@ -20,11 +29,13 @@ public class KakaopayController {
      * 결제요청
      */
     @PostMapping("/ready")
-    public ResponseEntity<APIMessages> readyToKakaoPay(@RequestParam("jsonList") String jsonList) {
+    public ResponseEntity<APIMessages> readyToKakaoPay(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        Kakaopayrequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제 준비 성공")
-                .data(kakaoPayService.kakaoPayReady())
+                .data(kakaoPayService.kakaoPayReady(kakaopayDto))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
@@ -62,9 +73,11 @@ public class KakaopayController {
     }
 
     @PostMapping("/refund")
-    public ResponseEntity refund() {
+    public ResponseEntity refund(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        KakaopayCancelrequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
 
-        KakaopayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel();
+        KakaopayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel(kakaopayDto);
 
         return new ResponseEntity<>(kakaoCancelResponse, HttpStatus.OK);
     }
