@@ -71,7 +71,14 @@ public class DesignerRecommendService {
         List<Long> designerList = new ArrayList<>(count.keySet());
         Collections.sort(designerList, (o1, o2) -> (int) (count.get(o2) - count.get(o1)));
 
-        return designerList;
+        return getTop10(designerList);
+    }
+
+    private List<Long> getTop10(List<Long> list){
+        if (list.size() > 10) {
+            list.subList(10, list.size()).clear();
+        }
+        return list;
     }
 
     private User getCurrentUser() {
