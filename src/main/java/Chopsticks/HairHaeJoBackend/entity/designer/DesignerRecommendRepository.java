@@ -19,7 +19,7 @@ public interface DesignerRecommendRepository extends JpaRepository<DesignerProfi
         + "INNER JOIN (SELECT R.designer_id "
         + "FROM User U "
         + "INNER JOIN Reservation R ON U.user_id = R.client_id "
-        + "WHERE U.gender = :gender AND ABS(U.age - :age) <= 3 AND R.state = 2 AND TIMESTAMPDIFF(MONTH, R.updated_at, NOW()) <= 12) S ON P.user_id = S.designer_id "
+        + "WHERE U.gender = :gender AND ABS(U.age - :age) <= 3 AND R.state = 2 AND TIMESTAMPDIFF(MONTH, R.updated_at, NOW()) <= 3) S ON P.user_id = S.designer_id "
         + "WHERE P.hair_salon_address LIKE %:region%) tb "
         + "GROUP BY designer_id", nativeQuery = true)
     List<Object[]> countReservation(int gender, int age, String region);
@@ -31,7 +31,7 @@ public interface DesignerRecommendRepository extends JpaRepository<DesignerProfi
         + "(SELECT D.designer_id "
         + "FROM User U INNER JOIN Designer_like D "
         + "ON U.user_id=D.client_id "
-        + "WHERE U.gender=:gender AND ABS(U.age-:age)<=3 AND timestampdiff(MONTH, D.created_at, now()) <= 12) L "
+        + "WHERE U.gender=:gender AND ABS(U.age-:age)<=3 AND timestampdiff(MONTH, D.created_at, now()) <= 3) L "
         + "ON P.user_id=L.designer_id "
         + "WHERE P.hair_salon_address LIKE %:region%)tb "
         + "GROUP BY designer_id", nativeQuery = true)
@@ -47,7 +47,7 @@ public interface DesignerRecommendRepository extends JpaRepository<DesignerProfi
         + "(SELECT A.client_id, A.designer_id "
         + "FROM Reservation A INNER JOIN Review B "
         + "ON A.reservation_id=B.reservation_id "
-        + "WHERE B.rating=5 AND timestampdiff(MONTH, B.created_at, now())<=12) R "
+        + "WHERE B.rating=5 AND timestampdiff(MONTH, B.created_at, now())<=3) R "
         + "ON U.user_id=R.client_id "
         + "WHERE U.gender=:gender AND ABS(U.age-:age)<=3) L "
         + "ON P.user_id=L.designer_id "

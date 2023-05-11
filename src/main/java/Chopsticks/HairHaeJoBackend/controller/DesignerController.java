@@ -3,9 +3,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.designer.ChangeDesignerProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.designer.DesignerProfileRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.RecommendResponseDto;
 import Chopsticks.HairHaeJoBackend.service.DesignerProfileService;
-import Chopsticks.HairHaeJoBackend.entity.user.User;
 
 import Chopsticks.HairHaeJoBackend.service.DesignerRecommendService;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +66,7 @@ public class DesignerController {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("추천 디자이너 조회 완료")
-			.data(designerRecommendService.getRecommendDesigners(region))
+			.data(designerRecommendService.getRecommendedDesigners(region))
 			.build();
 		return ResponseEntity.ok(messages);
 	}

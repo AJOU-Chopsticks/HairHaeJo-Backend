@@ -19,9 +19,9 @@ public class DesignerRecommendService {
     private final DesignerRecommendRepository designerRecommendRepository;
     private final UserRepository userRepository;
 
-    public List<RecommendResponseDto> getRecommendDesigners(String region) {
+    public List<RecommendResponseDto> getRecommendedDesigners(String region) {
         User user = getCurrentUser();
-        List<Long> recommendDesignerIdList = getRecommendDesignerIdList(user.getGender(),
+        List<Long> recommendDesignerIdList = getRecommendedDesignerIdList(user.getGender(),
             user.getAge(), region);
         List<RecommendResponseDto> list = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class DesignerRecommendService {
         return list;
     }
 
-    private List<Long> getRecommendDesignerIdList(int gender, int age, String region) {
+    private List<Long> getRecommendedDesignerIdList(int gender, int age, String region) {
         HashMap<Long, Long> count = new HashMap<>();
 
         List<Long> designers = designerRecommendRepository.getDesignersByRegion(region);
@@ -51,7 +51,7 @@ public class DesignerRecommendService {
         for (Object[] obj : reservation) {
             Long id = Long.parseLong(String.valueOf(obj[0]));
             Long cnt = Long.parseLong(String.valueOf(obj[1]));
-            count.put(id, count.get(id) + cnt * 5);
+            count.put(id, count.get(id) + cnt * 3);
         }
 
         List<Object[]> like = designerRecommendRepository.countLike(gender, age, region);
@@ -65,7 +65,7 @@ public class DesignerRecommendService {
         for (Object[] obj : review) {
             Long id = Long.parseLong(String.valueOf(obj[0]));
             Long cnt = Long.parseLong(String.valueOf(obj[1]));
-            count.put(id, count.get(id) + cnt * 10);
+            count.put(id, count.get(id) + cnt * 5);
         }
 
         List<Long> designerList = new ArrayList<>(count.keySet());
