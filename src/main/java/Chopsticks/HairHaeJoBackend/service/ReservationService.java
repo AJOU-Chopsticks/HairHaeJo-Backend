@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
+import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayApproveResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
@@ -18,17 +19,21 @@ import java.util.Collection;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
+    @Autowired
     private DesignerMenuRepository designerMenuRepository;
     public Collection<PossibleDayResponse> viewReservationDay(long designerId,String day) {
         return reservationRepository.PossibleDay(designerId,day);
     }
-    /*
-    public Collection<PossibleDayResponse> reserve(ReserveRequestDto reserveDto) {
 
-        reserveDto.getUserId();
+    public void reserve(KakaopayApproveResponse kakaopayApproveResponse) {
+
+        kakaopayApproveResponse.getItem_code();
+        kakaopayApproveResponse.getItem_name();
+        kakaopayApproveResponse.getPayload();
+
     }
 
-     */
+
 
 
 }
