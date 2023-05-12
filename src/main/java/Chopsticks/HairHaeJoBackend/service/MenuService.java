@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
+@Transactional
 public class MenuService {
 
     private final DesignerMenuRepository designerMenuRepository;

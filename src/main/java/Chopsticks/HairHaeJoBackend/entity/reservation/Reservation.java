@@ -28,13 +28,14 @@ public class Reservation {
     @Column(name="menu_id")
     private int menuId;
     @Column
-    @Enumerated(EnumType.STRING)
-    private ReservationState state;
+    private short state;
 
     @Column(name="start_time")
     private LocalDateTime startTime;
     @Column(name="end_time")
     private LocalDateTime endTime;
+    @Column(name="tid")
+    private String tid;
 
     @CreationTimestamp
     @Column(name = "created_at")
