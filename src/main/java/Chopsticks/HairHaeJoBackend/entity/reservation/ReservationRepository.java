@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
-
+    Reservation findBytid(String tid);
 
     @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse(R.startTime) from Reservation R JOIN R.user U where U.id=:designerId And Date(:nowdate) = Date(R.startTime)",nativeQuery = true)
     Collection<PossibleDayResponse> PossibleDay(@Param("designerId") long designerId,@Param("nowdate")String date);
