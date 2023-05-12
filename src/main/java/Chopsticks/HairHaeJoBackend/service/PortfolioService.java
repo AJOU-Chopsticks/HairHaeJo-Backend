@@ -126,6 +126,9 @@ public class PortfolioService {
     }
 
     private ViewPortfolioResponseDto toViewDto(Portfolio portfolio) {
+        DesignerProfile profile = designerProfileRepository.findById(
+                portfolio.getDesignerId().getId())
+            .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다."));
         ViewPortfolioResponseDto responseDto = ViewPortfolioResponseDto.builder()
             .gender(portfolio.getGender())
             .category(portfolio.getCategory())
@@ -133,6 +136,8 @@ public class PortfolioService {
             .createdAt(portfolio.getCreatedAt())
             .designerImage(portfolio.getDesignerId().getProfileImage())
             .designerName(portfolio.getDesignerId().getName())
+            .hairSalonAddress(profile.getHairSalonAddress())
+            .hairSalonName(profile.getHairSalonName())
             .portfolioId(portfolio.getId())
             .tag(portfolio.getTag())
             .text(portfolio.getText())
