@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class KakaopayController {
     @PostMapping("/ready")
     public ResponseEntity<APIMessages> readyToKakaoPay(@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        Kakaopayrequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        Kakaopayrequest kakaopayDto = objectMapper.registerModule(new JavaTimeModule()).readValue(jsonList, new TypeReference<>() {});
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제 준비 성공")
@@ -45,6 +46,7 @@ public class KakaopayController {
      */
     @GetMapping("/cancel")
     public ResponseEntity<APIMessages> cancel() {
+        kakaoPayService. deletereserve();
 
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제 진행중 취소하였습니다")
@@ -57,7 +59,7 @@ public class KakaopayController {
      */
     @GetMapping("/fail")
     public ResponseEntity<APIMessages> fail() {
-
+        kakaoPayService. deletereserve();
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제 준비를 실패하였습니다")
                 .build();
@@ -65,21 +67,29 @@ public class KakaopayController {
     }
 
     @GetMapping("/success")
-    public ResponseEntity afterPayRequest(@RequestParam("pg_token") String pgToken) {
+    public ResponseEntity<APIMessages> afterPayRequest(@RequestParam("pg_token") String pgToken) {
 
         KakaopayApproveResponse kakaoApprove = kakaoPayService. ApproveResponse(pgToken);
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("결제를 성공하였습니다")
+                .data(kakaoApprove)
+                .build();
 
-        return new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
+        return ResponseEntity.ok(apiMessages);
     }
 
     @PostMapping("/refund")
-    public ResponseEntity refund(@RequestParam("jsonList") String jsonList) throws IOException {
+    public ResponseEntity<APIMessages> refund(@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         KakaopayCancelrequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
 
         KakaopayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel(kakaopayDto);
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("결제를 성공하였습니다")
+                .data(kakaoCancelResponse)
+                .build();
 
-        return new ResponseEntity<>(kakaoCancelResponse, HttpStatus.OK);
+        return ResponseEntity.ok(apiMessages);
     }
 
 }

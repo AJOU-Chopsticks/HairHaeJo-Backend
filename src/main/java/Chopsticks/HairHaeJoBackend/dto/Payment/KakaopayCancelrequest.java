@@ -8,5 +8,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class KakaopayCancelrequest {
-    private int order_id;
+    private int reservation_id;
 }
