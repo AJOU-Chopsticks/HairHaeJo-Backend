@@ -58,18 +58,20 @@ public class KakaoPayService {
         parameters.add("quantity", "1");
         parameters.add("total_amount", Integer.toString(designerMenu.getMenuPrice()));
         parameters.add("tax_free_amount",Integer.toString(designerMenu.getMenuPrice()/10));
-
+/*
         parameters.add("approval_url", "http://localhost:8080/payment/success"); // 성공 시 redirect url
         parameters.add("cancel_url", "http://localhost:8080/payment/cancel"); // 취소 시 redirect url
         parameters.add("fail_url", "http://localhost:8080/payment/fail"); // 실패 시 redirect url
-        /*
+
+
+ */
         //https://hairhaejo.site/
         parameters.add("approval_url", "https://hairhaejo.site/payment/success"); // 성공 시 redirect url
         parameters.add("cancel_url", "http://hairhaejo.site/payment/cancel"); // 취소 시 redirect url
         parameters.add("fail_url", "http://hairhaejo.site/payment/fail"); // 실패 시 redirect url
 
         // 파라미터, 헤더
-         */
+
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
 
         // 외부에 보낼 url
