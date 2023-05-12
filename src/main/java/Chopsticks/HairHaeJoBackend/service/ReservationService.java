@@ -25,13 +25,7 @@ public class ReservationService {
         return reservationRepository.PossibleDay(designerId,day);
     }
 
-    public void reserve(KakaopayApproveResponse kakaopayApproveResponse) {
 
-        kakaopayApproveResponse.getItem_code();
-        kakaopayApproveResponse.getItem_name();
-        kakaopayApproveResponse.getPayload();
-
-    }
 
 
 
