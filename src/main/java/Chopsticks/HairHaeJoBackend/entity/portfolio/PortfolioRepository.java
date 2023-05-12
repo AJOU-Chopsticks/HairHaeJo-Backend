@@ -13,7 +13,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     List<Portfolio> findByCategoryAndTagAndGender(String category, String tag, int gender);
 
     default List<Portfolio> findByStyle(String category, String tag, int gender) {
-        if ("all".equals(category) && "all".equals(tag) && "all".equals(gender)) {
+        if ("all".equals(category) && "all".equals(tag) && gender == 2) {
             return findAll();
         } else if ("all".equals(category) && "all".equals(tag)) {
             return findByGender(gender);
