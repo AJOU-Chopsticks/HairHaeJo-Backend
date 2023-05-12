@@ -67,8 +67,8 @@ public class KakaoPayService {
  */
         //https://hairhaejo.site/
         parameters.add("approval_url", "https://hairhaejo.site/payment/success"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://hairhaejo.site/payment/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://hairhaejo.site/payment/fail"); // 실패 시 redirect url
+        parameters.add("cancel_url", "https://hairhaejo.site/payment/cancel"); // 취소 시 redirect url
+        parameters.add("fail_url", "https://hairhaejo.site/payment/fail"); // 실패 시 redirect url
 
         // 파라미터, 헤더
 
