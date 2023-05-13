@@ -198,6 +198,8 @@ public class ChatService {
             .designerName(designer.getName())
             .clientImage(client.getProfileImage())
             .designerImage(designer.getProfileImage())
+            .clientPhoneNumber(client.getPhoneNumber())
+            .designerPhoneNumber(designer.getPhoneNumber())
             .updatedAt(chatRoom.getUpdatedAt())
             .lastMessage(getLastMessage(chatRoom))
             .build();
