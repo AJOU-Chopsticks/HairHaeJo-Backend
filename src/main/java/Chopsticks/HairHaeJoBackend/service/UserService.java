@@ -89,6 +89,13 @@ public class UserService {
         return AuthResponseDto.of(user);
     }
 
+    // Info
+    public AuthResponseDto getInfo(Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+        return AuthResponseDto.of(user);
+    }
+
     // 계정 정보 변경
     public void changeAccountInfo(MultipartFile image, SignupRequestDto requestDto)
         throws IOException {
