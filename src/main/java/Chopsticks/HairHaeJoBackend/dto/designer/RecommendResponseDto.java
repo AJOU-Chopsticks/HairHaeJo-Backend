@@ -12,4 +12,6 @@ public class RecommendResponseDto {
     private Long designerId;
     private String Name;
     private String ProfileImage;
+    private String hairSalonName;
+    private String hairSalonAddress;
 }
