@@ -1,10 +1,12 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.designer.RecommendResponseDto;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerRecommendRepository;
+import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class DesignerRecommendService {
 
     private final DesignerRecommendRepository designerRecommendRepository;
     private final UserRepository userRepository;
+    private final DesignerProfileRepository designerProfileRepository;
 
     public List<RecommendResponseDto> getRecommendedDesigners(String region) {
         User user = getCurrentUser();
@@ -28,9 +31,13 @@ public class DesignerRecommendService {
         for (Long id : recommendDesignerIdList) {
             User designer = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다." ));
+            DesignerProfile designerProfile = designerProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다." ));
             RecommendResponseDto responseDto = RecommendResponseDto.builder()
                 .designerId(designer.getId())
                 .Name(designer.getName())
+                .hairSalonAddress(designerProfile.getHairSalonAddress())
+                .hairSalonName(designerProfile.getHairSalonName())
                 .ProfileImage(designer.getProfileImage()).build();
             list.add(responseDto);
         }

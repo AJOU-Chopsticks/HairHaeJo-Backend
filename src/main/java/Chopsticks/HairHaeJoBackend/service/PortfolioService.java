@@ -128,7 +128,7 @@ public class PortfolioService {
     private ViewPortfolioResponseDto toViewDto(Portfolio portfolio) {
         DesignerProfile profile = designerProfileRepository.findById(
                 portfolio.getDesignerId().getId())
-            .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다."));
+            .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다."));
         ViewPortfolioResponseDto responseDto = ViewPortfolioResponseDto.builder()
             .gender(portfolio.getGender())
             .category(portfolio.getCategory())
