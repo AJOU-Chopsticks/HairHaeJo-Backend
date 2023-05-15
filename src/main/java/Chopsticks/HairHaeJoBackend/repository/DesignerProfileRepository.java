@@ -14,6 +14,6 @@ DesignerProfile findByUser_Id(Long id);
 
     Boolean existsByUser_Id(Long id);
 
-    DesignerProfile findByUser_Email(String id);
+    DesignerProfile findByUser(User user);
 
 }
