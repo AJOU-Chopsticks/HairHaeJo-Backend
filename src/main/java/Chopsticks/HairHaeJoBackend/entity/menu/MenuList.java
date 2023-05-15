@@ -4,4 +4,6 @@ public interface MenuList {
     int getmenuId();
     String getmenuName();
     int getmenuPrice();
+
+    String getmenuContent();
 }
