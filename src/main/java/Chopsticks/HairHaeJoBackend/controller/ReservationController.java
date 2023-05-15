@@ -28,7 +28,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping("")
-    public ResponseEntity<APIMessages> viewReservation(@RequestParam(value = "designerId") String designerId, @RequestParam(value = "reservationday") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws IOException, ParseException {
+    public ResponseEntity<APIMessages> viewReservation(@RequestParam(value = "designerId") String designerId, @RequestParam(value = "reservationday") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date)  {
 
         LocalDateTime localDateTime1 = date.atStartOfDay();
         LocalDateTime localDateTime2 = date.plusDays(1).atStartOfDay();
@@ -39,22 +39,19 @@ public class ReservationController {
         return ResponseEntity.ok(apiMessages);
     }
 
-     /*
-    @PostMapping("/request")
-    public ResponseEntity<APIMessages> reserve(@RequestParam("jsonList") String jsonList) throws IOException
+
+    @GetMapping("/list")
+    public ResponseEntity<APIMessages> reserve(@RequestParam("clientId") Long clientId) throws IOException
 
     {
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        ReserveRequestDto ReserveDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
-
         APIMessages apiMessages=APIMessages.builder().success(true)
-                .message("예약 가능 시간 데이터")
-                .data(reservationService.reserve(ReserveDto))
+                .message("예약 리스트 확인(고객)")
+                .data(reservationService.viewReservationList(clientId))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
 
-      */
+
 
 
 
