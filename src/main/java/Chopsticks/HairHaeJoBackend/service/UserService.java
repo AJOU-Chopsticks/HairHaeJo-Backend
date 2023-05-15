@@ -2,10 +2,13 @@ package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
 import Chopsticks.HairHaeJoBackend.entity.report.Report;
 import Chopsticks.HairHaeJoBackend.entity.report.ReportRepository;
+import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;
+import Chopsticks.HairHaeJoBackend.entity.user.Role;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.dto.user.AuthResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.user.SignupRequestDto;
@@ -13,7 +16,11 @@ import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.TokenProvider;
 import Chopsticks.HairHaeJoBackend.dto.user.LoginRequestDto;
+import Chopsticks.HairHaeJoBackend.repository.ClientProfileRepository;
+import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
+import com.google.rpc.context.AttributeContext.Auth;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,8 +42,9 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder managerBuilder;
     private final S3UploadService s3UploadService;
-
     private final ReportRepository reportRepository;
+    private final ClientProfileRepository clientProfileRepository;
+    private final DesignerProfileRepository designerProfileRepository;
 
     // 회원가입
     public String signup(MultipartFile image, SignupRequestDto requestDto) throws IOException {
@@ -86,7 +94,19 @@ public class UserService {
     // Auth
     public AuthResponseDto auth() {
         User user = getCurrentUser();
-        return AuthResponseDto.of(user);
+        String location;
+        AuthResponseDto responseDto = AuthResponseDto.of(user);
+        if(user.getRole() == Role.ROLE_USER){
+            ClientProfile profile = clientProfileRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("프로필 정보가 없습니다."));
+            location = profile.getAbstractLocation();
+        } else {
+            DesignerProfile profile = designerProfileRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("프로필 정보가 없습니다."));
+            location = profile.getHairSalonAddress();
+        }
+        responseDto.setLocation(location);
+        return responseDto;
     }
 
     // Info
