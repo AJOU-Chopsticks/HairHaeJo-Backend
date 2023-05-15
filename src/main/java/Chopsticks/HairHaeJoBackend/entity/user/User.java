@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.entity.user;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,5 +47,9 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToOne
+    @JoinColumn(name="user_id",referencedColumnName = "user_id", insertable = false, updatable = false)
+    private DesignerProfile designerProfile;
 
 }
