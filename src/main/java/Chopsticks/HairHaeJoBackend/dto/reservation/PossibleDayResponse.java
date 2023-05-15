@@ -1,9 +1,6 @@
 package Chopsticks.HairHaeJoBackend.dto.reservation;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Setter
 public class PossibleDayResponse {
     LocalDateTime start;
 
