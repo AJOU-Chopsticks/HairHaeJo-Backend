@@ -5,14 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
     Reservation findBytid(String tid);
 
-    @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse(R.startTime) from Reservation R JOIN R.user U where U.id=:designerId And Date(:nowdate) = Date(R.startTime)",nativeQuery = true)
-    Collection<PossibleDayResponse> PossibleDay(@Param("designerId") long designerId,@Param("nowdate")String date);
+    @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse(R.startTime)" +
+            "FROM Reservation R WHERE R.designerId=:id And R.startTime>=:date1 And R.startTime<=:date2")
+    Collection<PossibleDayResponse> PossibleDay(@Param(value="id") long designerId, LocalDateTime date1, LocalDateTime date2);
+
 
 
 }
