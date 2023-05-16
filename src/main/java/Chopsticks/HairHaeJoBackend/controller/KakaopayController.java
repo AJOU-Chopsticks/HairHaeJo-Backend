@@ -21,6 +21,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/payment")
+@CrossOrigin
 @RequiredArgsConstructor
 public class KakaopayController {
 
