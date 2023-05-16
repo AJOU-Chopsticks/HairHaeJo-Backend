@@ -62,11 +62,11 @@ public class KakaoPayService {
         parameters.add("approval_url", "http://localhost:8080/payment/success"); // 성공 시 redirect url
         parameters.add("cancel_url", "http://localhost:8080/payment/cancel"); // 취소 시 redirect url
         parameters.add("fail_url", "http://localhost:8080/payment/fail"); // 실패 시 redirect url
+*/
 
 
- */
         //https://hairhaejo.site/
-        parameters.add("approval_url", "http://54.180.182.1:8080/payment/success"); // 성공 시 redirect url
+        parameters.add("approval_url", "http://localhost:3000/reservation/result"); // 성공 시 redirect url
         parameters.add("cancel_url", "http://54.180.182.1:8080/payment/cancel"); // 취소 시 redirect url
         parameters.add("fail_url", "http://54.180.182.1:8080/payment/fail"); // 실패 시 redirect url
 
@@ -89,13 +89,13 @@ public class KakaoPayService {
     }
 
 
-    public KakaopayApproveResponse ApproveResponse(String pgToken) {
+    public KakaopayApproveResponse ApproveResponse(String pgToken,String tid) {
 
         // 카카오 요청
-        Reservation reservation=reservationRepository.findBytid(kakaoReady.getTid());
+        Reservation reservation=reservationRepository.findBytid(tid);
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
-        parameters.add("tid", kakaoReady.getTid());
+        parameters.add("tid", tid);
         parameters.add("partner_order_id", Integer.toString(reservation.getId()));
         parameters.add("partner_user_id", Long.toString(reservation.getClientId()));
         parameters.add("pg_token", pgToken);

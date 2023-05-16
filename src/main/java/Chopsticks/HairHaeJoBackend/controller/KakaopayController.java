@@ -67,9 +67,9 @@ public class KakaopayController {
     }
 
     @GetMapping("/success")
-    public ResponseEntity<APIMessages> afterPayRequest(@RequestParam("pg_token") String pgToken) {
+    public ResponseEntity<APIMessages> afterPayRequest(@RequestParam("pg_token") String pgToken,@RequestParam("tid") String tid) {
 
-        KakaopayApproveResponse kakaoApprove = kakaoPayService. ApproveResponse(pgToken);
+        KakaopayApproveResponse kakaoApprove = kakaoPayService. ApproveResponse(pgToken,tid);
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제를 성공하였습니다")
                 .data(kakaoApprove)
