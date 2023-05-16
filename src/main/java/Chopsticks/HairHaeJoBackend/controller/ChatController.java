@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
+
 public class ChatController {
 
     private final SimpMessagingTemplate template;
