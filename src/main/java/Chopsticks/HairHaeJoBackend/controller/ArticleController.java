@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/advice")
 public class ArticleController {
 
