@@ -18,6 +18,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/menu")
 public class MenuController {
     private final MenuService menuService;
@@ -55,7 +56,7 @@ public class MenuController {
         MakeMenuDto menuDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
         menuService.setMenu(menuDto);
         APIMessages apiMessages=APIMessages.builder().success(true)
-                .message("게시글 작성 성공")
+                .message("메뉴 추가 성공")
                 .build();
 
 
@@ -70,7 +71,7 @@ public class MenuController {
         ChangeMenuDto menuDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
         menuService.retouchMenu(menuDto);
         APIMessages apiMessages=APIMessages.builder().success(true)
-                .message("게시글 작성 성공")
+                .message("메뉴 수정 성공")
                 .build();
 
 
@@ -85,7 +86,7 @@ public class MenuController {
         MenuIdDto menuDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
         menuService.delete(menuDto.getMenuId());
         APIMessages apiMessages=APIMessages.builder().success(true)
-                .message("게시글 작성 성공")
+                .message("메뉴 삭제 성공")
                 .build();
 
 
