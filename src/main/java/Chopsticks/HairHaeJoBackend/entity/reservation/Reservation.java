@@ -33,7 +33,8 @@ public class Reservation {
     private int menuId;
     @Column
     private short state;
-
+    @Column(name="tid")
+    private String tid;
 
 
 
@@ -43,8 +44,7 @@ public class Reservation {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();
-    @Column(name="tid")
-    private String tid;
+
     @ManyToOne
     @JoinColumn(name="designer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
