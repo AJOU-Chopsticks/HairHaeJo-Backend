@@ -95,6 +95,19 @@ public class ArticleService {
         return articleCollection;
     }
 
+    public Collection<ArticlelistResponseDto> viewMyArticle(long userId) throws IOException {
+        Collection<ArticlelistResponseDto> articleCollection;
+        try {
+            articleCollection = articleRepository.myarticle(userId);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+            String temp = objectMapper.writeValueAsString(articleCollection);
+        }
+        catch(Exception e) {
+            throw new RuntimeException("게시글 조회를 실패했습니다");
+        }
+        return articleCollection;
+    }
+
 
 
 
