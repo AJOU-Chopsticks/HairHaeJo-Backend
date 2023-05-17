@@ -5,6 +5,7 @@ import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ArticleIdDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 
+import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ArticleService;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -108,6 +109,17 @@ public class ArticleController {
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 조회 성공")
                 .data(articleService.view(Integer.parseInt(articleId)))
+                .build();
+        return ResponseEntity.ok(apiMessages);
+    }
+    @GetMapping("/article/my")
+    public ResponseEntity<APIMessages> viewingmyarticle() throws IOException
+
+    {
+
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("자기 게시글 조회")
+                .data(articleService.viewMyArticle(SecurityUtil.getCurrentMemberId()))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
