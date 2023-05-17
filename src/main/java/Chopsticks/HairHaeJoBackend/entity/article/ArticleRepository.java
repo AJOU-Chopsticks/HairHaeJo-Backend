@@ -20,6 +20,11 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Arti
             ("Select Count(*) from Article A where A.writerId=:writerId And A.state=:state")
     long thereiswrote(@Param(value="writerId")Long writerid,@Param(value="state") Articlestate state);
 
+    @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto(B.name,A.title,A.Id,A.abstractLocation,A.category,A.gender,A.tag,B.profileImage)" +
+            " FROM Article A JOIN A.user B " +
+            "WHERE A.writerId=:writerId")
+    Collection<ArticlelistResponseDto>  myarticle(@Param("writerId")long writerId);
+
 
 
 
