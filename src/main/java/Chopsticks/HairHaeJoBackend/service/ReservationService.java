@@ -5,6 +5,7 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
+import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
@@ -53,7 +54,22 @@ public class ReservationService {
     }
 
     public Collection<ReserveListDto> viewReservationListDesigner(long designerId) {
-        return reservationRepository.ViewListDesigner(designerId);
+        return reservationRepository.ViewReservationListDesigner(designerId);
+    }
+
+    public Collection<ReserveListDto> viewFinishedListDesigner(long designerId) {
+        return reservationRepository.ViewFinishListDesigner(designerId);
+    }
+
+    public void finishReservation(int reservationId) {
+        Reservation reservation=reservationRepository.findById(reservationId).get();
+        if(reservation.getState()==1) {
+            if(LocalDateTime.now().isAfter(reservation.getStartTime())) reservation.setState((short)2);
+            else throw new RuntimeException("아직 예약 시간이 되지 않았습니다");
+        }
+        else throw new RuntimeException("이미 완료 혹은 취소된 예약을 선택하셨습니다");
+
+
     }
 
 

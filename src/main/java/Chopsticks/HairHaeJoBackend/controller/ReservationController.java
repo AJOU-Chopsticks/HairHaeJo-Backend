@@ -2,7 +2,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
-import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.Payment.ReservationIdRequest;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ReservationService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -14,13 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,7 +47,7 @@ public class ReservationController {
         return ResponseEntity.ok(apiMessages);
     }
 
-    @GetMapping("/list/designer")
+    @GetMapping("/list/designer/progress")
     public ResponseEntity<APIMessages> designerreserveList() throws IOException
 
     {
@@ -61,6 +56,28 @@ public class ReservationController {
                 .data(reservationService.viewReservationListDesigner(SecurityUtil.getCurrentMemberId()))
                 .build();
         return ResponseEntity.ok(apiMessages);
+    }
+
+    @GetMapping("/list/designer/finished")
+    public ResponseEntity<APIMessages> designerfinishList() throws IOException
+
+    {
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("예약 리스트 확인(디자이너)")
+                .data(reservationService.viewFinishedListDesigner(SecurityUtil.getCurrentMemberId()))
+                .build();
+        return ResponseEntity.ok(apiMessages);
+    }
+    @PutMapping("/finish")
+    public ResponseEntity<APIMessages> reserveFinish(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        ReservationIdRequest reservationDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        reservationService.finishReservation(reservationDto.getReservation_id());
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("시술 완료 반영 완료")
+                .build();
+        return ResponseEntity.ok(apiMessages);
+
     }
 
 
