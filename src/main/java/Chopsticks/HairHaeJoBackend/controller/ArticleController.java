@@ -5,7 +5,6 @@ import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ArticleIdDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 
-import Chopsticks.HairHaeJoBackend.entity.Article;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ArticleService;
 
@@ -13,16 +12,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
-import java.util.Collection;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/advice")
 public class ArticleController {
 
@@ -111,6 +109,17 @@ public class ArticleController {
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("게시글 조회 성공")
                 .data(articleService.view(Integer.parseInt(articleId)))
+                .build();
+        return ResponseEntity.ok(apiMessages);
+    }
+    @GetMapping("/article/my")
+    public ResponseEntity<APIMessages> viewingmyarticle() throws IOException
+
+    {
+
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("자기 게시글 조회")
+                .data(articleService.viewMyArticle(SecurityUtil.getCurrentMemberId()))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }

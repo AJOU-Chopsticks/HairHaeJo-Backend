@@ -4,6 +4,7 @@ import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.service.ChatService;
+import Chopsticks.HairHaeJoBackend.service.FcmService;
 import Chopsticks.HairHaeJoBackend.service.S3UploadService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
+
 public class ChatController {
 
     private final SimpMessagingTemplate template;
@@ -29,7 +31,7 @@ public class ChatController {
 
     //채팅방 조회 or 생성
     @PostMapping("/chat")
-    public ResponseEntity<APIMessages> getChatRoom(@RequestParam Long userId) {
+    public ResponseEntity<APIMessages> getChatRoom(@RequestParam Long userId) throws Exception {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("채팅방 조회 완료")
@@ -75,7 +77,7 @@ public class ChatController {
 
     //메시지 전송
     @MessageMapping("/chat/message")
-    public void message(ChatMessageRequestDto message) {
+    public void message(ChatMessageRequestDto message) throws Exception {
         template.convertAndSend("/sub/chat/" + message.getRoomId(),
             chatService.saveMessage(message));
     }

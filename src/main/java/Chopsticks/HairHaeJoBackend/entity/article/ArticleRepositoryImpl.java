@@ -1,18 +1,16 @@
-package Chopsticks.HairHaeJoBackend.entity;
+package Chopsticks.HairHaeJoBackend.entity.article;
 
 import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
+
 import Chopsticks.HairHaeJoBackend.entity.user.QUser;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.hibernate.criterion.Projection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     @Autowired

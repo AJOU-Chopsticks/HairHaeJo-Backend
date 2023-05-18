@@ -1,6 +1,5 @@
 package Chopsticks.HairHaeJoBackend.dto.article;
 
-import Chopsticks.HairHaeJoBackend.entity.Article;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.*;
 

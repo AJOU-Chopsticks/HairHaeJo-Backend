@@ -13,6 +13,8 @@ public class ViewPortfolioResponseDto {
 	private Long designerId;
 	private String designerName;
 	private String designerImage;
+	private String hairSalonName;
+	private String hairSalonAddress;
 	private String image;
 	private String text;
 	private String category;
