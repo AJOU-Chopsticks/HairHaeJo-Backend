@@ -25,17 +25,19 @@ public class Reservation {
     private long designerId;
     @Column(name="client_id")
     private long clientId;
+
     @Column(name="start_time")
     private LocalDateTime startTime;
     @Column(name="end_time")
     private LocalDateTime endTime;
+
     @Column(name="menu_id")
     private int menuId;
+
     @Column
     private short state;
     @Column(name="tid")
     private String tid;
-
 
 
     @CreationTimestamp
@@ -59,4 +61,7 @@ public class Reservation {
 
 
 
+
+
 }
+
