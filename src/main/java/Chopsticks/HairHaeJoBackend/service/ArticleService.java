@@ -1,28 +1,28 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.article.*;
-import Chopsticks.HairHaeJoBackend.entity.Article;
-import Chopsticks.HairHaeJoBackend.entity.ArticleRepository;
+import Chopsticks.HairHaeJoBackend.entity.article.Article;
+import Chopsticks.HairHaeJoBackend.entity.article.ArticleRepository;
 
-import Chopsticks.HairHaeJoBackend.entity.Articlestate;
+import Chopsticks.HairHaeJoBackend.entity.article.Articlestate;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.management.RuntimeMBeanException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ArticleService {
+    @Autowired
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
 
@@ -86,6 +86,19 @@ public class ArticleService {
         Collection<ArticlelistResponseDto> articleCollection;
         try {
            articleCollection = articleRepository.listfilter(region, category, gender, tag);
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+            String temp = objectMapper.writeValueAsString(articleCollection);
+        }
+        catch(Exception e) {
+            throw new RuntimeException("게시글 조회를 실패했습니다");
+        }
+        return articleCollection;
+    }
+
+    public Collection<ArticlelistResponseDto> viewMyArticle(long userId) throws IOException {
+        Collection<ArticlelistResponseDto> articleCollection;
+        try {
+            articleCollection = articleRepository.myarticle(userId);
             ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
             String temp = objectMapper.writeValueAsString(articleCollection);
         }

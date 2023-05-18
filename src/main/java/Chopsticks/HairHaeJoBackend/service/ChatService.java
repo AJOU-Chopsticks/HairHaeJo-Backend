@@ -30,10 +30,10 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
-    private final ReportRepository reportRepository;
+    private final FcmService fcmService;
 
     //채팅방 생성 or 조회
-    public ChatRoomResponseDto getChatRoom(Long otherId) {
+    public ChatRoomResponseDto getChatRoom(Long otherId) throws Exception {
         User user = getCurrentUser();
         User other = userRepository.findById(otherId)
             .orElseThrow(() -> new RuntimeException("상대방 정보가 없습니다."));
@@ -93,7 +93,7 @@ public class ChatService {
     }
 
     //채팅내역 저장
-    public ChatMessageResponseDto saveMessage(ChatMessageRequestDto messageDto) {
+    public ChatMessageResponseDto saveMessage(ChatMessageRequestDto messageDto) throws Exception {
         User user = userRepository.findById(messageDto.getWriterId())
             .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
         ChatRoom chatRoom = chatRoomRepository.findById(messageDto.getRoomId())
@@ -106,6 +106,17 @@ public class ChatService {
             .textMessage(messageDto.getText())
             .build();
         chatRoomRepository.save(chatRoom.updateTimeStamp());
+
+        String message;
+        if(messageDto.getType()==Type.TYPE_IMAGE){
+            message = "사진";
+        } else message = messageDto.getText();
+        if(user.getRole()==Role.ROLE_USER){
+            sendPushAlarm(chatRoom.getClientId(), chatRoom.getDesignerId(), message);
+        } else {
+            sendPushAlarm(chatRoom.getDesignerId(), chatRoom.getClientId(), message);
+        }
+
         return toChatMessageResponseDto(chatMessageRepository.save(chatMessage));
     }
 
@@ -127,19 +138,27 @@ public class ChatService {
     }
 
     //채팅방 생성
-    private ChatRoom createChatRoom(User client, User designer) {
+    private ChatRoom createChatRoom(User client, User designer) throws Exception {
         User user = getCurrentUser();
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
             .clientId(client)
             .designerId(designer)
             .clientStatus(true).designerStatus(true)
             .build());
+        String message = user.getName() + "님이 상담을 시작했습니다.";
         chatMessageRepository.save(ChatMessage.builder()
             .type(Type.TYPE_INFO)
             .writerId(user)
             .chatRoomId(chatRoom)
-            .textMessage(user.getName() + "님이 상담을 시작했습니다.")
+            .textMessage(message)
             .build());
+
+        if(user.getRole()==Role.ROLE_USER){
+            sendPushAlarm(client, designer, message);
+        } else {
+            sendPushAlarm(designer, client, message);
+        }
+
         return chatRoom;
     }
 
@@ -154,6 +173,12 @@ public class ChatService {
         } else {
             return message.getTextMessage();
         }
+    }
+
+    private void sendPushAlarm(User user, User other, String message) throws Exception {
+        String token = other.getFcmToken();
+        String title = user.getName();
+        fcmService.sendMessageTo(token, title, message);
     }
 
     private User getCurrentUser() {
@@ -173,6 +198,8 @@ public class ChatService {
             .designerName(designer.getName())
             .clientImage(client.getProfileImage())
             .designerImage(designer.getProfileImage())
+            .clientPhoneNumber(client.getPhoneNumber())
+            .designerPhoneNumber(designer.getPhoneNumber())
             .updatedAt(chatRoom.getUpdatedAt())
             .lastMessage(getLastMessage(chatRoom))
             .build();

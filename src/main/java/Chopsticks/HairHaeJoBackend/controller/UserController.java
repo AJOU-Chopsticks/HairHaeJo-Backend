@@ -77,6 +77,17 @@ public class UserController {
         return ResponseEntity.ok(messages);
     }
 
+    //계정 정보 조회
+    @GetMapping("/info")
+    public ResponseEntity<APIMessages> getInfo(@RequestParam Long userId){
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("유저 정보 조회 성공")
+            .data(userService.getInfo(userId))
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
     //계정 정보 변경
     @PutMapping("/account")
     public ResponseEntity<APIMessages> changeAccountInfo(
@@ -145,6 +156,17 @@ public class UserController {
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("비밀번호 초기화 및 이메일 발송 완료")
+            .build();
+        return ResponseEntity.ok(messages);
+    }
+
+    //로그아웃 (FCM token 삭제)
+    @PutMapping("/logout")
+    public ResponseEntity<APIMessages> logout(){
+        userService.logout();
+        APIMessages messages = APIMessages.builder()
+            .success(true)
+            .message("FCM token 초기화 완료")
             .build();
         return ResponseEntity.ok(messages);
     }

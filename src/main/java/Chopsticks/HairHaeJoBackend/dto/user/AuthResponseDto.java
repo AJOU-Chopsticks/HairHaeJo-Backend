@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class AuthResponseDto {
     private String profileImage;
     private int gender;
     private int age;
+    private String location;
 
     public static AuthResponseDto of(User user) {
         return AuthResponseDto.builder()

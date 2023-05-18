@@ -25,16 +25,20 @@ public class Reservation {
     private long designerId;
     @Column(name="client_id")
     private long clientId;
-    @Column(name="menu_id")
-    private int menuId;
+
     @Column(name="start_time")
     private LocalDateTime startTime;
     @Column(name="end_time")
     private LocalDateTime endTime;
+
+    @Column(name="menu_id")
+    private int menuId;
+
     @Column
     private short state;
     @Column(name="tid")
     private String tid;
+
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -47,9 +51,7 @@ public class Reservation {
     @JoinColumn(name="designer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name="client_id",referencedColumnName = "user_id", insertable = false, updatable = false)
-    private User user1;
+
 
 
 
@@ -62,3 +64,4 @@ public class Reservation {
 
 
 }
+
