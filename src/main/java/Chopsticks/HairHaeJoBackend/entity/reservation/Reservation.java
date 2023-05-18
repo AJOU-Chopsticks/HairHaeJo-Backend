@@ -44,10 +44,10 @@ public class Reservation {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();
-
     @ManyToOne
     @JoinColumn(name="designer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
+
 
 
 
