@@ -48,8 +48,8 @@ public class ReservationService {
         return reservationRepository.ViewListClient(clientId);
     }
 
-    public Collection<ReserveListDto> viewReservationListDesigner(long clientId) {
-        return reservationRepository.ViewListDesigner(clientId);
+    public Collection<ReserveListDto> viewReservationListDesigner(long designerId) {
+        return reservationRepository.ViewListDesigner(designerId);
     }
 
 

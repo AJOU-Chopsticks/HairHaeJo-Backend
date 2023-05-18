@@ -23,7 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     Collection<ReserveListDto> ViewListClient(@Param(value="id") long clientId);
 
     @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid) From Reservation R join R.user U join U.designerProfile P WHERE R.designerId=:id")
-    Collection<ReserveListDto> ViewListDesigner(@Param(value="id") long clientId);
+    Collection<ReserveListDto> ViewListDesigner(@Param(value="id") long designerId);
 
 
 
