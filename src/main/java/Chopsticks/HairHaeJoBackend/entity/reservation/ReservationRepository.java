@@ -13,7 +13,6 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
 
-}
 
     Reservation findBytid(String tid);
 
