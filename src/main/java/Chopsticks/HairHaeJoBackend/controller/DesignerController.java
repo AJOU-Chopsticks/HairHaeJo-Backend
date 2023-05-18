@@ -43,6 +43,7 @@ public class DesignerController {
 			.message("조회 성공")
 			.data(designerProfileService.SearchDesignerProfile(designerId))
 			.build();
+
 		return ResponseEntity.ok(messages);
 	}
 

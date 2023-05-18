@@ -62,4 +62,5 @@ public class ClientProfileService {
 		clientProfile.setAbstractLocation(requestDto.getAbstractLocation());
 		clientProfileRepository.save(clientProfile);
 	}
+
 }
