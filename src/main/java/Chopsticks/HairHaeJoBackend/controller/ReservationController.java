@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveRequestDto;
+import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.service.ReservationService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,16 +41,28 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/list")
-    public ResponseEntity<APIMessages> reserve(@RequestParam("clientId") Long clientId) throws IOException
+    @GetMapping("/list/client")
+    public ResponseEntity<APIMessages> clienteReserveList() throws IOException
 
     {
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("예약 리스트 확인(고객)")
-                .data(reservationService.viewReservationList(clientId))
+                .data(reservationService.viewReservationList(SecurityUtil.getCurrentMemberId()))
                 .build();
         return ResponseEntity.ok(apiMessages);
     }
+
+    @GetMapping("/list/designer")
+    public ResponseEntity<APIMessages> designerreserveList() throws IOException
+
+    {
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("예약 리스트 확인(디자이너)")
+                .data(reservationService.viewReservationListDesigner(SecurityUtil.getCurrentMemberId()))
+                .build();
+        return ResponseEntity.ok(apiMessages);
+    }
+
 
 
 
