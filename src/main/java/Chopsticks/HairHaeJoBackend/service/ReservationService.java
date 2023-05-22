@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
+import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
@@ -50,19 +51,24 @@ public class ReservationService {
     }
 
     public Collection<ReserveListDto> viewReservationList(long clientId) {
+        
         return reservationRepository.ViewListClient(clientId);
     }
 
-    public Collection<ReserveListDto> viewReservationListDesigner(long designerId) {
-        return reservationRepository.ViewReservationListDesigner(designerId);
+    public Collection<DesignerReserveListDto> viewReservationListDesigner(long designerId) {
+        return reservationRepository.getDesignerReserveList(designerId,(short)1);
     }
 
-    public Collection<ReserveListDto> viewFinishedListDesigner(long designerId) {
-        return reservationRepository.ViewFinishListDesigner(designerId);
+    public Collection<DesignerReserveListDto> viewFinishedListDesigner(long designerId) {
+        return reservationRepository.getDesignerReserveList(designerId,(short)2);
     }
 
     public void finishReservation(int reservationId) {
-        Reservation reservation=reservationRepository.findById(reservationId).get();
+        Reservation reservation;
+        if(reservationRepository.findById(reservationId).isPresent()) {
+            reservation=reservationRepository.findById(reservationId).get();
+        }
+        else throw new RuntimeException("존재하지 않는 예약입니다");
         if(reservation.getState()==1) {
             if(LocalDateTime.now().isAfter(reservation.getStartTime())) reservation.setState((short)2);
             else throw new RuntimeException("아직 예약 시간이 되지 않았습니다");

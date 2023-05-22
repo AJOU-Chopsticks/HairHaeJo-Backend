@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
+public interface ReservationRepository extends JpaRepository<Reservation, Integer>, ReservationRespositoryCustom {
 
     Reservation findBytid(String tid);
 
@@ -19,14 +19,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<PossibleDayResponse> PossibleDay(@Param(value="id") long designerId, LocalDateTime date1, LocalDateTime date2);
 
 
-    @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid,R.state) From Reservation R join R.user U join U.designerProfile P WHERE R.clientId=:id AND (R.state=1 OR R.state=2)")
+    @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid,R.state,U.id) From Reservation R join R.user U join U.designerProfile P WHERE R.clientId=:id AND (R.state=1 OR R.state=2) ORDER BY R.startTime DESC")
     Collection<ReserveListDto> ViewListClient(@Param(value="id") long clientId);
 
-    @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid,R.state) From Reservation R join R.user U join U.designerProfile P WHERE R.designerId=:id AND R.state=1")
-    Collection<ReserveListDto> ViewReservationListDesigner(@Param(value="id") long designerId);
 
-    @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid,R.state) From Reservation R join R.user U join U.designerProfile P WHERE R.designerId=:id AND R.state=2")
-    Collection<ReserveListDto> ViewFinishListDesigner(@Param(value="id") long designerId);
 
 
 
