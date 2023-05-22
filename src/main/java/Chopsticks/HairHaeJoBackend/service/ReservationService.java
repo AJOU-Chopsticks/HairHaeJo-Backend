@@ -76,6 +76,7 @@ public class ReservationService {
             else throw new RuntimeException("아직 예약 시간이 되지 않았습니다");
         }
         else throw new RuntimeException("이미 완료 혹은 취소된 예약을 선택하셨습니다");
+        reservationRepository.save(reservation);
 
 
     }
