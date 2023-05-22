@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer>, ReservationRespositoryCustom {
 
+
+
     Reservation findBytid(String tid);
 
     @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse(R.startTime,R.endTime)" +
@@ -27,4 +29,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
 
 }
+
 
