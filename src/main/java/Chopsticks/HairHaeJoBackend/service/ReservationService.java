@@ -9,6 +9,7 @@ import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
+import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class ReservationService {
     }
 
     public Collection<ReserveListDto> viewReservationList(long clientId) {
-        
+
         return reservationRepository.ViewListClient(clientId);
     }
 
@@ -69,6 +70,7 @@ public class ReservationService {
             reservation=reservationRepository.findById(reservationId).get();
         }
         else throw new RuntimeException("존재하지 않는 예약입니다");
+        if(reservation.getDesignerId()!= SecurityUtil.getCurrentMemberId()) throw new RuntimeException("예약 대상자가 아닙니다");
         if(reservation.getState()==1) {
             if(LocalDateTime.now().isAfter(reservation.getStartTime())) reservation.setState((short)2);
             else throw new RuntimeException("아직 예약 시간이 되지 않았습니다");

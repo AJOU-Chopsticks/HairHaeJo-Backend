@@ -14,6 +14,7 @@ public class DesignerReserveListDto {
 
     int reservationId;
     LocalDateTime Date;
+    String menuName;
     String userName;
     String tid;
     short state;

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ReserveListDto {
     int reservationId;
     LocalDateTime Date;
+    String menuName;
     String location;
     String userName;
     String tid;
