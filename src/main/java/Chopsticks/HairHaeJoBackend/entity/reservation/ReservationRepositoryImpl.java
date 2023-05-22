@@ -5,6 +5,7 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
 import Chopsticks.HairHaeJoBackend.entity.article.QArticle;
 import Chopsticks.HairHaeJoBackend.entity.designer.QDesignerProfile;
+import Chopsticks.HairHaeJoBackend.entity.menu.QDesignerMenu;
 import Chopsticks.HairHaeJoBackend.entity.user.QUser;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -28,11 +29,27 @@ public class ReservationRepositoryImpl implements ReservationRespositoryCustom {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QReservation Reservation=QReservation.reservation;
         QUser User=QUser.user;
+        QDesignerMenu Menu=QDesignerMenu.designerMenu;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        if(state==1) return queryFactory.select(Projections.fields(DesignerReserveListDto.class,Reservation.id.as("reservationId"),Reservation.startTime.as("Date"),User.name.as("userName"), Reservation.tid.as("tid"), Reservation.state.as("state"), User.id.as("userId"))).from(Reservation).join(User).on(Reservation.clientId.eq(User.id)).where(Reservation.state.eq(state),Reservation.designerId.eq(DesignerId)).orderBy(Reservation.startTime.asc()).fetch();
-        else return queryFactory.select(Projections.fields(DesignerReserveListDto.class,Reservation.id.as("reservationId"),Reservation.startTime.as("Date"),User.name.as("userName"), Reservation.tid.as("tid"), Reservation.state.as("state"), User.id.as("userId"))).from(Reservation).join(User).on(Reservation.clientId.eq(User.id)).where(Reservation.state.eq(state),Reservation.designerId.eq(DesignerId)).orderBy(Reservation.startTime.desc()).fetch();
+        if(state==1) return queryFactory.select(Projections.fields(DesignerReserveListDto.class,Reservation.id.as("reservationId"),Reservation.startTime.as("Date"),Menu.menuName.as("menuName"),User.name.as("userName"), Reservation.tid.as("tid"), Reservation.state.as("state"), User.id.as("userId"))).from(Reservation).join(User).on(Reservation.clientId.eq(User.id)).join(Menu).on(Reservation.menuId.eq(Menu.menuId)).where(Reservation.state.eq(state),Reservation.designerId.eq(DesignerId)).orderBy(Reservation.startTime.asc()).fetch();
+        else return queryFactory.select(Projections.fields(DesignerReserveListDto.class,Reservation.id.as("reservationId"),Reservation.startTime.as("Date"),Menu.menuName.as("menuName"),User.name.as("userName"), Reservation.tid.as("tid"), Reservation.state.as("state"), User.id.as("userId"))).from(Reservation).join(User).on(Reservation.clientId.eq(User.id)).join(Menu).on(Reservation.menuId.eq(Menu.menuId)).where(Reservation.state.eq(state),Reservation.designerId.eq(DesignerId)).orderBy(Reservation.startTime.desc()).fetch();
 
 
     }
+    public Collection<ReserveListDto> ViewListClient(long clientId) {
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QReservation Reservation=QReservation.reservation;
+        QUser User=QUser.user;
+        QDesignerMenu Menu=QDesignerMenu.designerMenu;
+        QDesignerProfile Profile=QDesignerProfile.designerProfile;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        booleanBuilder.or(Reservation.state.eq((short)1));
+        booleanBuilder.or(Reservation.state.eq((short)2));
+        return queryFactory.select(Projections.fields(ReserveListDto.class,Reservation.id.as("reservationId"),Reservation.startTime.as("Date"),Menu.menuName.as("menuName"),Profile.hairSalonAddress.as("location"),User.name.as("userName"), Reservation.tid.as("tid"), Reservation.state.as("state"), User.id.as("userId")))
+                .from(Reservation).join(User).on(Reservation.designerId.eq(User.id)).join(Menu).on(Reservation.menuId.eq(Menu.menuId)).join(Profile).on(Profile.userId.eq(User.id)).where(booleanBuilder,Reservation.clientId.eq(clientId)).orderBy(Reservation.startTime.desc()).fetch();
+
+    }
+
 
 }
