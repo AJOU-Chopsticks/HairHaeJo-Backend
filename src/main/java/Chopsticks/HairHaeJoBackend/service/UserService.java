@@ -183,10 +183,14 @@ public class UserService {
             .build();
         reportRepository.save(report);
     }
-
+    public String getUserFcmToken(long designerId) {
+        User designer=userRepository.findById(designerId) .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        return designer.getFcmToken();
+    }
     private User getCurrentUser() {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
             .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
         return user;
     }
+
 }

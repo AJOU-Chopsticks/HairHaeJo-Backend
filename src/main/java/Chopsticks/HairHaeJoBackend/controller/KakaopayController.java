@@ -5,7 +5,9 @@ import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayApproveResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.ReservationIdRequest;
 import Chopsticks.HairHaeJoBackend.dto.Payment.Kakaopayrequest;
+import Chopsticks.HairHaeJoBackend.service.FcmService;
 import Chopsticks.HairHaeJoBackend.service.KakaoPayService;
+import Chopsticks.HairHaeJoBackend.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -23,6 +25,8 @@ import java.io.IOException;
 public class KakaopayController {
 
     private final KakaoPayService kakaoPayService;
+    private final FcmService fcmService;
+    private final UserService userService;
 
     /**
      * 결제요청
@@ -65,12 +69,13 @@ public class KakaopayController {
     }
 
     @GetMapping("/success")
-    public ResponseEntity<APIMessages> afterPayRequest(@RequestParam("pg_token") String pgToken,@RequestParam("tid") String tid) {
+    public ResponseEntity<APIMessages> afterPayRequest(@RequestParam("pg_token") String pgToken,@RequestParam("tid") String tid) throws Exception {
 
-        KakaopayApproveResponse kakaoApprove = kakaoPayService. ApproveResponse(pgToken,tid);
+        KakaopayApproveResponse kakaopayApprove = kakaoPayService. ApproveResponse(pgToken,tid);
+        String Fcmtoken=userService.getUserFcmToken(Long.parseLong(kakaopayApprove.getPartner_user_id()));
+        if(Fcmtoken!=null) fcmService.sendMessageTo(Fcmtoken,"새로운 예약이 등록되었습니다","지금 확인하세요");
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제를 성공하였습니다")
-                .data(kakaoApprove)
                 .build();
 
         return ResponseEntity.ok(apiMessages);
