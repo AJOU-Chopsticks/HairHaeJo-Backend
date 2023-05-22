@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReserveListDto {
+public class DesignerReserveListDto {
+
     int reservationId;
     LocalDateTime Date;
-    String location;
     String userName;
     String tid;
     short state;

@@ -7,7 +7,6 @@ import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
-import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationState;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
 import java.util.Optional;
 
 @Service
@@ -120,8 +117,8 @@ public class KakaoPayService {
         reservationRepository.deleteById(reservation.getId());
 
     }
-    public KakaopayCancelResponse kakaoCancel(KakaopayCancelrequest kakaopayCancelrequest) {
-        Optional<Reservation> tempreservation=reservationRepository.findById(kakaopayCancelrequest.getReservation_id());
+    public KakaopayCancelResponse kakaoCancel(ReservationIdRequest reservationIdRequest) {
+        Optional<Reservation> tempreservation=reservationRepository.findById(reservationIdRequest.getReservation_id());
         if(tempreservation.isEmpty()) {
             throw new RuntimeException("존재하지 않는 예약입니다");
         }
