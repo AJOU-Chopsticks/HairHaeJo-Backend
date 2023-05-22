@@ -17,12 +17,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     Reservation findBytid(String tid);
 
     @Query(value = "SELECT distinct new Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse(R.startTime,R.endTime)" +
-            "FROM Reservation R WHERE R.designerId=:id And R.startTime>=:date1 And R.startTime<=:date2 ORDER BY R.startTime ASC")
+            "FROM Reservation R WHERE R.designerId=:id And R.startTime>=:date1 And R.startTime<=:date2 AND  (R.state=1 OR R.state=2 OR R.state=4) ORDER BY R.startTime ASC")
     List<PossibleDayResponse> PossibleDay(@Param(value="id") long designerId, LocalDateTime date1, LocalDateTime date2);
 
 
-    @Query(value="Select distinct new Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto(R.id,R.startTime,P.hairSalonAddress,U.name,R.tid,R.state,U.id) From Reservation R join R.user U join U.designerProfile P WHERE R.clientId=:id AND (R.state=1 OR R.state=2) ORDER BY R.startTime DESC")
-    Collection<ReserveListDto> ViewListClient(@Param(value="id") long clientId);
+
 
 
 

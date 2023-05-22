@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.entity.reservation;
 
 
+import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenu;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
