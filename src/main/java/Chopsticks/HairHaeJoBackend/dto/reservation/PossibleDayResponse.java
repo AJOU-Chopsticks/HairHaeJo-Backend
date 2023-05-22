@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.dto.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.sql.Date;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class PossibleDayResponse {
     LocalDateTime start;
+    LocalDateTime end;
 
 
 }

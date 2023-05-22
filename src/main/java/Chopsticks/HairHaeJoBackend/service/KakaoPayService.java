@@ -7,7 +7,6 @@ import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
-import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationState;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 
@@ -15,14 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
 import java.util.Optional;
 
 @Service
@@ -41,18 +38,15 @@ public class KakaoPayService {
     public KakaopayReadyResponse kakaoPayReady(Kakaopayrequest kakaopayrequest) {
 
 
-        Optional<DesignerMenu> tempdesignerMenu =designerMenuRepository.findById(kakaopayrequest.getMenu_id());
-        if(tempdesignerMenu.isEmpty()) {
-            throw new RuntimeException("존재하지 않는 메뉴입니다");
-        }
-        DesignerMenu designerMenu=tempdesignerMenu.get();
+        DesignerMenu designerMenu =designerMenuRepository.findById(kakaopayrequest.getMenu_id()).orElseThrow(()->new RuntimeException("존재하지 않는 메뉴입니다"));
+
         Reservation reservation=reservationRepository.save(kakaopayrequest.toReservation(SecurityUtil.getCurrentMemberId(),"x",(short)0));
 
         // 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("partner_order_id",Integer.toString(reservation.getId()));
-        parameters.add("partner_user_id", Long.toString(SecurityUtil.getCurrentMemberId()));
+        parameters.add("partner_user_id", Long.toString(reservation.getDesignerId()));
         parameters.add("item_name", designerMenu.getMenuName());
         parameters.add("item_code",Integer.toString(designerMenu.getMenuId()));
         parameters.add("quantity", "1");
@@ -97,7 +91,7 @@ public class KakaoPayService {
         parameters.add("cid", cid);
         parameters.add("tid", tid);
         parameters.add("partner_order_id", Integer.toString(reservation.getId()));
-        parameters.add("partner_user_id", Long.toString(reservation.getClientId()));
+        parameters.add("partner_user_id", Long.toString(reservation.getDesignerId()));
         parameters.add("pg_token", pgToken);
 
         // 파라미터, 헤더
@@ -120,8 +114,8 @@ public class KakaoPayService {
         reservationRepository.deleteById(reservation.getId());
 
     }
-    public KakaopayCancelResponse kakaoCancel(KakaopayCancelrequest kakaopayCancelrequest) {
-        Optional<Reservation> tempreservation=reservationRepository.findById(kakaopayCancelrequest.getReservation_id());
+    public KakaopayCancelResponse kakaoCancel(ReservationIdRequest reservationIdRequest) {
+        Optional<Reservation> tempreservation=reservationRepository.findById(reservationIdRequest.getReservation_id());
         if(tempreservation.isEmpty()) {
             throw new RuntimeException("존재하지 않는 예약입니다");
         }
