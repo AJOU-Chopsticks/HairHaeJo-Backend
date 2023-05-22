@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.entity.reservation;
 
 
+import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenu;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,7 +47,6 @@ public class Reservation {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt=LocalDateTime.now();
-
     @ManyToOne
     @JoinColumn(name="designer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
