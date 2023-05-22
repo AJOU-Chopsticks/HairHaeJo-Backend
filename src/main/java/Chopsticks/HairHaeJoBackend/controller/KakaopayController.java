@@ -3,17 +3,14 @@ package Chopsticks.HairHaeJoBackend.controller;
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayApproveResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelResponse;
-import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelrequest;
+import Chopsticks.HairHaeJoBackend.dto.Payment.ReservationIdRequest;
 import Chopsticks.HairHaeJoBackend.dto.Payment.Kakaopayrequest;
-import Chopsticks.HairHaeJoBackend.dto.article.ChangeArticleDto;
 import Chopsticks.HairHaeJoBackend.service.KakaoPayService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +79,7 @@ public class KakaopayController {
     @PostMapping("/refund")
     public ResponseEntity<APIMessages> refund(@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-        KakaopayCancelrequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        ReservationIdRequest kakaopayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
 
         KakaopayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel(kakaopayDto);
         APIMessages apiMessages=APIMessages.builder().success(true)

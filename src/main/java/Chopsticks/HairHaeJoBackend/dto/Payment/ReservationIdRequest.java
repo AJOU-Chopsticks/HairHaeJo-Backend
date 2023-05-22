@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class KakaopayCancelrequest {
+public class ReservationIdRequest {
     private int reservation_id;
 }
