@@ -2,6 +2,7 @@ package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.report.ReportRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangePasswordRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.usermemo.UserMemoRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
@@ -192,5 +193,6 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
         return user;
     }
+
 
 }
