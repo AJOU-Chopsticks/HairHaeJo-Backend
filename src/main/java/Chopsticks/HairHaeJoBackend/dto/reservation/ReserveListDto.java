@@ -18,4 +18,5 @@ public class ReserveListDto {
     String userName;
     String tid;
     short state;
+    long userId;
 }
