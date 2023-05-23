@@ -73,7 +73,7 @@ public class KakaopayController {
 
         KakaopayApproveResponse kakaopayApprove = kakaoPayService. ApproveResponse(pgToken,tid);
         String Fcmtoken=userService.getUserFcmToken(Long.parseLong(kakaopayApprove.getPartner_user_id()));
-        if(Fcmtoken!=null) fcmService.sendMessageTo(Fcmtoken,"새로운 예약이 등록되었습니다","지금 확인하세요");
+        fcmService.sendMessageTo(Fcmtoken,"새로운 예약이 등록되었습니다","지금 확인하세요");
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("결제를 성공하였습니다")
                 .build();
