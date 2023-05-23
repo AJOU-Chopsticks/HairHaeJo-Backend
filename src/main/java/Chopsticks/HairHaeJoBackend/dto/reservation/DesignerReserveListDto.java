@@ -19,4 +19,5 @@ public class DesignerReserveListDto {
     String tid;
     short state;
     long userId;
+    int reviewId;
 }

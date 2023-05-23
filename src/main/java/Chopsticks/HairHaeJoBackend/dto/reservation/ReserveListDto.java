@@ -20,4 +20,5 @@ public class ReserveListDto {
     String tid;
     short state;
     long userId;
+    int reviewId;
 }
