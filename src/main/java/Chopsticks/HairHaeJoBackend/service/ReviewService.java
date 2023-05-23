@@ -1,19 +1,15 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
-import Chopsticks.HairHaeJoBackend.dto.designer.DesignerProfileSearchResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.review.DesignerReviewRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.review.ReviewIdRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.review.ReviewRequestDto;
 
 import Chopsticks.HairHaeJoBackend.dto.review.ReviewResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.review.ReviewSearchResponseDto;
-import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileSearchResponseDto;
-import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.review.Review;
-import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
@@ -23,9 +19,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,6 +95,7 @@ public class ReviewService {
 		return ReviewSearchResponseDto.of(detailreview);
 
 	}
+
 
 
 	private ReviewResponseDto toReviewResponseDto(Review review){
