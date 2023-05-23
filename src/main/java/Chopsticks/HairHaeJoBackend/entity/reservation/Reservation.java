@@ -2,6 +2,7 @@ package Chopsticks.HairHaeJoBackend.entity.reservation;
 
 
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenu;
+import Chopsticks.HairHaeJoBackend.entity.review.Review;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,6 +42,7 @@ public class Reservation {
     private String tid;
 
 
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -50,6 +52,7 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name="designer_id",referencedColumnName = "user_id", insertable = false, updatable = false)
     private User user;
+
 
 
 
