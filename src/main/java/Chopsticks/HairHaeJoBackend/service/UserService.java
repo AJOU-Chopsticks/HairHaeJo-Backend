@@ -89,6 +89,8 @@ public class UserService {
         user.setFcmToken(requestDto.getFcmToken());
         userRepository.save(user);
 
+        if(user.isSuspended()) throw new RuntimeException("정지된 사용자입니다.");
+
         return jwt;
     }
 
@@ -150,7 +152,7 @@ public class UserService {
     // 헤어디자이너 등록
     public void licenseRegister(MultipartFile image) throws IOException {
         LicenseRequest licenseRequest = LicenseRequest.builder()
-            .designerId(SecurityUtil.getCurrentMemberId())
+            .designerId(getCurrentUser())
             .image(s3UploadService.upload(image))
             .build();
         licenseRequestRepository.save(licenseRequest);
