@@ -45,7 +45,7 @@ public class AdminController {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("신고 목록 조회 완료")
-			.data()
+			.data(adminService.getReports())
 			.build();
 		return ResponseEntity.ok(messages);
 	}
@@ -61,7 +61,7 @@ public class AdminController {
 	}
 
 	@DeleteMapping("/article")
-	public ResponseEntity<APIMessages> deleteArticle(@RequestParam Long articleId){
+	public ResponseEntity<APIMessages> deleteArticle(@RequestParam int articleId){
 		adminService.deleteArticle(articleId);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
@@ -71,7 +71,7 @@ public class AdminController {
 	}
 
 	@DeleteMapping("/review")
-	public ResponseEntity<APIMessages> deleteReview(@RequestParam Long reviewId){
+	public ResponseEntity<APIMessages> deleteReview(@RequestParam int reviewId){
 		adminService.deleteReview(reviewId);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
