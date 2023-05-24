@@ -9,7 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
@@ -17,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
 @Table(name = "User")
 public class User {
 
@@ -47,6 +50,9 @@ public class User {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "suspended")
+    private boolean suspended;
 
     @OneToOne
     @JoinColumn(name="user_id",referencedColumnName = "user_id", insertable = false, updatable = false)
