@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +77,16 @@ public class AdminController {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("리뷰 삭제 완료")
+			.build();
+		return ResponseEntity.ok(messages);
+	}
+
+	@PutMapping("/user")
+	public ResponseEntity<APIMessages> suspendUser(@RequestParam Long userId){
+		adminService.suspendUser(userId);
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("유저 정지 완료")
 			.build();
 		return ResponseEntity.ok(messages);
 	}
