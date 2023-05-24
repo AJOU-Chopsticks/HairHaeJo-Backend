@@ -5,10 +5,12 @@ import Chopsticks.HairHaeJoBackend.dto.Admin.LicenseApproveRequestDto;
 import Chopsticks.HairHaeJoBackend.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,8 +40,43 @@ public class AdminController {
 		return ResponseEntity.ok(messages);
 	}
 
-	@GetMapping("/report/list")
+	@GetMapping("/report")
 	public ResponseEntity<APIMessages> getReports(){
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("신고 목록 조회 완료")
+			.data()
+			.build();
+		return ResponseEntity.ok(messages);
+	}
 
+	@DeleteMapping("/report")
+	public ResponseEntity<APIMessages> deleteReport(@RequestParam Long reportId){
+		adminService.deleteReport(reportId);
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("신고 삭제 완료")
+			.build();
+		return ResponseEntity.ok(messages);
+	}
+
+	@DeleteMapping("/article")
+	public ResponseEntity<APIMessages> deleteArticle(@RequestParam Long articleId){
+		adminService.deleteArticle(articleId);
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("요청글 삭제 완료")
+			.build();
+		return ResponseEntity.ok(messages);
+	}
+
+	@DeleteMapping("/review")
+	public ResponseEntity<APIMessages> deleteReview(@RequestParam Long reviewId){
+		adminService.deleteReview(reviewId);
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("리뷰 삭제 완료")
+			.build();
+		return ResponseEntity.ok(messages);
 	}
 }
