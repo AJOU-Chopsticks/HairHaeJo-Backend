@@ -99,7 +99,7 @@ public class DesignerController {
 
 	// 관심 헤어디자이너 조회
 	@GetMapping("/like")
-	public ResponseEntity<APIMessages> getDesingerLike() {
+	public ResponseEntity<APIMessages> getDesignerLike() {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("관심 디자이너 조회 완료")
