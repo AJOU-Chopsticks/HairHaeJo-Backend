@@ -9,6 +9,6 @@ import lombok.Setter;
 @Builder
 public class LicenseApproveRequestDto {
 
-	private Long designerId;
+	private Long requestId;
 	private boolean approve;
 }

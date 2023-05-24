@@ -47,12 +47,11 @@ public class AdminService {
 	}
 
 	public void approveDesigner(LicenseApproveRequestDto requestDto){
-		LicenseRequest request = licenseRequestRepository.findById(requestDto.getDesignerId())
+		LicenseRequest request = licenseRequestRepository.findById(requestDto.getRequestId())
 			.orElseThrow(() -> new RuntimeException("요청 정보가 없습니다."));
 		if(requestDto.isApprove()){
 			request.setState(1);
-			User user = userRepository.findById(requestDto.getDesignerId())
-				.orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다."));
+			User user = request.getDesignerId();
 			user.setRole(Role.ROLE_DESIGNER);
 			userRepository.save(user);
 		}
