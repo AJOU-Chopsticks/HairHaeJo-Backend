@@ -149,7 +149,7 @@ public class UserService {
     // 헤어디자이너 등록
     public void licenseRegister(MultipartFile image) throws IOException {
         LicenseRequest licenseRequest = LicenseRequest.builder()
-            .designerId(SecurityUtil.getCurrentMemberId())
+            .designerId(getCurrentUser())
             .image(s3UploadService.upload(image))
             .build();
         licenseRequestRepository.save(licenseRequest);
