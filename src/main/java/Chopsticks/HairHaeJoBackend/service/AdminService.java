@@ -89,4 +89,11 @@ public class AdminService {
 	public void deleteReview(int reviewId){
 		reviewRepository.deleteById(reviewId);
 	}
+
+	public void suspendUser(Long userId){
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+		user.setSuspended(true);
+		userRepository.save(user);
+	}
 }
