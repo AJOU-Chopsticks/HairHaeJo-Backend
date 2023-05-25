@@ -32,7 +32,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/designer/signup")
-	public ResponseEntity<APIMessages> approveDesigner(@RequestBody LicenseApproveRequestDto requestDto){
+	public ResponseEntity<APIMessages> approveDesigner(@RequestBody LicenseApproveRequestDto requestDto)
+		throws Exception {
 		adminService.approveDesigner(requestDto);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
