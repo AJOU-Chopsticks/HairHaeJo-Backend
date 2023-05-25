@@ -5,7 +5,6 @@ on:
     branches:
       - master
 
-# 본인이 설정한 값을 여기서 채워넣습니다.
 # 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
@@ -33,7 +32,24 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '11'
-
+    
+    # (3) Repository Secrets 세팅 (properties, keys)
+    - uses: actions/checkout@v3
+    - run: mkdir ./src/main/resources
+    - run: mkdir ./src/main/resources/fireBase
+    
+    - run: touch ./src/main/resources/application.properties
+    - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
+    - run: cat ./src/main/resources/application.properties
+    
+    - run: touch ./src/main/resources/application-kakaopay.properties
+    - run: echo "${{ secrets.APPLICATION_KAKAOPAY }}" > ./src/main/resources/application-kakaopay.properties
+    - run: cat ./src/main/resources/application-kakaopay.properties
+    
+    - run: touch ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    - run: echo "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    - run: cat ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
