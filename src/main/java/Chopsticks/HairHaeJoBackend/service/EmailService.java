@@ -103,7 +103,7 @@ public class EmailService {
         msgg += "<br>";
         msgg += "<p>귀하의 디자이너 가입 요청이 조건을 충족하지 못하여 거절되었습니다. <p>";
         msgg += "<br>";
-        msgg += "<p>이용을 위해 검토 후 다시 요청해주세요. <p>";
+        msgg += "<p>이용을 위해 검토 후 다시 회원가입 해주시길 바랍니다.. <p>";
         msgg += "<br>";
         msgg += "<p>감사합니다. <p>";
         msgg += "<br>";

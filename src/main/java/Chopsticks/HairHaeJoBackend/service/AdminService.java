@@ -56,12 +56,12 @@ public class AdminService {
 			user.setRole(Role.ROLE_DESIGNER);
 			userRepository.save(user);
 			emailService.sendDesignerConfirmMessage(user.getEmail());
+			licenseRequestRepository.save(request);
 		}
 		else {
-			request.setState(2);
 			emailService.sendDesignerDeniedMessage(user.getEmail());
+			userRepository.delete(user);
 		}
-		licenseRequestRepository.save(request);
 	}
 
 	public List<ReportResponseDto> getReports(){
