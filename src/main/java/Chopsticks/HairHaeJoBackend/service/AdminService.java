@@ -68,10 +68,11 @@ public class AdminService {
 				.reportId(report.getId())
 				.reporterId(report.getReporterId().getId())
 				.reporterName(report.getReporterId().getName())
-				.targetId(report.getTargetId().getId())
+				.targetUserId(report.getTargetId().getId())
 				.targetName(report.getTargetId().getName())
 				.reportType(report.getReportType().toString())
 				.reportReason(report.getReportReason())
+				.targetId(report.getObjectId())
 				.build());
 		}
 		return responseDto;
