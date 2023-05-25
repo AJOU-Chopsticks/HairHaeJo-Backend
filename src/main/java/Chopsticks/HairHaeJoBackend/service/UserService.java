@@ -183,6 +183,7 @@ public class UserService {
             .reporterId(getCurrentUser())
             .targetId(target)
             .reportReason(requestDto.getReason())
+            .objectId(requestDto.getTargetId())
             .build();
         reportRepository.save(report);
     }
