@@ -12,8 +12,9 @@ public class ReportResponseDto {
     private Long reportId;
     private Long reporterId;
     private String reporterName;
-    private Long targetId;
+    private Long targetUserId;
     private String targetName;
     private String reportType;
     private String reportReason;
+    private Long targetId;
 }

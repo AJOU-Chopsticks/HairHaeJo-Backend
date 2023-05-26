@@ -48,6 +48,9 @@ public class Report {
 	@Column(name = "report_reason")
 	private String reportReason;
 
+	@Column(name = "report_object_id")
+	private Long objectId;
+
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt = LocalDateTime.now();

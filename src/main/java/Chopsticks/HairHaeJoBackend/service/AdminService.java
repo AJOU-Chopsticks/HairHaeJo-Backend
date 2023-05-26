@@ -31,6 +31,7 @@ public class AdminService {
 	private final ReportRepository reportRepository;
 	private final ArticleRepository articleRepository;
 	private final ReviewRepository reviewRepository;
+	private final EmailService emailService;
 
 	public List<LicenseResponseDto> getLicenseRequests(){
 		List<LicenseRequest> requests = licenseRequestRepository.findByState(0);
@@ -46,17 +47,21 @@ public class AdminService {
 		return responseDto;
 	}
 
-	public void approveDesigner(LicenseApproveRequestDto requestDto){
+	public void approveDesigner(LicenseApproveRequestDto requestDto) throws Exception {
 		LicenseRequest request = licenseRequestRepository.findById(requestDto.getRequestId())
 			.orElseThrow(() -> new RuntimeException("요청 정보가 없습니다."));
+		User user = request.getDesignerId();
 		if(requestDto.isApprove()){
 			request.setState(1);
-			User user = request.getDesignerId();
 			user.setRole(Role.ROLE_DESIGNER);
 			userRepository.save(user);
+			emailService.sendDesignerConfirmMessage(user.getEmail());
+			licenseRequestRepository.save(request);
 		}
-		else request.setState(2);
-		licenseRequestRepository.save(request);
+		else {
+			emailService.sendDesignerDeniedMessage(user.getEmail());
+			userRepository.delete(user);
+		}
 	}
 
 	public List<ReportResponseDto> getReports(){
@@ -68,10 +73,11 @@ public class AdminService {
 				.reportId(report.getId())
 				.reporterId(report.getReporterId().getId())
 				.reporterName(report.getReporterId().getName())
-				.targetId(report.getTargetId().getId())
+				.targetUserId(report.getTargetId().getId())
 				.targetName(report.getTargetId().getName())
 				.reportType(report.getReportType().toString())
 				.reportReason(report.getReportReason())
+				.targetId(report.getObjectId())
 				.build());
 		}
 		return responseDto;
