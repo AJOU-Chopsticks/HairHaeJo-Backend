@@ -47,6 +47,7 @@ public class ReservationService {
         day1=day1.plusHours(11);
         ZoneId zid = ZoneId.of("Asia/Seoul");
         ZonedDateTime nowtime= LocalDateTime.now().atZone(zid);
+
         LocalDateTime tempday=day1.plusHours(8);
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
         if(holiday==null) throw new RuntimeException();
@@ -61,7 +62,9 @@ public class ReservationService {
             return time;
         }
 
+
         while(day1.isBefore(nowtime.toLocalDateTime())) {
+
 
 
             String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
