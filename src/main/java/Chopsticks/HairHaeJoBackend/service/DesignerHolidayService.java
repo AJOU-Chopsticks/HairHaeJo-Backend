@@ -103,7 +103,7 @@ public class DesignerHolidayService {
                 ReturnData.add(new HolidayDto("매월 " + holidayInt % 100 + " 휴일입니다"));
 
             } else {
-                ReturnData.add(new HolidayDto("매월 " + (int) holidayInt / 10 + "째주 " + holidayInt % 10 + "째날 휴일입니다"));
+                ReturnData.add(new HolidayDto("매월 " + holidayInt / 10 + "째주 " + holidayInt % 10 + "째날 휴일입니다"));
             }
         }
         return ReturnData;
