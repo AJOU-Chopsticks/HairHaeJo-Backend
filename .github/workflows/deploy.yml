@@ -40,7 +40,7 @@ jobs:
     - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
     - run: cat ./src/main/resources/application.properties
     - run: touch ./src/main/resources/application-kakaopay.properties
-    - run: echo "${{ secrets.APPLICATION-KAKAOPAY }}" > ./src/main/resources/application-kakaopay.properties
+    - run: echo "${{ secrets.APPLICATION_KAKAOPAY }}" > ./src/main/resources/application-kakaopay.properties
     - run: cat ./src/main/resources/application-kakaopay.properties
     - run: mkdir ./src/main/resources/fireBase
     - run: touch ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
