@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -43,7 +45,9 @@ public class ReservationService {
 
         ArrayList<ImPossibleTimeResponse> time=new ArrayList<>();
         day1=day1.plusHours(11);
-        LocalDateTime nowtime= LocalDateTime.now();
+        ZoneId zid = ZoneId.of("Asia/Seoul");
+        ZonedDateTime nowtime= LocalDateTime.now().atZone(zid);
+
         LocalDateTime tempday=day1.plusHours(8);
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
         if(holiday==null) throw new RuntimeException();
@@ -58,7 +62,9 @@ public class ReservationService {
             return time;
         }
 
-        while(day1.isBefore(nowtime)) {
+
+        while(day1.isBefore(nowtime.toLocalDateTime())) {
+
 
 
             String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
