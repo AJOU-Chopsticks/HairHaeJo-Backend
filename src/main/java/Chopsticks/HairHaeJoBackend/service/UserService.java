@@ -99,7 +99,7 @@ public class UserService {
         User user = getCurrentUser();
         String location;
         AuthResponseDto responseDto = AuthResponseDto.of(user);
-        if(user.getRole() == Role.ROLE_USER){
+        if(user.getRole() == Role.ROLE_USER || user.getRole() == Role.ROLE_ADMIN){
             ClientProfile profile = clientProfileRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("프로필 정보가 없습니다."));
             location = profile.getAbstractLocation();
@@ -183,6 +183,7 @@ public class UserService {
             .reporterId(getCurrentUser())
             .targetId(target)
             .reportReason(requestDto.getReason())
+            .objectId(requestDto.getTargetId())
             .build();
         reportRepository.save(report);
     }

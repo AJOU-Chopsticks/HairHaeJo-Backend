@@ -13,6 +13,7 @@ public class ReportRequestDto {
 	private String type;
 	private Long targetUserId;
 	private String reason;
+	private Long targetId;
 
 	public reportType getReportType(){
 		if(type.equals("CHAT")){
