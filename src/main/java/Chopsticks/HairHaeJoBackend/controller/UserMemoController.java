@@ -5,6 +5,7 @@ import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.usermemo.UserMemoRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.repository.UserMemoRepository;
+import Chopsticks.HairHaeJoBackend.service.ReservationService;
 import Chopsticks.HairHaeJoBackend.service.UserMemoService;
 import Chopsticks.HairHaeJoBackend.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -26,14 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/crm/customer/memo")
+@RequestMapping("/crm/customer")
 public class UserMemoController {
 
 	private final UserMemoService userMemoService;
+	private final ReservationService reservationService;
 
 
 	//메모 등록
-	@PostMapping("/{clientId}")
+	@PostMapping("/memo/{clientId}")
 	public ResponseEntity<APIMessages> addusermemo(@RequestBody UserMemoRequestDto requestDto,
 		@PathVariable long clientId) {
 		userMemoService.addUserMemo(requestDto,clientId);
@@ -44,7 +46,7 @@ public class UserMemoController {
 		return ResponseEntity.ok(messages);
 	}
 	//메모 조회
-	@GetMapping("/{clientId}")
+	@GetMapping("/memo/{clientId}")
 	public ResponseEntity<APIMessages> searchmemo(@PathVariable long clientId) {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
@@ -54,7 +56,7 @@ public class UserMemoController {
 		return ResponseEntity.ok(messages);
 	}
 	//메모 수정
-	@PutMapping("/{clientId}")
+	@PutMapping("/memo/{clientId}")
 	public ResponseEntity<APIMessages> changeusermemo(@RequestBody UserMemoRequestDto requestDto,
 		@PathVariable long clientId) {
 		userMemoService.changeUserMemo(requestDto,clientId);
@@ -65,6 +67,15 @@ public class UserMemoController {
 		return ResponseEntity.ok(messages);
 	}
 
+	@GetMapping("/list")
+	public ResponseEntity<APIMessages> getClients(){
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("고객 리스트 조회 완료")
+			.data(reservationService.getClients())
+			.build();
+		return ResponseEntity.ok(messages);
+	}
 
 
 }

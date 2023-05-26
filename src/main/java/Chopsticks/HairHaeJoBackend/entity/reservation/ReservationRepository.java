@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.entity.reservation;
 
+import Chopsticks.HairHaeJoBackend.dto.reservation.ClientListInterface;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.statistics.DataByAgeInterface;
@@ -117,6 +118,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         + "    AND R.updated_at >= :month \n"
         + "    AND R.updated_at < DATE_ADD(:month, INTERVAL 1 MONTH)", nativeQuery = true)
     DataByRevisitInterface getDataByRevisit(@Param(value = "id") String designerId, @Param(value = "month") String month);
+
+    @Query(value = "select client_id as clientId, count(client_id) as visitCount, ABS(timestampdiff(DAY, now(), max(updated_at))) as recentVisit\n"
+        + "from Reservation\n"
+        + "where designer_id=:id and state=2\n"
+        + "group by client_id\n"
+        + "order by recentVisit ASC;", nativeQuery = true)
+    List<ClientListInterface> getClientList(@Param(value = "id") String designerId);
+
 }
 
 
