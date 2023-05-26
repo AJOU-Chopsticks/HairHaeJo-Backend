@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,14 +56,13 @@ public class UserMemoController {
 			.build();
 		return ResponseEntity.ok(messages);
 	}
-	//메모 수정
-	@PutMapping("/memo/{clientId}")
-	public ResponseEntity<APIMessages> changeusermemo(@RequestBody UserMemoRequestDto requestDto,
-		@PathVariable long clientId) {
-		userMemoService.changeUserMemo(requestDto,clientId);
+	//메모 삭제
+	@DeleteMapping("/memo/{memoId}")
+	public ResponseEntity<APIMessages> deletememo(@PathVariable int memoId) {
+		userMemoService.delete(memoId);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
-			.message("메모 수정완료")
+			.message("메모 삭제완료")
 			.build();
 		return ResponseEntity.ok(messages);
 	}
