@@ -14,6 +14,6 @@ public interface UserMemoRepository extends JpaRepository<UserMemo, Integer> {
 
     Boolean existsByClientId(Long id);
     Boolean existsByDesigner(User uid);
-    UserMemo findByClientIdAndDesigner(Long id, User uid);
+    List<UserMemo> findByClientIdAndDesigner(Long id ,User uid);
 
 }
