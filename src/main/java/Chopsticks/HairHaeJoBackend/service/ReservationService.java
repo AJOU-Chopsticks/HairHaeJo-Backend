@@ -1,10 +1,13 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
+import Chopsticks.HairHaeJoBackend.dto.holiday.HolidayDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
+import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
+import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
@@ -13,9 +16,11 @@ import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,17 +35,42 @@ public class ReservationService {
     private DesignerMenuRepository designerMenuRepository;
     private DesignerProfileRepository designerProfileRepository;
     private UserRepository userRepository;
+    private final DesignerHolidayRepository designerHolidayRepository;
 
     public ArrayList<ImPossibleTimeResponse> viewReservationDay(long designerId, LocalDateTime day1, LocalDateTime day2) {
         List<PossibleDayResponse> list=reservationRepository.PossibleDay(designerId,day1,day2);
         ListIterator<PossibleDayResponse> iterator = list.listIterator();
-        //정방향 출력
+
         ArrayList<ImPossibleTimeResponse> time=new ArrayList<>();
         day1=day1.plusHours(11);
+        LocalDateTime nowtime= LocalDateTime.now();
+        LocalDateTime tempday=day1.plusHours(8);
+        DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
+        if(holiday==null) throw new RuntimeException();
+        if(isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
+            while(day1.isBefore(day2)) {
+
+                String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
+                time.add(new ImPossibleTimeResponse(nowTime));
+                if(day1.isEqual(tempday)) break;
+                day1 = day1.plusMinutes(30);
+            }
+            return time;
+        }
+
+        while(day1.isBefore(nowtime)) {
+
+
+            String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
+            time.add(new ImPossibleTimeResponse(nowTime));
+            if(day1.isEqual(tempday)) break;
+            day1=day1.plusMinutes(30);
+        }
+
         while(iterator.hasNext()) {
             PossibleDayResponse x = iterator.next();
             if(day1.isBefore(x.getStart())) day1=x.getStart();
-            while (!day1.isEqual(x.getEnd())) {
+            while (!day1.isAfter(x.getEnd())) {
                     JsonObject temp = new JsonObject();
                     String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                     time.add(new ImPossibleTimeResponse(nowTime));
@@ -82,7 +112,33 @@ public class ReservationService {
     }
 
 
+    private Boolean isHoliday(String[] nowday,DayOfWeek week,String[] holiday) {
+        ArrayList<HolidayDto> ReturnData=new ArrayList<>();
+        boolean isholiday=false;
+        for (String s : holiday) {
+            int holidayInt = Integer.parseInt(s);
+            if (holidayInt > 100) {
 
+                if (Integer.parseInt(nowday[2])==(holidayInt%100)) isholiday=true;
+
+
+            } else {
+                if(getWeekOfMONTH(nowday)==(holidayInt/10)&&(holidayInt%10)==week.getValue()) isholiday=true;
+
+
+            }
+        }
+        return isholiday;
+
+    }
+    private int getWeekOfMONTH (String[] date) {
+        Calendar calendar = Calendar.getInstance();
+        int year = Integer.parseInt(date[0]);
+        int month = Integer.parseInt(date[1]);
+        int day = Integer.parseInt(date[2]);
+        calendar.set(year, month - 1, day);
+        return calendar.get(Calendar.WEEK_OF_MONTH);
+    }
 
 
 
