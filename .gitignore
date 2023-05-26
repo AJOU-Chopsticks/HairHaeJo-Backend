@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .idea/workspace.xml
+src/main/resources/
 
 ### STS ###
 .apt_generated
