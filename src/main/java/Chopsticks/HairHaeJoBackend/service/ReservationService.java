@@ -2,6 +2,8 @@ package Chopsticks.HairHaeJoBackend.service;
 
 
 import Chopsticks.HairHaeJoBackend.dto.holiday.HolidayDto;
+import Chopsticks.HairHaeJoBackend.dto.reservation.ClientListInterface;
+import Chopsticks.HairHaeJoBackend.dto.reservation.ClientListResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
@@ -11,6 +13,7 @@ import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
@@ -36,7 +39,7 @@ public class ReservationService {
     @Autowired
     private DesignerMenuRepository designerMenuRepository;
     private DesignerProfileRepository designerProfileRepository;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final DesignerHolidayRepository designerHolidayRepository;
 
     public ArrayList<ImPossibleTimeResponse> viewReservationDay(long designerId, LocalDateTime day1, LocalDateTime day2) {
@@ -114,6 +117,30 @@ public class ReservationService {
 
     }
 
+    public List<ClientListResponseDto> getClients(){
+        List<ClientListInterface> clients = reservationRepository.getClientList(
+            String.valueOf(getCurrentUser().getId()));
+        List<ClientListResponseDto> responseDto = new ArrayList<>();
+
+        for(ClientListInterface client : clients){
+            User user = userRepository.findById(Long.valueOf(client.getClientId()))
+                .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));
+            responseDto.add(ClientListResponseDto.builder()
+                .clientId(user.getId())
+                .clientName(user.getName())
+                .profileImage(user.getProfileImage())
+                .recentVisit(client.getRecentVisit() + "일 전")
+                .visitCount(client.getVisitCount())
+                .build());
+        }
+        return responseDto;
+    }
+
+    private User getCurrentUser() {
+        User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
+            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+        return user;
+    }
 
     private Boolean isHoliday(String[] nowday,DayOfWeek week,String[] holiday) {
         ArrayList<HolidayDto> ReturnData=new ArrayList<>();
