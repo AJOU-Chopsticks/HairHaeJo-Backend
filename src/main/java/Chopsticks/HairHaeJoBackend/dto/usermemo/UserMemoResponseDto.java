@@ -15,6 +15,7 @@ import lombok.Setter;
 @Builder
 public class UserMemoResponseDto {
 
+    private int memoId;
     private String memo;
 
     public static UserMemoResponseDto of(UserMemo userMemo){
