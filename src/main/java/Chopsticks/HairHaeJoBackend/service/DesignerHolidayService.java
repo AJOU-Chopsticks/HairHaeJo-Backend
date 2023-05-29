@@ -37,6 +37,8 @@ public class DesignerHolidayService {
                 .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
 
         if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(currentId);
+        if(holiday!=null) throw new RuntimeException("이미 작성된 아이디입니다");
         try {
             designerHolidayRepository.save(holidayDto.toholiday(currentId));
         }
@@ -98,7 +100,6 @@ public class DesignerHolidayService {
     private ArrayList<HolidayDto> getHoliday(String[] holiday) {
         ArrayList<HolidayDto> ReturnData=new ArrayList<>();
         for (String s : holiday) {
-            int holidayInt = Integer.parseInt(s);
             ReturnData.add(new HolidayDto(s));
         }
         return ReturnData;
