@@ -99,12 +99,7 @@ public class DesignerHolidayService {
         ArrayList<HolidayDto> ReturnData=new ArrayList<>();
         for (String s : holiday) {
             int holidayInt = Integer.parseInt(s);
-            if (holidayInt > 100) {
-                ReturnData.add(new HolidayDto("매월 " + holidayInt % 100 + " 휴일입니다"));
-
-            } else {
-                ReturnData.add(new HolidayDto("매월 " + holidayInt / 10 + "째주 " + holidayInt % 10 + "째날 휴일입니다"));
-            }
+            ReturnData.add(new HolidayDto(s));
         }
         return ReturnData;
 
