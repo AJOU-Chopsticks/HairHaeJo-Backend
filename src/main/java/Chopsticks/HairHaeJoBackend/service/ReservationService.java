@@ -52,8 +52,9 @@ public class ReservationService {
 
         LocalDateTime tempday=day1.plusHours(8);
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
+
         if(holiday==null) throw new RuntimeException();
-        if(isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
+        if(!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
             while(day1.isBefore(day2)) {
 
                 String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
