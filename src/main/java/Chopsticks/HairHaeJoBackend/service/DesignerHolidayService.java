@@ -217,7 +217,7 @@ public class DesignerHolidayService {
 
         List<String> newHoliday= new ArrayList<>();
 
-        newHoliday.addAll(holiday);
+        if(!holiday.get(0).equals("")) newHoliday.addAll(holiday);
         for(String add: Addholiday) {
                 boolean redundancy=false;
                 for(String Holiday:holiday) {
