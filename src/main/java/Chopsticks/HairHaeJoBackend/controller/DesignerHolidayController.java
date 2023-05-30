@@ -70,6 +70,18 @@ public class DesignerHolidayController {
         return ResponseEntity.ok(apiMessages);
 
     }
+    @PutMapping("/each")
+    public ResponseEntity<APIMessages> AddHolidayeach(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        HolidayDto holidayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
+        designerHolidayService.addeach(holidayDto);
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("휴일 추가 성공")
+                .build();
+        return ResponseEntity.ok(apiMessages);
+
+    }
 
     @GetMapping("")
     public ResponseEntity<APIMessages> viewHoliday(@RequestParam("DesignerId") long DesignerId) throws IOException {
