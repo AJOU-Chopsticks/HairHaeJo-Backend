@@ -37,6 +37,7 @@ public class FcmService {
 
         Response response = client.newCall(request).execute();
         System.out.println(response.toString());
+        response.close();
     }
 
     private String makeMessage(String token,String title, String body)
