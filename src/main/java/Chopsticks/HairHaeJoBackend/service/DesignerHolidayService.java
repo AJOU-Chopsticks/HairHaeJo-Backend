@@ -39,12 +39,13 @@ public class DesignerHolidayService {
 
         if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(currentId);
-        if(holiday!=null) throw new RuntimeException("이미 작성된 아이디입니다");
-        try {
-            designerHolidayRepository.save(holidayDto.toholiday(currentId));
-        }
-        catch(Exception e) {
-            throw new RuntimeException("휴일 작성을 실패했습니다");
+        if(holiday!=null) addeach(holidayDto);
+        else {
+            try {
+                designerHolidayRepository.save(holidayDto.toholiday(currentId));
+            } catch (Exception e) {
+                throw new RuntimeException("휴일 작성을 실패했습니다");
+            }
         }
 
     }
