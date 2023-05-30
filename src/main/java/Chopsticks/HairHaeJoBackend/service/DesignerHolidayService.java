@@ -1,11 +1,8 @@
 package Chopsticks.HairHaeJoBackend.service;
 
-import Chopsticks.HairHaeJoBackend.dto.article.ArticleIdDto;
-import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
+
 import Chopsticks.HairHaeJoBackend.dto.holiday.HolidayDto;
-import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
-import Chopsticks.HairHaeJoBackend.entity.article.Article;
-import Chopsticks.HairHaeJoBackend.entity.article.Articlestate;
+
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.Role;
@@ -13,14 +10,18 @@ import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,55 @@ public class DesignerHolidayService {
         }
 
     }
+    public void delete() throws IOException {
+
+
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        try {
+
+            DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(currentId);
+            if(holiday==null) throw new RuntimeException();
+            else {
+
+                designerHolidayRepository.delete(holiday);
+            }
+
+        }
+        catch(Exception e) {
+            throw new RuntimeException("휴일 삭제를 실패했습니다");
+        }
+
+    }
+    public void deleteeach(HolidayDto holidayDto) throws IOException {
+
+
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+        DesignerHoliday holiday;
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        try {
+
+            holiday =designerHolidayRepository.findBydesignerId(currentId);
+            if(holiday==null) throw new RuntimeException();
+            String nowHoliday=DeleteHoliday(Arrays.asList(holidayDto.getHoliday().split(",")),Arrays.asList(holiday.getDesignerHoliday().split(",")));
+            holiday.setDesignerHoliday(nowHoliday);
+
+        }
+        catch(Exception e) {
+            throw new RuntimeException("휴일 삭제를 실패했습니다");
+        }
+
+
+
+
+        designerHolidayRepository.save(holiday);
+
+    }
 
     public  ArrayList<HolidayDto>  view(long holidayDto) throws IOException {
 
@@ -85,6 +135,7 @@ public class DesignerHolidayService {
         try {
             holiday =designerHolidayRepository.findBydesignerId(currentId);
             if(holiday==null) throw new RuntimeException();
+
 
 
 
@@ -103,6 +154,30 @@ public class DesignerHolidayService {
             ReturnData.add(new HolidayDto(s));
         }
         return ReturnData;
+
+    }
+
+    private String DeleteHoliday(List<String> deleteholiday,List<String> holiday) {
+
+
+        Iterator<String> it = holiday.iterator();
+        List<String> newHoliday= new ArrayList<>();
+        while (it.hasNext()) {
+            String item = it.next();
+            boolean checkdelete=false;
+            for(String Delete:deleteholiday) {
+                if(item.equals(Delete))  {
+                    checkdelete=true;
+                }
+            }
+            if(!checkdelete)  newHoliday.add(item);
+            System.out.println("check "+item);
+
+        }
+
+
+        String[] returnlist= newHoliday.toArray(new String[0]);
+        return String.join(",", returnlist);
 
     }
 }
