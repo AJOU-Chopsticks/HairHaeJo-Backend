@@ -47,6 +47,29 @@ public class DesignerHolidayController {
         return ResponseEntity.ok(apiMessages);
 
     }
+    @DeleteMapping("")
+    public ResponseEntity<APIMessages> DeleteHoliday() throws IOException {
+
+
+        designerHolidayService.delete();
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("휴일 삭제 성공")
+                .build();
+        return ResponseEntity.ok(apiMessages);
+
+    }
+    @DeleteMapping("/each")
+    public ResponseEntity<APIMessages> DeleteHolidayeach(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        HolidayDto holidayDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
+        designerHolidayService.deleteeach(holidayDto);
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("휴일 삭제 성공")
+                .build();
+        return ResponseEntity.ok(apiMessages);
+
+    }
 
     @GetMapping("")
     public ResponseEntity<APIMessages> viewHoliday(@RequestParam("DesignerId") long DesignerId) throws IOException {
