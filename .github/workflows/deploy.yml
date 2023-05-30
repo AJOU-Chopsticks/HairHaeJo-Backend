@@ -43,9 +43,10 @@ jobs:
     - run: echo "${{ secrets.APPLICATION_KAKAOPAY }}" > ./src/main/resources/application-kakaopay.properties
     - run: cat ./src/main/resources/application-kakaopay.properties
     - run: mkdir ./src/main/resources/fireBase
-    - run: touch ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
-    - run: echo "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
-    - run: cat ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    #- run: touch ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    #- run: echo "${{ secrets.FIREBASE_KEY }}" > ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    #- run: cat ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
+    - run: cp ../hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json ./src/main/resources/fireBase/hairhaejo-91afb-firebase-adminsdk-t5qz0-4a96c1dd39.json
 
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
