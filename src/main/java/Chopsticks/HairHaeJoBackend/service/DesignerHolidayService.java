@@ -109,7 +109,7 @@ public class DesignerHolidayService {
             if(holiday==null) throw new RuntimeException();
             String nowHoliday=DeleteHoliday(Arrays.asList(holidayDto.getHoliday().split(",")),Arrays.asList(holiday.getDesignerHoliday().split(",")));
             holiday.setDesignerHoliday(nowHoliday);
-
+            designerHolidayRepository.save(holiday);
         }
         catch(Exception e) {
             throw new RuntimeException("휴일 삭제를 실패했습니다");
@@ -118,7 +118,36 @@ public class DesignerHolidayService {
 
 
 
-        designerHolidayRepository.save(holiday);
+
+
+    }
+    public void addeach(HolidayDto holidayDto) throws IOException {
+
+
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+        DesignerHoliday holiday;
+
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        try {
+
+            holiday =designerHolidayRepository.findBydesignerId(currentId);
+            if(holiday==null) throw new RuntimeException();
+            String nowHoliday=AddHoliday(Arrays.asList(holidayDto.getHoliday().split(",")),Arrays.asList(holiday.getDesignerHoliday().split(",")));
+            holiday.setDesignerHoliday(nowHoliday);
+            System.out.println(nowHoliday);
+            designerHolidayRepository.save(holiday);
+
+        }
+        catch(Exception e) {
+            throw new RuntimeException("휴일 추가를 실패했습니다");
+        }
+
+
+
+
+
 
     }
 
@@ -171,9 +200,33 @@ public class DesignerHolidayService {
                 }
             }
             if(!checkdelete)  newHoliday.add(item);
-            System.out.println("check "+item);
+
 
         }
+
+
+        String[] returnlist= newHoliday.toArray(new String[0]);
+        return String.join(",", returnlist);
+
+    }
+
+    private String AddHoliday(List<String> Addholiday,List<String> holiday) {
+
+
+
+        List<String> newHoliday= new ArrayList<>();
+
+        newHoliday.addAll(holiday);
+        for(String add: Addholiday) {
+                boolean redundancy=false;
+                for(String Holiday:holiday) {
+                    if(Holiday.equals(add)) redundancy=true;
+                }
+                if(!redundancy) newHoliday.add(add);
+        }
+
+
+
 
 
         String[] returnlist= newHoliday.toArray(new String[0]);
