@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.repository;
+package Chopsticks.HairHaeJoBackend.entity.user_memo;
 
 
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;

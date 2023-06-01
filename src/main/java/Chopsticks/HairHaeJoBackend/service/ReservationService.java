@@ -16,10 +16,9 @@ import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfileRepository;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

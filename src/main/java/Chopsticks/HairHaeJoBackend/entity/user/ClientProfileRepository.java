@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.repository;
+package Chopsticks.HairHaeJoBackend.entity.user;
 
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;

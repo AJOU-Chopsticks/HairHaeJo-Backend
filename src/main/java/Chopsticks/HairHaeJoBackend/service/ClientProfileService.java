@@ -1,16 +1,13 @@
 package Chopsticks.HairHaeJoBackend.service;
 
-import Chopsticks.HairHaeJoBackend.dto.designer.ChangeDesignerProfileRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.designer.DesignerProfileSearchResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ChangeClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileSearchResponseDto;
-import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.ClientProfileRepository;
+import Chopsticks.HairHaeJoBackend.entity.user.ClientProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

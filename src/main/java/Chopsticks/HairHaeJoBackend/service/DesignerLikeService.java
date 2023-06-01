@@ -7,7 +7,7 @@ import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.DesignerProfileRepository;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfileRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

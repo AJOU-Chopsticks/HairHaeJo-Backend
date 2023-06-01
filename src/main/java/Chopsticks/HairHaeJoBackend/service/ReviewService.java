@@ -13,7 +13,7 @@ import Chopsticks.HairHaeJoBackend.entity.review.Review;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.ReviewRepository;
+import Chopsticks.HairHaeJoBackend.entity.review.ReviewRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

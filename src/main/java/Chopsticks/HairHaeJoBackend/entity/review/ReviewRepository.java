@@ -1,4 +1,4 @@
-package Chopsticks.HairHaeJoBackend.repository;
+package Chopsticks.HairHaeJoBackend.entity.review;
 
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.review.Review;

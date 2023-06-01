@@ -3,7 +3,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.review.DesignerReviewRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.review.ReviewRequestDto;
-import Chopsticks.HairHaeJoBackend.repository.ReviewRepository;
+import Chopsticks.HairHaeJoBackend.entity.review.ReviewRepository;
 import Chopsticks.HairHaeJoBackend.service.ReviewService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

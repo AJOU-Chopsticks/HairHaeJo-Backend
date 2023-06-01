@@ -1,23 +1,14 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 
-import Chopsticks.HairHaeJoBackend.dto.review.ReviewResponseDto;
-import Chopsticks.HairHaeJoBackend.dto.user.ChangeClientProfileRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileRequestDto;
-import Chopsticks.HairHaeJoBackend.dto.user.ClientProfileSearchResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.usermemo.UserMemoRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.usermemo.UserMemoResponseDto;
-import Chopsticks.HairHaeJoBackend.entity.portfolio.Portfolio;
-import Chopsticks.HairHaeJoBackend.entity.review.Review;
-import Chopsticks.HairHaeJoBackend.entity.user.ClientProfile;
 import Chopsticks.HairHaeJoBackend.entity.user.Role;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.entity.user_memo.UserMemo;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
-import Chopsticks.HairHaeJoBackend.repository.ClientProfileRepository;
-import Chopsticks.HairHaeJoBackend.repository.UserMemoRepository;
-import java.time.LocalDateTime;
+import Chopsticks.HairHaeJoBackend.entity.user_memo.UserMemoRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
