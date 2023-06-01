@@ -56,7 +56,6 @@ public class ReservationService {
         if(holiday==null) throw new RuntimeException();
         if(!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
             while(day1.isBefore(day2)) {
-
                 String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
                 if(day1.isEqual(tempday)) break;
@@ -64,10 +63,7 @@ public class ReservationService {
             }
             return time;
         }
-
         while(day1.isBefore(nowtime.toLocalDateTime())) {
-
-
             String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
             time.add(new ImPossibleTimeResponse(nowTime));
             if(day1.isEqual(tempday)) break;
@@ -78,11 +74,11 @@ public class ReservationService {
             PossibleDayResponse x = iterator.next();
             if(day1.isBefore(x.getStart())) day1=x.getStart();
             while (!day1.isAfter(x.getEnd())) {
-                    JsonObject temp = new JsonObject();
-                    String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
-                    time.add(new ImPossibleTimeResponse(nowTime));
-                    day1=day1.plusMinutes(30);
-                }
+                JsonObject temp = new JsonObject();
+                String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
+                time.add(new ImPossibleTimeResponse(nowTime));
+                day1=day1.plusMinutes(30);
+            }
         }
 
         return time;
@@ -120,26 +116,26 @@ public class ReservationService {
 
     public List<ClientListResponseDto> getClients(){
         List<ClientListInterface> clients = reservationRepository.getClientList(
-            String.valueOf(getCurrentUser().getId()));
+                String.valueOf(getCurrentUser().getId()));
         List<ClientListResponseDto> responseDto = new ArrayList<>();
 
         for(ClientListInterface client : clients){
             User user = userRepository.findById(Long.valueOf(client.getClientId()))
-                .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));
+                    .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));
             responseDto.add(ClientListResponseDto.builder()
-                .clientId(user.getId())
-                .clientName(user.getName())
-                .profileImage(user.getProfileImage())
-                .recentVisit(client.getRecentVisit() + "일 전")
-                .visitCount(client.getVisitCount())
-                .build());
+                    .clientId(user.getId())
+                    .clientName(user.getName())
+                    .profileImage(user.getProfileImage())
+                    .recentVisit(client.getRecentVisit() + "일 전")
+                    .visitCount(client.getVisitCount())
+                    .build());
         }
         return responseDto;
     }
 
     private User getCurrentUser() {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
-            .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
+                .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
         return user;
     }
 
