@@ -56,7 +56,6 @@ public class ReservationService {
         if(holiday==null) throw new RuntimeException();
         if(!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
             while(day1.isBefore(day2)) {
-
                 String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
                 if(day1.isEqual(tempday)) break;
@@ -64,10 +63,7 @@ public class ReservationService {
             }
             return time;
         }
-
         while(day1.isBefore(nowtime.toLocalDateTime())) {
-
-
             String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
             time.add(new ImPossibleTimeResponse(nowTime));
             if(day1.isEqual(tempday)) break;
