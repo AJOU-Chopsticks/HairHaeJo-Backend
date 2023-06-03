@@ -1,8 +1,12 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.Admin.AdvertisementApproveRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.Admin.AdvertisementRequestsResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.Admin.LicenseApproveRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.Admin.LicenseResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.Admin.ReportResponseDto;
+import Chopsticks.HairHaeJoBackend.entity.advertisement.Advertisement;
+import Chopsticks.HairHaeJoBackend.entity.advertisement.AdvertisementRepository;
 import Chopsticks.HairHaeJoBackend.entity.article.ArticleRepository;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequest;
 import Chopsticks.HairHaeJoBackend.entity.license.LicenseRequestRepository;
@@ -29,6 +33,8 @@ public class AdminService {
 	private final ArticleRepository articleRepository;
 	private final ReviewRepository reviewRepository;
 	private final EmailService emailService;
+	private final AdvertisementRepository advertisementRepository;
+	private final AdvertisementService advertisementService;
 
 	public List<LicenseResponseDto> getLicenseRequests(){
 		List<LicenseRequest> requests = licenseRequestRepository.findByState(0);
@@ -97,5 +103,31 @@ public class AdminService {
 			.orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
 		user.setSuspended(true);
 		userRepository.save(user);
+	}
+
+	public List<AdvertisementRequestsResponseDto> getAdvertisements(){
+		List<Advertisement> advertisements = advertisementRepository.findByState(1);
+		List<AdvertisementRequestsResponseDto> responseDtoList = new ArrayList<>();
+		for(Advertisement ad : advertisements){
+			responseDtoList.add(AdvertisementRequestsResponseDto.builder()
+					.advertiseId(ad.getAdvertiseId())
+					.title(ad.getTitle())
+					.image(ad.getImage())
+					.text(ad.getText())
+					.location(ad.getLocation())
+					.startTime(ad.getStartDate().toString())
+					.endTime(ad.getEndDate().toString())
+				.build());
+		}
+		return responseDtoList;
+	}
+
+	public void approveAdvertisement(AdvertisementApproveRequestDto requestDto){
+		Advertisement advertise = advertisementRepository.findById(requestDto.getAdvertiseId())
+			.orElseThrow(() -> new RuntimeException("존재하지 않는 광고입니다."));
+		if(requestDto.isApprove()) advertise.setState(2);
+		else advertisementService.kakaoCancel(requestDto.getAdvertiseId());
+
+		advertisementRepository.save(advertise);
 	}
 }
