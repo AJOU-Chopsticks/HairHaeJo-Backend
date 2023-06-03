@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
+import Chopsticks.HairHaeJoBackend.dto.Admin.AdvertisementApproveRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.Admin.LicenseApproveRequestDto;
 import Chopsticks.HairHaeJoBackend.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -88,6 +89,26 @@ public class AdminController {
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("유저 정지 완료")
+			.build();
+		return ResponseEntity.ok(messages);
+	}
+
+	@GetMapping("/ad")
+	public ResponseEntity<APIMessages> getAdvertisements(){
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("광고 신청 목록 조회 완료")
+			.data(adminService.getAdvertisements())
+			.build();
+		return ResponseEntity.ok(messages);
+	}
+
+	@PostMapping("/ad")
+	public ResponseEntity<APIMessages> approveAdvertisements(AdvertisementApproveRequestDto requestDto){
+		adminService.approveAdvertisement(requestDto);
+		APIMessages messages = APIMessages.builder()
+			.success(true)
+			.message("광고 승인/거절 완료")
 			.build();
 		return ResponseEntity.ok(messages);
 	}

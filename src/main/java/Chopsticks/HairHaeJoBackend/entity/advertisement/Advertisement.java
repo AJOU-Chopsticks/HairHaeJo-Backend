@@ -14,9 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,8 +46,8 @@ public class Advertisement {
 	@Column(name = "image")
 	private String image;
 
-	@Column(name = "body")
-	private String body;
+	@Column(name = "title")
+	private String title;
 
 	@Column(name = "text")
 	private String text;
