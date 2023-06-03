@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.AdvertisementRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.AdvertisementResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.ChangeAdRequestDto;
+import Chopsticks.HairHaeJoBackend.dto.Advertisement.MyAdvertisementResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayApproveResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayCancelResponse;
 import Chopsticks.HairHaeJoBackend.dto.Payment.KakaopayReadyResponse;
@@ -59,9 +60,9 @@ public class AdvertisementService {
         parameters.add("tax_free_amount",Integer.toString(advertisement.getAdPrice()/10));
 
         //https://hairhaejo.site/
-        parameters.add("approval_url", "https://hairhaejo.site/reservation/result"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://54.180.182.1:8080/payment/cancel"); // 취소 시 redirect url
-        parameters.add("fail_url", "http://54.180.182.1:8080/payment/fail"); // 실패 시 redirect url
+        parameters.add("approval_url", "https://hairhaejo.site/ad/result"); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://54.180.182.1:8080/ad/cancel"); // 취소 시 redirect url
+        parameters.add("fail_url", "http://54.180.182.1:8080/ad/fail"); // 실패 시 redirect url
 
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
@@ -90,7 +91,7 @@ public class AdvertisementService {
         parameters.add("partner_order_id", Long.toString(advertisement.getAdvertiseId()));
         parameters.add("partner_user_id", Long.toString(advertisement.getAdvertiserId().getId()));
         parameters.add("pg_token", pgToken);
-
+        System.out.println("test2");
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
 
@@ -172,6 +173,25 @@ public class AdvertisementService {
                 .text(advertisement.getText())
                 .image(advertisement.getImage())
                 .location(advertisement.getLocation()).build());
+        }
+        return responseDto;
+    }
+
+    public List<MyAdvertisementResponseDto> getMyAdvertisement(){
+        List<Advertisement> advertisements = advertisementRepository.findByAdvertiserId(
+            getCurrentUser());
+        List<MyAdvertisementResponseDto> responseDto = new ArrayList<>();
+        for(Advertisement advertisement: advertisements){
+            responseDto.add(MyAdvertisementResponseDto.builder()
+                .advertiseId(advertisement.getAdvertiseId())
+                .title(advertisement.getTitle())
+                .text(advertisement.getText())
+                .image(advertisement.getImage())
+                .startDate(advertisement.getStartDate().toString())
+                .endDate(advertisement.getEndDate().toString())
+                .state(advertisement.getState())
+                .location(advertisement.getLocation())
+                .build());
         }
         return responseDto;
     }

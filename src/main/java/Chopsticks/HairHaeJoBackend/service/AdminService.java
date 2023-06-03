@@ -106,7 +106,7 @@ public class AdminService {
 	}
 
 	public List<AdvertisementRequestsResponseDto> getAdvertisements(){
-		List<Advertisement> advertisements = advertisementRepository.findByState(0);
+		List<Advertisement> advertisements = advertisementRepository.findByState(1);
 		List<AdvertisementRequestsResponseDto> responseDtoList = new ArrayList<>();
 		for(Advertisement ad : advertisements){
 			responseDtoList.add(AdvertisementRequestsResponseDto.builder()

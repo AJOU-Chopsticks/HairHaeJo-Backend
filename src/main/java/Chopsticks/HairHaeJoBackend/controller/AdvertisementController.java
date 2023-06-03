@@ -77,6 +77,15 @@ public class AdvertisementController {
         return ResponseEntity.ok(apiMessages);
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<APIMessages> getMyAdvertisement(){
+        APIMessages apiMessages=APIMessages.builder().success(true)
+            .message("내 광고 조회 완료")
+            .data(advertisementService.getMyAdvertisement())
+            .build();
+        return ResponseEntity.ok(apiMessages);
+    }
+
     @PutMapping("/change")
     public ResponseEntity<APIMessages> changeAdvertisement(@RequestPart(value = "image", required = false) MultipartFile image, @RequestParam("jsonList") String jsonList)
         throws IOException {

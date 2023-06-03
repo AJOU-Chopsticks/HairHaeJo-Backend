@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.entity.advertisement;
 
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
 
     @Query(value = "select * from Advertisement where state=2 and location=:location and start_date <= :date and end_date >= :date", nativeQuery = true)
     List<Advertisement> findCurrentAdvertisement(@Param(value = "location")String location, @Param(value = "date")String date);
+
+    List<Advertisement> findByAdvertiserId(User user);
 }
