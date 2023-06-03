@@ -115,8 +115,8 @@ public class AdminService {
 					.image(ad.getImage())
 					.text(ad.getText())
 					.location(ad.getLocation())
-					.startTime(ad.getStartDate().toString())
-					.endTime(ad.getEndDate().toString())
+					.startDate(ad.getStartDate().toString())
+					.endDate(ad.getEndDate().toString())
 				.build());
 		}
 		return responseDtoList;

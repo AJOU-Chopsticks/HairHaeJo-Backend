@@ -17,7 +17,7 @@ public class AdvertisementRequestsResponseDto {
     private String title;
     private String image;
     private String text;
-    private String startTime;
-    private String endTime;
+    private String startDate;
+    private String endDate;
     private String location;
 }
