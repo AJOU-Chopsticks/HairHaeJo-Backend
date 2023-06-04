@@ -1,8 +1,11 @@
 package Chopsticks.HairHaeJoBackend.entity.inventory;
 
+import Chopsticks.HairHaeJoBackend.entity.user.User;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,16 +21,25 @@ public class Item {
     private int itemId;
 
     @Column(name = "item_name")
-    private int itemName;
+    private String itemName;
 
-    @Column(name = "item_content")
-    private long itemContent;
+    @Column(name = "item_photo")
+    private String itemPhoto;
 
     @Column(name = "item_category")
-    private int itemCategory;
+    private String itemCategory;
+
+    @Column(name = "item_price")
+    private int itemPrice;
 
     @Column(name = "stock")
-    private long stock;
+    private int stock;
     @Column(name = "warning_stock")
-    private long warning_stock;
+    private int warning_stock;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt=LocalDateTime.now();;
+
+
 }

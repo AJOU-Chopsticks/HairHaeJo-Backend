@@ -27,5 +27,8 @@ public class DesignerInventory {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+    @OneToOne
+    @JoinColumn(name="item_id",referencedColumnName = "item_id", insertable = false, updatable = false)
+    private Item item;
 
 }
