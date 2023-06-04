@@ -1,10 +1,14 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventory;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventoryRepository;
 import Chopsticks.HairHaeJoBackend.entity.inventory.Item;
 import Chopsticks.HairHaeJoBackend.entity.inventory.ItemRepository;
+import Chopsticks.HairHaeJoBackend.entity.user.Role;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
+import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,16 +24,41 @@ public class InventoryService {
     private final DesignerInventoryRepository designerInventoryRepository;
     private final ItemRepository itemRepository;
     private final S3UploadService s3UploadService;
+    private final UserRepository userRepository;
     public void postInventory(MakeInventoryDto makeInventoryDto, MultipartFile image) throws IOException {
+
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
         String Photo=null;
         if(image!=null) Photo=s3UploadService.upload(image);
         try {
             Item item = itemRepository.save(makeInventoryDto.toItem(Photo));
-            designerInventoryRepository.save(DesignerInventory.builder().userId(SecurityUtil.getCurrentMemberId()).itemId(item.getItemId()).build());
+            designerInventoryRepository.save(DesignerInventory.builder().userId(currentId).itemId(item.getItemId()).build());
         }
         catch(Exception e) {
             throw new RuntimeException("인벤토리 작성 실패");
         }
+
+
+    }
+
+    public boolean usestock(UseInventoryDto inventoryDto)  {
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        Item item=itemRepository.findById(inventoryDto.getItemId()).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
+        if((item.getStock()-inventoryDto.getStock())<0) item.setStock(0);
+        else item.setStock(item.getStock()-inventoryDto.getStock());
+        itemRepository.save(item);
+        return item.getStock()<=item.getWarningStock();
+
+
+
+
+
 
     }
 }

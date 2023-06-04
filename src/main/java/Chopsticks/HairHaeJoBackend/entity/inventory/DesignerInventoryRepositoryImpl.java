@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
-public class DesignerInventoryImpl implements DesignerInventoryRepositoryCustom {
+public class DesignerInventoryRepositoryImpl implements DesignerInventoryRepositoryCustom {
     @Autowired
     EntityManager em;
 
 
-    public Collection<Item> viewInventory() {
+    public Collection<Item> listfilter() {
         return null;
     }
 }

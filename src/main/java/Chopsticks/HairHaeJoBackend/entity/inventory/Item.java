@@ -35,7 +35,7 @@ public class Item {
     @Column(name = "stock")
     private int stock;
     @Column(name = "warning_stock")
-    private int warning_stock;
+    private int warningStock;
 
     @UpdateTimestamp
     @Column(name = "updated_at")

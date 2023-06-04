@@ -2,6 +2,7 @@ package Chopsticks.HairHaeJoBackend.controller;
 
 import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.holiday.HolidayDto;
 import Chopsticks.HairHaeJoBackend.service.InventoryService;
@@ -33,6 +34,27 @@ public class InventoryController {
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("인벤토리 작성 성공")
                 .build();
+        return ResponseEntity.ok(apiMessages);
+
+    }
+
+    @PutMapping("/use")
+    public ResponseEntity<APIMessages> PostInventory(@RequestParam("jsonList") String jsonList) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
+        UseInventoryDto InventoryDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+
+        APIMessages apiMessages;
+        if(inventoryService.usestock(InventoryDto)) {
+            apiMessages=APIMessages.builder().success(true)
+                    .message("인벤토리 변경 성공 위험")
+                    .build();
+        }
+        else {
+            apiMessages=APIMessages.builder().success(true)
+                    .message("인벤토리 변경 성공 안전")
+                    .build();
+        }
+
         return ResponseEntity.ok(apiMessages);
 
     }
