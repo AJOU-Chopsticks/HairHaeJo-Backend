@@ -54,3 +54,5 @@ src.main.java.Chopsticks.HairHaeJoBackend
     - 시술 예약을 기능을 위해 Kakao Pay API를 연동하여 결제 기능을 구현하였다.
   - FCM(Firebase Cloud Messaging)
     - 새로운 채팅, 새로운 예약이 발생하였을 때, 사용자에게 푸시 알람을 제공하기 위해 FCM을 사용하였다.
+  - Naver Cloud (Simple & Easy Notification Service)
+    - CRM 기능 중, 재방문 SMS 알림 기능을 구현하기 위해 Naver Cloud의 Simple & Easy Notification Service를 사용하였다.
