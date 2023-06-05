@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +48,7 @@ public class InventoryService {
         long currentId= SecurityUtil.getCurrentMemberId();
         isHairDesigner();
         Item item=itemRepository.findById(inventoryDto.getItemId()).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
-        if((item.getStock()-inventoryDto.getStock())<0) item.setStock(0);
-        else item.setStock(item.getStock()-inventoryDto.getStock());
+        item.setStock(Math.max((item.getStock() - inventoryDto.getStock()), 0));
         itemRepository.save(item);
         return item.getStock()<=item.getWarningStock();
 
@@ -75,6 +75,16 @@ public class InventoryService {
         itemRepository.save(item);
 
         return item.getStock()<=item.getWarningStock();
+
+
+
+    }
+
+    public Collection<ChangeInventoryDto> View(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
+        isHairDesigner();
+
+        return designerInventoryRepository.listfilter(category, name, orderBystock, orderByprice, isWarning,SecurityUtil.getCurrentMemberId());
+
 
 
 

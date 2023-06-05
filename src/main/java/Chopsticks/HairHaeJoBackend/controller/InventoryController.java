@@ -74,5 +74,16 @@ public class InventoryController {
 
     }
 
+    @GetMapping("")
+    public ResponseEntity<APIMessages> ViewInventory(@RequestParam String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
+
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("인벤토리 조회 성공")
+                .data(inventoryService.View(category, name, orderBystock, orderByprice, isWarning))
+                .build();
+        return ResponseEntity.ok(apiMessages);
+
+    }
+
 
 }
