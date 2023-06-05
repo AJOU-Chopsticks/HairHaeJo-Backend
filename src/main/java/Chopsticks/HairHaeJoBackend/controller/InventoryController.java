@@ -43,18 +43,11 @@ public class InventoryController {
     public ResponseEntity<APIMessages> useStock(@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
         UseInventoryDto InventoryDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                    .message("인벤토리 변경 성공")
+                    .data(inventoryService.usestock(InventoryDto))
+                    .build();
 
-        APIMessages apiMessages;
-        if(inventoryService.usestock(InventoryDto)) {
-            apiMessages=APIMessages.builder().success(true)
-                    .message("인벤토리 변경 성공 위험")
-                    .build();
-        }
-        else {
-            apiMessages=APIMessages.builder().success(true)
-                    .message("인벤토리 변경 성공 안전")
-                    .build();
-        }
 
         return ResponseEntity.ok(apiMessages);
 
@@ -64,21 +57,19 @@ public class InventoryController {
     public ResponseEntity<APIMessages> ChangeInventory(@RequestPart(value = "itemImage",required = false) MultipartFile itemImage,@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
             ChangeInventoryDto InventoryDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("인벤토리 변경 성공")
+                .data(inventoryService.Change(itemImage,InventoryDto))
+                .build();
+        return ResponseEntity.ok(apiMessages);
 
-        APIMessages apiMessages;
-
-        if(inventoryService.Change(itemImage,InventoryDto)) {
-            apiMessages=APIMessages.builder().success(true)
-                    .message("인벤토리 변경 성공 위험")
-                    .build();
-        }
-        else {
-            apiMessages=APIMessages.builder().success(true)
-                    .message("인벤토리 변경 성공 안전")
-                    .build();
-        }
-
-
+    }
+    @DeleteMapping("")
+    public ResponseEntity<APIMessages> ChangeInventory(@RequestParam(value = "itemId") int itemId) throws IOException {
+        inventoryService.delete(itemId);
+        APIMessages apiMessages=APIMessages.builder().success(true)
+                .message("인벤토리 삭제 성공")
+                .build();
         return ResponseEntity.ok(apiMessages);
 
     }

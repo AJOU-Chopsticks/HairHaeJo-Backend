@@ -79,6 +79,16 @@ public class InventoryService {
 
 
     }
+
+    public void delete(int itemId)  {
+        long currentId= SecurityUtil.getCurrentMemberId();
+        isHairDesigner();
+        Item item=itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
+        DesignerInventory designerInventory=designerInventoryRepository.findByitemId(itemId);
+        designerInventoryRepository.delete(designerInventory);
+        itemRepository.delete(item);
+
+    }
     private void isHairDesigner() {
         long currentId= SecurityUtil.getCurrentMemberId();
         User user=userRepository.findById(currentId)

@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DesignerInventoryRepository extends JpaRepository<DesignerInventory,Integer>,DesignerInventoryRepositoryCustom {
+    DesignerInventory findByitemId(int itemId);
 }
