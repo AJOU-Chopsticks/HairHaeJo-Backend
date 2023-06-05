@@ -5,6 +5,10 @@ import Chopsticks.HairHaeJoBackend.entity.article.Article;
 import Chopsticks.HairHaeJoBackend.entity.article.ArticleRepository;
 
 import Chopsticks.HairHaeJoBackend.entity.article.Articlestate;
+import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
+import Chopsticks.HairHaeJoBackend.entity.user.Role;
+import Chopsticks.HairHaeJoBackend.entity.user.User;
+import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -25,6 +29,7 @@ public class ArticleService {
     @Autowired
     private final ArticleRepository articleRepository;
     private final S3UploadService s3UploadService;
+    private final UserRepository userRepository;
 
     public ArticleIdDto post(MultipartFile before, MultipartFile after, MakeArticleDto articleDto) throws IOException {
         Article nowarticle;
@@ -129,13 +134,17 @@ public class ArticleService {
     }
 
     public ArticleViewDto view(int articleId) throws IOException {
+
         ArticleViewDto articleview;
         try {
             articleview = articleRepository.viewArticle(articleId);
+
+
         }
         catch(Exception e) {
             throw new RuntimeException("게시글 보기를 실패했습니다");
         }
+        isHairDesigner(articleview);
         if(articleview==null)
             throw new RuntimeException("존재하지 않는 게시글입니다");
 
@@ -153,6 +162,14 @@ public class ArticleService {
         else {
             return s3UploadService.upload(now);
         }
+
+    }
+    private void isHairDesigner(ArticleViewDto articleViewDto) {
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+
+        if(user.getRole() != Role.ROLE_DESIGNER && articleViewDto.getUserId()!=currentId) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
 
     }
 
