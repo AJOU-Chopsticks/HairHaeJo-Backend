@@ -44,20 +44,22 @@ public class AdvertisementService {
     private final S3UploadService s3UploadService;
     private final DesignerProfileRepository designerProfileRepository;
 
-    public KakaopayReadyResponse kakaoPayReady(MultipartFile image, AdvertisementRequestDto requestDto)
+    public KakaopayReadyResponse kakaoPayReady(MultipartFile image,
+        AdvertisementRequestDto requestDto)
         throws IOException {
-        Advertisement advertisement = advertisementRepository.save(requestDto.toAdvertisement(getCurrentUser(), s3UploadService.upload(image),"x"));
+        Advertisement advertisement = advertisementRepository.save(
+            requestDto.toAdvertisement(getCurrentUser(), s3UploadService.upload(image), "x"));
 
         // 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
-        parameters.add("partner_order_id",Long.toString(advertisement.getAdvertiseId()));
+        parameters.add("partner_order_id", Long.toString(advertisement.getAdvertiseId()));
         parameters.add("partner_user_id", Long.toString(advertisement.getAdvertiserId().getId()));
         parameters.add("item_name", "광고비");
-        parameters.add("item_code",Long.toString(advertisement.getAdvertiseId()));
+        parameters.add("item_code", Long.toString(advertisement.getAdvertiseId()));
         parameters.add("quantity", "1");
         parameters.add("total_amount", Integer.toString(advertisement.getAdPrice()));
-        parameters.add("tax_free_amount",Integer.toString(advertisement.getAdPrice()/10));
+        parameters.add("tax_free_amount", Integer.toString(advertisement.getAdPrice() / 10));
 
         //https://hairhaejo.site/
         parameters.add("approval_url", "https://hairhaejo.site/ad/result"); // 성공 시 redirect url
@@ -65,7 +67,8 @@ public class AdvertisementService {
         parameters.add("fail_url", "http://54.180.182.1:8080/ad/fail"); // 실패 시 redirect url
 
         // 파라미터, 헤더
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters,
+            this.getHeaders());
 
         // 외부에 보낼 url
         RestTemplate restTemplate = new RestTemplate();
@@ -81,7 +84,7 @@ public class AdvertisementService {
     }
 
 
-    public KakaopayApproveResponse approveResponse(String pgToken,String tid) {
+    public KakaopayApproveResponse approveResponse(String pgToken, String tid) {
 
         // 카카오 요청
         Advertisement advertisement = advertisementRepository.findByTid(tid);
@@ -93,7 +96,8 @@ public class AdvertisementService {
         parameters.add("pg_token", pgToken);
         System.out.println("test2");
         // 파라미터, 헤더
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters,
+            this.getHeaders());
 
         // 외부에 보낼 url
         RestTemplate restTemplate = new RestTemplate();
@@ -111,17 +115,23 @@ public class AdvertisementService {
     public KakaopayCancelResponse kakaoCancel(Long advertiseId) {
         Advertisement advertisement = advertisementRepository.findById(advertiseId)
             .orElseThrow(() -> new RuntimeException("존재하지 않은 광고입니다."));
-        if(advertisement.getState() == 2) throw new RuntimeException("이미 승인된 광고입니다.");
+        if ((advertisement.getState() == 2
+            && advertisement.getStartDate().isBefore(LocalDate.from(LocalDateTime.now().plusHours(9))))
+            || (advertisement.getState() == 2
+            && advertisement.getStartDate().isEqual(LocalDate.from(LocalDateTime.now().plusHours(9))))) {
+            throw new RuntimeException("이미 진행된 광고입니다.");
+        }
 
         // 카카오페이 요청
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", advertisement.getTid());
         parameters.add("cancel_amount", Integer.toString(advertisement.getAdPrice()));
-        parameters.add("cancel_tax_free_amount", Integer.toString(advertisement.getAdPrice()/10));
+        parameters.add("cancel_tax_free_amount", Integer.toString(advertisement.getAdPrice() / 10));
 
         // 파라미터, 헤더
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters,
+            this.getHeaders());
 
         // 외부에 보낼 url
         RestTemplate restTemplate = new RestTemplate();
@@ -154,14 +164,15 @@ public class AdvertisementService {
         advertisementRepository.save(advertise);
     }
 
-    public List<AdvertisementResponseDto> getCurrentAdvertisement(String location){
+    public List<AdvertisementResponseDto> getCurrentAdvertisement(String location) {
         LocalDate date = LocalDate.from(LocalDateTime.now().plusHours(9));
         List<Advertisement> currentAdvertisements = advertisementRepository.findCurrentAdvertisement(
             location, date.toString());
         List<AdvertisementResponseDto> responseDto = new ArrayList<>();
-        for(Advertisement advertisement : currentAdvertisements){
-            DesignerProfile designerProfile = designerProfileRepository.findById(advertisement.getAdvertiserId().getId())
-                .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다." ));
+        for (Advertisement advertisement : currentAdvertisements) {
+            DesignerProfile designerProfile = designerProfileRepository.findById(
+                    advertisement.getAdvertiserId().getId())
+                .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다."));
             responseDto.add(AdvertisementResponseDto.builder()
                 .advertiseId(advertisement.getAdvertiseId())
                 .advertiserId(advertisement.getAdvertiserId().getId())
@@ -177,11 +188,11 @@ public class AdvertisementService {
         return responseDto;
     }
 
-    public List<MyAdvertisementResponseDto> getMyAdvertisement(){
+    public List<MyAdvertisementResponseDto> getMyAdvertisement() {
         List<Advertisement> advertisements = advertisementRepository.findByAdvertiserId(
             getCurrentUser());
         List<MyAdvertisementResponseDto> responseDto = new ArrayList<>();
-        for(Advertisement advertisement: advertisements){
+        for (Advertisement advertisement : advertisements) {
             responseDto.add(MyAdvertisementResponseDto.builder()
                 .advertiseId(advertisement.getAdvertiseId())
                 .title(advertisement.getTitle())
@@ -200,7 +211,7 @@ public class AdvertisementService {
         HttpHeaders httpHeaders = new HttpHeaders();
         String auth = "KakaoAK " + adminKey;
         httpHeaders.set("Authorization", auth);
-        httpHeaders .add("Accept", "application/json");
+        httpHeaders.add("Accept", "application/json");
         httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         return httpHeaders;
     }
