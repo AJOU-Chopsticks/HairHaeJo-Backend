@@ -29,7 +29,7 @@ public class MakeInventoryDto {
                 .itemCategory(itemCategory)
                 .itemPhoto(image)
                 .stock(stock)
-                .warning_stock(warningStock)
+                .warningStock(warningStock)
                 .itemPrice(itemPrice)
                 .build();
     }

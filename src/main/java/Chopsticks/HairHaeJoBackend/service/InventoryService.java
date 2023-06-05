@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.Inventory.ChangeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventory;
@@ -28,9 +29,7 @@ public class InventoryService {
     public void postInventory(MakeInventoryDto makeInventoryDto, MultipartFile image) throws IOException {
 
         long currentId= SecurityUtil.getCurrentMemberId();
-        User user=userRepository.findById(currentId)
-                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
-        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        isHairDesigner();
         String Photo=null;
         if(image!=null) Photo=s3UploadService.upload(image);
         try {
@@ -46,9 +45,7 @@ public class InventoryService {
 
     public boolean usestock(UseInventoryDto inventoryDto)  {
         long currentId= SecurityUtil.getCurrentMemberId();
-        User user=userRepository.findById(currentId)
-                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
-        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
+        isHairDesigner();
         Item item=itemRepository.findById(inventoryDto.getItemId()).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
         if((item.getStock()-inventoryDto.getStock())<0) item.setStock(0);
         else item.setStock(item.getStock()-inventoryDto.getStock());
@@ -60,5 +57,32 @@ public class InventoryService {
 
 
 
+    }
+
+    public boolean Change(MultipartFile itemImage,ChangeInventoryDto inventoryDto) throws IOException {
+        isHairDesigner();
+        Item item=itemRepository.findById(inventoryDto.getItemId()).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
+        item.setItemCategory(inventoryDto.getItemCategory());
+        item.setItemName(inventoryDto.getItemName());
+        String Photo=null;
+        if(itemImage!=null)  {
+            Photo=s3UploadService.upload(itemImage);
+            item.setItemPhoto(Photo);
+        }
+        item.setItemPrice(inventoryDto.getItemPrice());
+        item.setWarningStock(inventoryDto.getWarningStock());
+
+        itemRepository.save(item);
+
+        return item.getStock()<=item.getWarningStock();
+
+
+
+    }
+    private void isHairDesigner() {
+        long currentId= SecurityUtil.getCurrentMemberId();
+        User user=userRepository.findById(currentId)
+                .orElseThrow(() -> new RuntimeException("로그인 상태가 아닙니다"));
+        if(user.getRole() != Role.ROLE_DESIGNER) throw new RuntimeException("헤어디자이너만 접근 가능합니다");
     }
 }
