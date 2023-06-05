@@ -20,4 +20,6 @@ public class AdvertisementRequestsResponseDto {
     private String startDate;
     private String endDate;
     private String location;
+    private String name;
+    private String profileImage;
 }

@@ -117,6 +117,8 @@ public class AdminService {
 					.location(ad.getLocation())
 					.startDate(ad.getStartDate().toString())
 					.endDate(ad.getEndDate().toString())
+					.name(ad.getAdvertiserId().getName())
+					.profileImage(ad.getAdvertiserId().getProfileImage())
 				.build());
 		}
 		return responseDtoList;
