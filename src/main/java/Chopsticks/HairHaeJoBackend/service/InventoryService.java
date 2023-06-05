@@ -95,6 +95,7 @@ public class InventoryService {
         isHairDesigner();
         Item item=itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
         DesignerInventory designerInventory=designerInventoryRepository.findByitemId(itemId);
+        if(designerInventory.getUserId()!=SecurityUtil.getCurrentMemberId()) throw new RuntimeException("본인 아이템이 아닙니다");
         designerInventoryRepository.delete(designerInventory);
         itemRepository.delete(item);
 
