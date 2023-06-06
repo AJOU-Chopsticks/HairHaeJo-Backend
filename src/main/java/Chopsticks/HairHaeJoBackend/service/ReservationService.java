@@ -8,6 +8,7 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
@@ -37,9 +38,10 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private DesignerMenuRepository designerMenuRepository;
-    private DesignerProfileRepository designerProfileRepository;
+    private final DesignerProfileRepository designerProfileRepository;
     private final UserRepository userRepository;
     private final DesignerHolidayRepository designerHolidayRepository;
+    private final EmailService emailService;
 
     public ArrayList<ImPossibleTimeResponse> viewReservationDay(long designerId, LocalDateTime day1, LocalDateTime day2) {
         List<PossibleDayResponse> list=reservationRepository.PossibleDay(designerId,day1,day2);
@@ -132,6 +134,20 @@ public class ReservationService {
         return responseDto;
     }
 
+    public void sendNews(String news) throws Exception {
+        User designer = getCurrentUser();
+        List<ClientListInterface> clients = reservationRepository.getClientList(
+            String.valueOf(designer.getId()));
+        DesignerProfile profile = designerProfileRepository.findById(designer.getId())
+            .orElseThrow(()-> new RuntimeException("디자이너 프로필 정보가 없습니다."));
+        for(ClientListInterface client : clients){
+            User user = userRepository.findById(Long.valueOf(client.getClientId()))
+                .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));
+            emailService.sendNews(user.getEmail(), designer.getProfileImage(), designer.getName() + " 디자이너",
+                profile.getHairSalonName() + " (" + profile.getHairSalonNumber() + ")", news);
+        }
+    }
+
     private User getCurrentUser() {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
@@ -165,10 +181,4 @@ public class ReservationService {
         calendar.set(year, month - 1, day);
         return calendar.get(Calendar.WEEK_OF_MONTH);
     }
-
-
-
-
-
-
 }

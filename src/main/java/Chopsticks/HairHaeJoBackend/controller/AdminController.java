@@ -104,7 +104,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/ad")
-	public ResponseEntity<APIMessages> approveAdvertisements(@RequestBody AdvertisementApproveRequestDto requestDto){
+	public ResponseEntity<APIMessages> approveAdvertisements(@RequestBody AdvertisementApproveRequestDto requestDto)
+		throws Exception {
 		adminService.approveAdvertisement(requestDto);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
