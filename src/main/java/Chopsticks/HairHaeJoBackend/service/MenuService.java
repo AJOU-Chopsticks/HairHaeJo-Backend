@@ -38,7 +38,7 @@ public class MenuService {
     public Collection<MenuList> viewMenuList(long designerId)  throws IOException  {
         Collection<MenuList> designerMenu;
         try {
-            designerMenu = designerMenuRepository.findBydesignerIdOrderBymenuName(designerId);
+            designerMenu = designerMenuRepository.findBydesignerId(designerId);
         }
         catch(Exception e) {
             throw new RuntimeException("메뉴 리스트 조회를 실패했습니다");
