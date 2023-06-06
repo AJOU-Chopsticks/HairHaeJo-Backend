@@ -114,6 +114,52 @@ public class EmailService {
         return message;
     }
 
+    private MimeMessage createAdConfirmMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("[헤어해죠~] 광고 등록이 승인되었습니다.");//제목
+
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1>안녕하세요. 헤어해죠~입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>요청해주신 광고 등록이 승인되었습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>나의 광고 현황은 '고객 관리' 페이지의 '광고' 탭에서 확인하실 수 있습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다. <p>";
+        msgg += "<br>";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
+
+        return message;
+    }
+
+    private MimeMessage createAdDeniedMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("[헤어해죠~] 광고 등록이 거절되었습니다.");//제목
+
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1>안녕하세요. 헤어해죠~입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>요청해주신 광고 등록이 조건을 충족하지 못하여 거절되었습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>이용을 위해 검토 후 다시 신청해주시길 바랍니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>나의 광고 현황은 '고객 관리' 페이지의 '광고' 탭에서 확인하실 수 있습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다. <p>";
+        msgg += "<br>";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
+
+        return message;
+    }
+
     private String createCode() {
         StringBuffer code = new StringBuffer();
         Random rnd = new Random();
@@ -157,6 +203,24 @@ public class EmailService {
 
     public void sendDesignerDeniedMessage(String to) throws Exception {
         MimeMessage message = createDesignerDeniedMessage(to);
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송에 실패했습니다.");
+        }
+    }
+
+    public void sendAdConfirmMessage(String to) throws Exception {
+        MimeMessage message = createAdConfirmMessage(to);
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송에 실패했습니다.");
+        }
+    }
+
+    public void sendAdDeniedMessage(String to) throws Exception {
+        MimeMessage message = createAdDeniedMessage(to);
         try {
             emailSender.send(message);
         } catch (MailException e) {
