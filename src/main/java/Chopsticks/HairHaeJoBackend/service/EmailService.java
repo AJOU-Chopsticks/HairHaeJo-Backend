@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.user.ResetPasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
+import java.util.HashMap;
 import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -10,9 +11,12 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ public class EmailService {
     private final UserRepository userRepository;
     private final JavaMailSender emailSender;
     private final PasswordEncoder passwordEncoder;
+    private final TemplateEngine templateEngine;
 
     private MimeMessage createConfirmMessage(String to, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
@@ -158,6 +163,36 @@ public class EmailService {
         message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
 
         return message;
+    }
+
+    public void sendNews(String to, String profileImage, String designerName, String hairSalonName, String news) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        //제목
+        helper.setSubject("[헤어해죠~] 고객님을 위한 새 소식이 도착했습니다.");
+
+        //수신자
+        helper.setTo(to);
+
+        //데이터
+        HashMap<String, String> emailValues = new HashMap<>();
+        emailValues.put("profileImage", profileImage);
+        emailValues.put("designerName", designerName);
+        emailValues.put("hairSalonName", hairSalonName);
+        emailValues.put("news", news);
+
+        Context context = new Context();
+        emailValues.forEach((key, value)->{
+            context.setVariable(key, value);
+        });
+
+        //메일 내용 설정
+        String html = templateEngine.process("index", context);
+        helper.setText(html, true);
+
+        //발송
+        emailSender.send(message);
     }
 
     private String createCode() {
