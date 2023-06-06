@@ -12,5 +12,5 @@ public interface ClientProfileRepository extends JpaRepository<ClientProfile, Lo
 
     Boolean existsByUser_Id(Long id);
 
-    ClientProfile findByUser_Email(String id);
+    ClientProfile findByUser(User user);
 }
