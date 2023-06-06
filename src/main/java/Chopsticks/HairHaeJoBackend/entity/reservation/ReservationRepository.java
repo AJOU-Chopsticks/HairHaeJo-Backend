@@ -126,6 +126,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
         + "order by recentVisit ASC;", nativeQuery = true)
     List<ClientListInterface> getClientList(@Param(value = "id") String designerId);
 
+    @Query(value = "select distinct(client_id)\n"
+        + "from Reservation\n"
+        + "where state=2\n"
+        + "and updated_at >=:date \n"
+        + "and updated_at < DATE_ADD(:date, INTERVAL 1 DAY)", nativeQuery = true)
+    List<Long> getRevisitAlarmList(@Param(value = "date")String date);
 }
 
 
