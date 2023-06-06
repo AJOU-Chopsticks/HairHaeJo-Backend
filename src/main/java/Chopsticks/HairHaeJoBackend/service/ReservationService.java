@@ -45,6 +45,7 @@ public class ReservationService {
 
     public ArrayList<ImPossibleTimeResponse> viewReservationDay(long designerId, LocalDateTime day1, LocalDateTime day2) {
         List<PossibleDayResponse> list=reservationRepository.PossibleDay(designerId,day1,day2);
+
         ListIterator<PossibleDayResponse> iterator = list.listIterator();
 
         ArrayList<ImPossibleTimeResponse> time=new ArrayList<>();
@@ -54,8 +55,8 @@ public class ReservationService {
         LocalDateTime tempday=day1.plusHours(8);
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
 
-        if(holiday==null) throw new RuntimeException();
-        if(!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
+
+        if(holiday!=null&&!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
             while(day1.isBefore(day2)) {
                 String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
@@ -74,13 +75,15 @@ public class ReservationService {
         while(iterator.hasNext()) {
             PossibleDayResponse x = iterator.next();
             if(day1.isBefore(x.getStart())) day1=x.getStart();
-            while (!day1.isAfter(x.getEnd())) {
+
+            while (!day1.isEqual(x.getEnd())) {
                 JsonObject temp = new JsonObject();
                 String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
                 day1=day1.plusMinutes(30);
             }
         }
+
 
         return time;
     }
