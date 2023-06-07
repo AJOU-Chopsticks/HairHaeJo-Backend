@@ -97,7 +97,6 @@ public class UserService {
         String location;
         AuthResponseDto responseDto = AuthResponseDto.of(user);
         if(user.getRole() == Role.ROLE_USER || user.getRole() == Role.ROLE_ADMIN){
-            System.out.println(user.getId());
             ClientProfile profile = clientProfileRepository.findByUser(user);
             location = profile.getAbstractLocation();
         } else {

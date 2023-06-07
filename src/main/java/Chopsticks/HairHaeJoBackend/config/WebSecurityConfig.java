@@ -47,7 +47,7 @@ public class WebSecurityConfig {
             .authorizeRequests()
             .antMatchers("/check", "/user/signup", "/user/login", "/user/email",
                 "/user/resetPassword", "/ws/chat/**", "/payment/success", "/payment/fail",
-                "/payment/cancel", "/ad/success", "/ad/fail", "/ad/cancel")
+                "/payment/cancel", "/ad/success", "/ad/fail", "/ad/cancel", "/ad/extension/success")
             .permitAll() // 토큰이 필요없는 uri
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated()
