@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,6 +166,7 @@ public class EmailService {
         return message;
     }
 
+    @Async("mailExecutor")
     public void sendNews(String to, String profileImage, String designerName, String hairSalonName, String news) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -216,6 +218,7 @@ public class EmailService {
         return code.toString();
     }
 
+    @Async("mailExecutor")
     public String sendConfirmMessage(String to) throws Exception {
         String code = createCode();
         MimeMessage message = createConfirmMessage(to, code);
@@ -227,6 +230,7 @@ public class EmailService {
         return code;
     }
 
+    @Async("mailExecutor")
     public void sendDesignerConfirmMessage(String to) throws Exception {
         MimeMessage message = createDesignerConfirmMessage(to);
         try {
@@ -236,6 +240,7 @@ public class EmailService {
         }
     }
 
+    @Async("mailExecutor")
     public void sendDesignerDeniedMessage(String to) throws Exception {
         MimeMessage message = createDesignerDeniedMessage(to);
         try {
@@ -245,6 +250,7 @@ public class EmailService {
         }
     }
 
+    @Async("mailExecutor")
     public void sendAdConfirmMessage(String to) throws Exception {
         MimeMessage message = createAdConfirmMessage(to);
         try {
@@ -254,6 +260,7 @@ public class EmailService {
         }
     }
 
+    @Async("mailExecutor")
     public void sendAdDeniedMessage(String to) throws Exception {
         MimeMessage message = createAdDeniedMessage(to);
         try {
@@ -264,6 +271,7 @@ public class EmailService {
     }
 
     @Transactional
+    @Async("mailExecutor")
     public void resetPassword(ResetPasswordRequestDto requestDto) throws Exception {
         User user = userRepository.findByEmail(requestDto.getEmail())
             .orElseThrow(() -> new RuntimeException("일치하는 사용자가 없습니다."));
