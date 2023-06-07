@@ -8,9 +8,9 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.DesignerReserveListDto;
 import Chopsticks.HairHaeJoBackend.dto.reservation.PossibleDayResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ImPossibleTimeResponse;
 import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
+import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
-import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
@@ -19,7 +19,6 @@ import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfileRepository;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -33,16 +32,16 @@ import java.util.*;
 @RequiredArgsConstructor
 
 public class ReservationService {
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private DesignerMenuRepository designerMenuRepository;
-    private DesignerProfileRepository designerProfileRepository;
+
+    private final ReservationRepository reservationRepository;
+    private final DesignerProfileRepository designerProfileRepository;
     private final UserRepository userRepository;
     private final DesignerHolidayRepository designerHolidayRepository;
+    private final EmailService emailService;
 
     public ArrayList<ImPossibleTimeResponse> viewReservationDay(long designerId, LocalDateTime day1, LocalDateTime day2) {
         List<PossibleDayResponse> list=reservationRepository.PossibleDay(designerId,day1,day2);
+
         ListIterator<PossibleDayResponse> iterator = list.listIterator();
 
         ArrayList<ImPossibleTimeResponse> time=new ArrayList<>();
@@ -52,8 +51,8 @@ public class ReservationService {
         LocalDateTime tempday=day1.plusHours(8);
         DesignerHoliday holiday =designerHolidayRepository.findBydesignerId(designerId);
 
-        if(holiday==null) throw new RuntimeException();
-        if(!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
+
+        if(holiday!=null&&!holiday.getDesignerHoliday().equals("")&&isHoliday(day1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).split("-"),day1.getDayOfWeek(),holiday.getDesignerHoliday().split(","))) {
             while(day1.isBefore(day2)) {
                 String nowTime = day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
@@ -72,13 +71,15 @@ public class ReservationService {
         while(iterator.hasNext()) {
             PossibleDayResponse x = iterator.next();
             if(day1.isBefore(x.getStart())) day1=x.getStart();
-            while (!day1.isAfter(x.getEnd())) {
+
+            while (!day1.isEqual(x.getEnd())) {
                 JsonObject temp = new JsonObject();
                 String nowTime=day1.format(DateTimeFormatter.ofPattern("HH-mm"));
                 time.add(new ImPossibleTimeResponse(nowTime));
                 day1=day1.plusMinutes(30);
             }
         }
+
 
         return time;
     }
@@ -132,6 +133,19 @@ public class ReservationService {
         return responseDto;
     }
 
+    public void sendNews(String news) throws Exception {
+        User designer = getCurrentUser();
+        List<ClientListInterface> clients = reservationRepository.getClientList(
+            String.valueOf(designer.getId()));
+        DesignerProfile profile = designerProfileRepository.findByUser(designer);
+        for(ClientListInterface client : clients){
+            User user = userRepository.findById(Long.valueOf(client.getClientId()))
+                .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));
+            emailService.sendNews(user.getEmail(), designer.getProfileImage(), designer.getName() + " 디자이너",
+                profile.getHairSalonName() + " (" + profile.getHairSalonNumber() + ")", news);
+        }
+    }
+
     private User getCurrentUser() {
         User user = userRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new RuntimeException("로그인 정보가 없습니다."));
@@ -165,10 +179,4 @@ public class ReservationService {
         calendar.set(year, month - 1, day);
         return calendar.get(Calendar.WEEK_OF_MONTH);
     }
-
-
-
-
-
-
 }

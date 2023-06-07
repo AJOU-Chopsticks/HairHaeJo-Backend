@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 
 public interface DesignerMenuRepository extends JpaRepository<DesignerMenu, Integer>{
-    Collection<MenuList> findBydesignerId(long designerId);
+
+
+    Collection<MenuList> findBydesignerId(final long designerId);
 
 }

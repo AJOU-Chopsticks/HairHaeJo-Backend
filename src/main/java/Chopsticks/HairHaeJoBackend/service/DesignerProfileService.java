@@ -22,13 +22,11 @@ public class DesignerProfileService {
 	private final UserRepository userRepository;
 
 	// 디자이너 프로필 설정 로직
-	public void defaultdesignerprofile (DesignerProfileRequestDto requestDto) {
-
-		if (designerProfileRepository.existsByUser_Id(getCurrentUser().getId())) {
+	public void setDesignerProfile(DesignerProfileRequestDto requestDto) {
+		if (designerProfileRepository.existsByUser(getCurrentUser())) {
 			throw new RuntimeException("이미 프로필이 존재합니다.");
 		}
 		else {
-
 			designerProfileRepository.save(requestDto.toDesignerProfile(getCurrentUser()));
 		}
 	}
@@ -41,22 +39,19 @@ public class DesignerProfileService {
 
 	//디자이너 프로필 조회 로직
 	public DesignerProfileSearchResponseDto SearchDesignerProfile(Long id) {
-
-		DesignerProfile designerProfile = designerProfileRepository.findByUser_Id(id);
-
+		User user = userRepository.findById(id)
+			.orElseThrow(()-> new RuntimeException("디자이너 정보가 없습니다."));
+		DesignerProfile designerProfile = designerProfileRepository.findByUser(user);
 		return DesignerProfileSearchResponseDto.of(designerProfile);
-
 	}
-	//디자이너 프로필 수정
 
+	//디자이너 프로필 수정
 	public void changeDesignerProfile (ChangeDesignerProfileRequestDto requestDto) {
-		DesignerProfile designerProfile = designerProfileRepository.findByUser_Id(getCurrentUser().getId());
+		DesignerProfile designerProfile = designerProfileRepository.findByUser(getCurrentUser());
 		designerProfile.setIntroduction(requestDto.getIntroduction());
 		designerProfile.setHairSalonName(requestDto.getHairSalonName());
 		designerProfile.setHairSalonAddress(requestDto.getHairSalonAddress());
 		designerProfile.setHairSalonNumber(requestDto.getHairSalonNumber());
 		designerProfileRepository.save(designerProfile);
 	}
-
-
 }

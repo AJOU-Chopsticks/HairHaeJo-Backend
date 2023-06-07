@@ -5,7 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .idea/workspace.xml
-src/main/resources/
+src/main/resources/fireBase/
+src/main/resources/application.properties
+src/main/resources/application-kakaopay.properties
+
 
 ### STS ###
 .apt_generated

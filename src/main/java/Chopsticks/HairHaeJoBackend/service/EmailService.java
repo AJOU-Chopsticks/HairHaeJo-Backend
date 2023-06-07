@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.user.ResetPasswordRequestDto;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
+import java.util.HashMap;
 import java.util.Random;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -10,9 +11,13 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,7 @@ public class EmailService {
     private final UserRepository userRepository;
     private final JavaMailSender emailSender;
     private final PasswordEncoder passwordEncoder;
+    private final TemplateEngine templateEngine;
 
     private MimeMessage createConfirmMessage(String to, String code) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
@@ -114,6 +120,83 @@ public class EmailService {
         return message;
     }
 
+    private MimeMessage createAdConfirmMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("[헤어해죠~] 광고 등록이 승인되었습니다.");//제목
+
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1>안녕하세요. 헤어해죠~입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>요청해주신 광고 등록이 승인되었습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>나의 광고 현황은 '고객 관리' 페이지의 '광고' 탭에서 확인하실 수 있습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다. <p>";
+        msgg += "<br>";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
+
+        return message;
+    }
+
+    private MimeMessage createAdDeniedMessage(String to) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO, to);//보내는 대상
+        message.setSubject("[헤어해죠~] 광고 등록이 거절되었습니다.");//제목
+
+        String msgg = "";
+        msgg += "<div style='margin:20px;'>";
+        msgg += "<h1>안녕하세요. 헤어해죠~입니다. </h1>";
+        msgg += "<br>";
+        msgg += "<p>요청해주신 광고 등록이 조건을 충족하지 못하여 거절되었습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>이용을 위해 검토 후 다시 신청해주시길 바랍니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>나의 광고 현황은 '고객 관리' 페이지의 '광고' 탭에서 확인하실 수 있습니다. <p>";
+        msgg += "<br>";
+        msgg += "<p>감사합니다. <p>";
+        msgg += "<br>";
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("hairhaejo@gmail.com", "해어해죠~"));
+
+        return message;
+    }
+
+    @Async("mailExecutor")
+    public void sendNews(String to, String profileImage, String designerName, String hairSalonName, String news) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        //제목
+        helper.setSubject("[헤어해죠~] 고객님을 위한 새 소식이 도착했습니다.");
+
+        //수신자
+        helper.setTo(to);
+
+        //데이터
+        HashMap<String, String> emailValues = new HashMap<>();
+        emailValues.put("profileImage", profileImage);
+        emailValues.put("designerName", designerName);
+        emailValues.put("hairSalonName", hairSalonName);
+        emailValues.put("news", news);
+
+        Context context = new Context();
+        emailValues.forEach((key, value)->{
+            context.setVariable(key, value);
+        });
+
+        //메일 내용 설정
+        String html = templateEngine.process("index", context);
+        helper.setText(html, true);
+
+        //발송
+        emailSender.send(message);
+    }
+
     private String createCode() {
         StringBuffer code = new StringBuffer();
         Random rnd = new Random();
@@ -135,6 +218,7 @@ public class EmailService {
         return code.toString();
     }
 
+    @Async("mailExecutor")
     public String sendConfirmMessage(String to) throws Exception {
         String code = createCode();
         MimeMessage message = createConfirmMessage(to, code);
@@ -146,6 +230,7 @@ public class EmailService {
         return code;
     }
 
+    @Async("mailExecutor")
     public void sendDesignerConfirmMessage(String to) throws Exception {
         MimeMessage message = createDesignerConfirmMessage(to);
         try {
@@ -155,6 +240,7 @@ public class EmailService {
         }
     }
 
+    @Async("mailExecutor")
     public void sendDesignerDeniedMessage(String to) throws Exception {
         MimeMessage message = createDesignerDeniedMessage(to);
         try {
@@ -164,7 +250,28 @@ public class EmailService {
         }
     }
 
+    @Async("mailExecutor")
+    public void sendAdConfirmMessage(String to) throws Exception {
+        MimeMessage message = createAdConfirmMessage(to);
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송에 실패했습니다.");
+        }
+    }
+
+    @Async("mailExecutor")
+    public void sendAdDeniedMessage(String to) throws Exception {
+        MimeMessage message = createAdDeniedMessage(to);
+        try {
+            emailSender.send(message);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송에 실패했습니다.");
+        }
+    }
+
     @Transactional
+    @Async("mailExecutor")
     public void resetPassword(ResetPasswordRequestDto requestDto) throws Exception {
         User user = userRepository.findByEmail(requestDto.getEmail())
             .orElseThrow(() -> new RuntimeException("일치하는 사용자가 없습니다."));

@@ -97,12 +97,10 @@ public class UserService {
         String location;
         AuthResponseDto responseDto = AuthResponseDto.of(user);
         if(user.getRole() == Role.ROLE_USER || user.getRole() == Role.ROLE_ADMIN){
-            ClientProfile profile = clientProfileRepository.findById(user.getId())
-                .orElseThrow(() -> new RuntimeException("프로필 정보가 없습니다."));
+            ClientProfile profile = clientProfileRepository.findByUser(user);
             location = profile.getAbstractLocation();
         } else {
-            DesignerProfile profile = designerProfileRepository.findById(user.getId())
-                .orElseThrow(() -> new RuntimeException("프로필 정보가 없습니다."));
+            DesignerProfile profile = designerProfileRepository.findByUser(user);
             location = profile.getHairSalonAddress();
         }
         responseDto.setLocation(location);

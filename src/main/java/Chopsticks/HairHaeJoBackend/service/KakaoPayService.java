@@ -20,6 +20,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Service
@@ -129,7 +131,15 @@ public class KakaoPayService {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", reservation.getTid());
-        parameters.add("cancel_amount", Integer.toString(designerMenu.getMenuPrice()));
+        ZonedDateTime nowtime= ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        if(reservation.getStartTime().minusHours(2).isBefore(nowtime.toLocalDateTime())) {
+            int refundfee=designerMenu.getMenuPrice()*9/10;
+            parameters.add("cancel_amount", Integer.toString(refundfee));
+            parameters.add("cancel_tax_free_amount", Integer.toString(refundfee/10));
+
+        }
+        else parameters.add("cancel_amount", Integer.toString(designerMenu.getMenuPrice()));
         parameters.add("cancel_tax_free_amount", Integer.toString(designerMenu.getMenuPrice()/10));
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());

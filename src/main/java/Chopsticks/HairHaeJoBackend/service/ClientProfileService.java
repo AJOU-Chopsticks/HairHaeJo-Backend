@@ -23,7 +23,7 @@ public class ClientProfileService {
 	
 	//유저 초기 프로필 설정 로직
 	public void defaultClientProfile (ClientProfileRequestDto requestDto) {
-		if (clientProfileRepository.existsByUser_Id(getCurrentUser().getId())) {
+		if (clientProfileRepository.existsByUser(getCurrentUser())) {
 			throw new RuntimeException("이미 프로필이 존재합니다.");
 		}
 			clientProfileRepository.save(requestDto.toClientProfile(getCurrentUser()));
@@ -38,18 +38,16 @@ public class ClientProfileService {
 
 	//유저 프로필 조회 로직
 	public ClientProfileSearchResponseDto SearchClientProfile(Long id) {
-
-		ClientProfile clientProfile = clientProfileRepository.findByUser_Id(id);
-
-
+		User user = userRepository.findById(id)
+			.orElseThrow(()-> new RuntimeException("고객 프로필 정보가 없습니다."));
+		ClientProfile clientProfile = clientProfileRepository.findByUser(user);
 		return ClientProfileSearchResponseDto.of(clientProfile);
-
 	}
 
 	//유저 프로필 수정
 
 	public void changeClientProfile (ChangeClientProfileRequestDto requestDto) {
-		ClientProfile clientProfile = clientProfileRepository.findByUser_Id(getCurrentUser().getId());
+		ClientProfile clientProfile = clientProfileRepository.findByUser(getCurrentUser());
 
 		clientProfile.setSkinType(requestDto.getSkinType());
 		clientProfile.setHairType(requestDto.getHairType());

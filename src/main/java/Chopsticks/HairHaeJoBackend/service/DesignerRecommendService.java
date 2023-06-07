@@ -31,8 +31,7 @@ public class DesignerRecommendService {
         for (Long id : recommendDesignerIdList) {
             User designer = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다." ));
-            DesignerProfile designerProfile = designerProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다." ));
+            DesignerProfile designerProfile = designerProfileRepository.findByUser(designer);
             RecommendResponseDto responseDto = RecommendResponseDto.builder()
                 .designerId(designer.getId())
                 .Name(designer.getName())

@@ -117,16 +117,24 @@ public class AdminService {
 					.location(ad.getLocation())
 					.startDate(ad.getStartDate().toString())
 					.endDate(ad.getEndDate().toString())
+					.name(ad.getAdvertiserId().getName())
+					.profileImage(ad.getAdvertiserId().getProfileImage())
 				.build());
 		}
 		return responseDtoList;
 	}
 
-	public void approveAdvertisement(AdvertisementApproveRequestDto requestDto){
+	public void approveAdvertisement(AdvertisementApproveRequestDto requestDto) throws Exception {
 		Advertisement advertise = advertisementRepository.findById(requestDto.getAdvertiseId())
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 광고입니다."));
-		if(requestDto.isApprove()) advertise.setState(2);
-		else advertisementService.kakaoCancel(requestDto.getAdvertiseId());
+		if(requestDto.isApprove()){
+			advertise.setState(2);
+			emailService.sendAdConfirmMessage(advertise.getAdvertiserId().getEmail());
+		}
+		else {
+			advertisementService.kakaoCancel(requestDto.getAdvertiseId());
+			emailService.sendAdDeniedMessage(advertise.getAdvertiserId().getEmail());
+		}
 
 		advertisementRepository.save(advertise);
 	}
