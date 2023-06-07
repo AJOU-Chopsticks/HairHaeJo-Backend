@@ -5,7 +5,6 @@ import Chopsticks.HairHaeJoBackend.entity.article.Article;
 import Chopsticks.HairHaeJoBackend.entity.article.ArticleRepository;
 
 import Chopsticks.HairHaeJoBackend.entity.article.Articlestate;
-import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
 import Chopsticks.HairHaeJoBackend.entity.user.Role;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;

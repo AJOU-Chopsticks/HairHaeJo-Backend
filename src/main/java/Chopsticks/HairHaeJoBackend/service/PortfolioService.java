@@ -110,9 +110,8 @@ public class PortfolioService {
     }
 
     private boolean isRegionMatches(String region, Portfolio portfolio) {
-        DesignerProfile profile = designerProfileRepository.findById(
-                portfolio.getDesignerId().getId())
-            .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다."));
+        DesignerProfile profile = designerProfileRepository.findByUser(
+                portfolio.getDesignerId());
         String address = profile.getHairSalonAddress();
         return address.contains(region);
     }
@@ -126,9 +125,8 @@ public class PortfolioService {
     }
 
     private ViewPortfolioResponseDto toViewDto(Portfolio portfolio) {
-        DesignerProfile profile = designerProfileRepository.findById(
-                portfolio.getDesignerId().getId())
-            .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다."));
+        DesignerProfile profile = designerProfileRepository.findByUser(
+                portfolio.getDesignerId());
         ViewPortfolioResponseDto responseDto = ViewPortfolioResponseDto.builder()
             .gender(portfolio.getGender())
             .category(portfolio.getCategory())

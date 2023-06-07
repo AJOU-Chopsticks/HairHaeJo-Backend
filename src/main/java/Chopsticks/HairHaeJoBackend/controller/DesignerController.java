@@ -32,7 +32,7 @@ public class DesignerController {
 	@PostMapping("/profile")
 	public ResponseEntity<APIMessages> defaultdesignerprofile(
 		@RequestBody DesignerProfileRequestDto requestDto) {
-		designerProfileService.defaultdesignerprofile(requestDto);
+		designerProfileService.setDesignerProfile(requestDto);
 		APIMessages messages = APIMessages.builder()
 			.success(true)
 			.message("디자이너프로필 생성완료")

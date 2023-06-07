@@ -11,7 +11,6 @@ import Chopsticks.HairHaeJoBackend.dto.reservation.ReserveListDto;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfile;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHoliday;
 import Chopsticks.HairHaeJoBackend.entity.holiday.DesignerHolidayRepository;
-import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenuRepository;
 import Chopsticks.HairHaeJoBackend.entity.reservation.Reservation;
 import Chopsticks.HairHaeJoBackend.entity.reservation.ReservationRepository;
 import Chopsticks.HairHaeJoBackend.entity.user.User;
@@ -20,7 +19,6 @@ import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfileRepository;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -34,10 +32,8 @@ import java.util.*;
 @RequiredArgsConstructor
 
 public class ReservationService {
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private DesignerMenuRepository designerMenuRepository;
+
+    private final ReservationRepository reservationRepository;
     private final DesignerProfileRepository designerProfileRepository;
     private final UserRepository userRepository;
     private final DesignerHolidayRepository designerHolidayRepository;
@@ -138,8 +134,7 @@ public class ReservationService {
         User designer = getCurrentUser();
         List<ClientListInterface> clients = reservationRepository.getClientList(
             String.valueOf(designer.getId()));
-        DesignerProfile profile = designerProfileRepository.findById(designer.getId())
-            .orElseThrow(()-> new RuntimeException("디자이너 프로필 정보가 없습니다."));
+        DesignerProfile profile = designerProfileRepository.findByUser(designer);
         for(ClientListInterface client : clients){
             User user = userRepository.findById(Long.valueOf(client.getClientId()))
                 .orElseThrow(() -> new RuntimeException("고객 정보가 없습니다."));

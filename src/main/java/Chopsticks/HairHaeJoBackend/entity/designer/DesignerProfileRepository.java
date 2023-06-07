@@ -10,9 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface DesignerProfileRepository extends JpaRepository<DesignerProfile, Long> {
-DesignerProfile findByUser_Id(Long id);
 
-    Boolean existsByUser_Id(Long id);
+    Boolean existsByUser(User user);
 
     DesignerProfile findByUser(User user);
 

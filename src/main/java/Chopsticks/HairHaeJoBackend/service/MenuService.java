@@ -1,6 +1,5 @@
 package Chopsticks.HairHaeJoBackend.service;
 
-import Chopsticks.HairHaeJoBackend.dto.article.ArticleViewDto;
 import Chopsticks.HairHaeJoBackend.dto.menu.ChangeMenuDto;
 import Chopsticks.HairHaeJoBackend.dto.menu.MakeMenuDto;
 import Chopsticks.HairHaeJoBackend.entity.menu.DesignerMenu;
@@ -11,13 +10,11 @@ import Chopsticks.HairHaeJoBackend.entity.user.User;
 import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

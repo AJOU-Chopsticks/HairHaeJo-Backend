@@ -170,9 +170,8 @@ public class AdvertisementService {
             location, date.toString());
         List<AdvertisementResponseDto> responseDto = new ArrayList<>();
         for (Advertisement advertisement : currentAdvertisements) {
-            DesignerProfile designerProfile = designerProfileRepository.findById(
-                    advertisement.getAdvertiserId().getId())
-                .orElseThrow(() -> new RuntimeException("디자이너 프로필 정보가 없습니다."));
+            DesignerProfile designerProfile = designerProfileRepository.findByUser(
+                    advertisement.getAdvertiserId());
             responseDto.add(AdvertisementResponseDto.builder()
                 .advertiseId(advertisement.getAdvertiseId())
                 .advertiserId(advertisement.getAdvertiserId().getId())

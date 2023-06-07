@@ -1,8 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
 import Chopsticks.HairHaeJoBackend.dto.FcmMessage;
-import Chopsticks.HairHaeJoBackend.dto.chat.ChatMessageRequestDto;
-import Chopsticks.HairHaeJoBackend.entity.user.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
