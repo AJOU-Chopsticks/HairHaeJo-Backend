@@ -218,7 +218,6 @@ public class EmailService {
         return code.toString();
     }
 
-    @Async("mailExecutor")
     public String sendConfirmMessage(String to) throws Exception {
         String code = createCode();
         MimeMessage message = createConfirmMessage(to, code);
