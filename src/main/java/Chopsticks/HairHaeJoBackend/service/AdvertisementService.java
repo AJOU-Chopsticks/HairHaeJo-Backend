@@ -1,5 +1,6 @@
 package Chopsticks.HairHaeJoBackend.service;
 
+import Chopsticks.HairHaeJoBackend.dto.Advertisement.AdExtensionRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.AdvertisementRequestDto;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.AdvertisementResponseDto;
 import Chopsticks.HairHaeJoBackend.dto.Advertisement.ChangeAdRequestDto;
@@ -44,12 +45,21 @@ public class AdvertisementService {
     private final S3UploadService s3UploadService;
     private final DesignerProfileRepository designerProfileRepository;
 
-    public KakaopayReadyResponse kakaoPayReady(MultipartFile image,
-        AdvertisementRequestDto requestDto)
-        throws IOException {
+    public KakaopayReadyResponse registerAdvertisement(MultipartFile image,
+        AdvertisementRequestDto requestDto) throws IOException {
         Advertisement advertisement = advertisementRepository.save(
             requestDto.toAdvertisement(getCurrentUser(), s3UploadService.upload(image), "x"));
+        return kakaoPayReady(advertisement);
+    }
 
+    public KakaopayReadyResponse extendAdvertisement(AdExtensionRequestDto requestDto)
+        throws IOException {
+        Advertisement advertisement = advertisementRepository.save(getExtendedAdvertisement(requestDto));
+        return kakaoPayReady(advertisement);
+    }
+
+    public KakaopayReadyResponse kakaoPayReady(Advertisement advertisement)
+        throws IOException {
         // 카카오페이 요청 양식
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
@@ -84,7 +94,7 @@ public class AdvertisementService {
     }
 
 
-    public KakaopayApproveResponse approveResponse(String pgToken, String tid) {
+    public KakaopayApproveResponse approveResponse(String pgToken, String tid, int afterState) {
 
         // 카카오 요청
         Advertisement advertisement = advertisementRepository.findByTid(tid);
@@ -94,7 +104,6 @@ public class AdvertisementService {
         parameters.add("partner_order_id", Long.toString(advertisement.getAdvertiseId()));
         parameters.add("partner_user_id", Long.toString(advertisement.getAdvertiserId().getId()));
         parameters.add("pg_token", pgToken);
-        System.out.println("test2");
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters,
             this.getHeaders());
@@ -106,7 +115,7 @@ public class AdvertisementService {
             "https://kapi.kakao.com/v1/payment/approve",
             requestEntity,
             KakaopayApproveResponse.class);
-        advertisement.setState(1);
+        advertisement.setState(afterState);
         advertisementRepository.save(advertisement);
 
         return approveResponse;
@@ -204,6 +213,24 @@ public class AdvertisementService {
                 .build());
         }
         return responseDto;
+    }
+
+    public Advertisement getExtendedAdvertisement(AdExtensionRequestDto requestDto){
+        LocalDate today = LocalDate.from(LocalDateTime.now().plusHours(9));
+        Advertisement advertisement = advertisementRepository.findById(requestDto.getAdvertiseId())
+            .orElseThrow(()-> new RuntimeException("광고가 존재하지 않습니다."));
+        if(advertisement.getEndDate().isBefore(today)) throw new RuntimeException("이미 종료된 광고입니다.");
+        Advertisement newAd = Advertisement.builder()
+            .advertiserId(advertisement.getAdvertiserId())
+            .adPrice(requestDto.getPrice())
+            .title(advertisement.getTitle())
+            .image(advertisement.getImage())
+            .text(advertisement.getText())
+            .startDate(advertisement.getEndDate().plusDays(1))
+            .endDate(advertisement.getEndDate().plusDays(requestDto.getExtensionDays()))
+            .location(advertisement.getLocation())
+            .state(0).build();
+        return newAd;
     }
 
     private HttpHeaders getHeaders() {
