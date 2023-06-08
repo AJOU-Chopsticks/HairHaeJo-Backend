@@ -154,8 +154,9 @@ public class UserService {
     }
 
     // 로그아웃 (FCM token 초기화)
-    public void logout(){
-        User user = getCurrentUser();
+    public void logout(Long id){
+        User user = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("유저 정보가 없습니다."));
         user.setFcmToken(null);
         userRepository.save(user);
     }

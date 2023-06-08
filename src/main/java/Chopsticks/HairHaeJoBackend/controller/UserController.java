@@ -162,8 +162,8 @@ public class UserController {
 
     //로그아웃 (FCM token 삭제)
     @PutMapping("/logout")
-    public ResponseEntity<APIMessages> logout(){
-        userService.logout();
+    public ResponseEntity<APIMessages> logout(@RequestParam Long id){
+        userService.logout(id);
         APIMessages messages = APIMessages.builder()
             .success(true)
             .message("FCM token 초기화 완료")
