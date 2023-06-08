@@ -109,6 +109,7 @@ public class AdvertisementController {
 		return ResponseEntity.ok(apiMessages);
 	}
 
+
 	@GetMapping
 	public ResponseEntity<APIMessages> getCurrentAdvertisement(@RequestParam String location) {
 		APIMessages apiMessages = APIMessages.builder().success(true)
