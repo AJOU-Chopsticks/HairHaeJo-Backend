@@ -40,7 +40,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Arti
 
     @Query(value="SELECT new Chopsticks.HairHaeJoBackend.dto.article.ArticleViewDto(A.title,A.body,A.beforeImage,A.afterImage,A.abstractLocation,A.category,A.gender,A.tag,B.name,B.profileImage,B.id) " +
             "FROM Article A JOIN A.user B" +
-            " WHERE A.Id=:articleid")
+            " WHERE A.Id=:articleid ORDER BY A.updatedAt DESC")
     ArticleViewDto viewArticle(@Param(value="articleid") int id);
 
 

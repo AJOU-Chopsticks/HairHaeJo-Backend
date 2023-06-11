@@ -8,40 +8,40 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
 
-    List<Portfolio> findByDesignerId(User userId);
+    List<Portfolio> findByDesignerIdOrderByUpdatedAtDesc(User userId);
 
-    List<Portfolio> findByCategoryAndTagAndGender(String category, String tag, int gender);
+    List<Portfolio> findByCategoryAndTagAndGenderOrderByUpdatedAtDesc(String category, String tag, int gender);
 
     default List<Portfolio> findByStyle(String category, String tag, int gender) {
         if ("all".equals(category) && "all".equals(tag) && gender == 2) {
             return findAll();
         } else if ("all".equals(category) && "all".equals(tag)) {
-            return findByGender(gender);
+            return findByGenderOrderByUpdatedAtDesc(gender);
         } else if ("all".equals(category) && gender == 2) {
-            return findByTag(tag);
+            return findByTagOrderByUpdatedAtDesc(tag);
         } else if ("all".equals(tag) && gender == 2) {
-            return findByCategory(category);
+            return findByCategoryOrderByUpdatedAtDesc(category);
         } else if ("all".equals(category)) {
-            return findByTagAndGender(tag, gender);
+            return findByTagAndGenderOrderByUpdatedAtDesc(tag, gender);
         } else if ("all".equals(tag)) {
-            return findByCategoryAndGender(category, gender);
+            return findByCategoryAndGenderOrderByUpdatedAtDesc(category, gender);
         } else if (gender == 2) {
-            return findByCategoryAndTag(category, tag);
+            return findByCategoryAndTagOrderByUpdatedAtDesc(category, tag);
         } else {
-            return findByCategoryAndTagAndGender(category, tag, gender);
+            return findByCategoryAndTagAndGenderOrderByUpdatedAtDesc(category, tag, gender);
         }
     }
 
-    List<Portfolio> findByCategory(String category);
+    List<Portfolio> findByCategoryOrderByUpdatedAtDesc(String category);
 
-    List<Portfolio> findByTag(String tag);
+    List<Portfolio> findByTagOrderByUpdatedAtDesc(String tag);
 
-    List<Portfolio> findByGender(int gender);
+    List<Portfolio> findByGenderOrderByUpdatedAtDesc(int gender);
 
-    List<Portfolio> findByCategoryAndTag(String category, String tag);
+    List<Portfolio> findByCategoryAndTagOrderByUpdatedAtDesc(String category, String tag);
 
-    List<Portfolio> findByCategoryAndGender(String category, int gender);
+    List<Portfolio> findByCategoryAndGenderOrderByUpdatedAtDesc(String category, int gender);
 
-    List<Portfolio> findByTagAndGender(String tag, int gender);
+    List<Portfolio> findByTagAndGenderOrderByUpdatedAtDesc(String tag, int gender);
 
 }

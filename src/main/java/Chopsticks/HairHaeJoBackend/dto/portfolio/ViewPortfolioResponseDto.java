@@ -20,5 +20,5 @@ public class ViewPortfolioResponseDto {
 	private String category;
 	private String tag;
 	private int gender;
-	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }
