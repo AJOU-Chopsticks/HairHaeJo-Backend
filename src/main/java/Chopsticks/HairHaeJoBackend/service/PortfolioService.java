@@ -12,6 +12,7 @@ import Chopsticks.HairHaeJoBackend.entity.user.UserRepository;
 import Chopsticks.HairHaeJoBackend.jwt.SecurityUtil;
 import Chopsticks.HairHaeJoBackend.entity.portfolio.PortfolioRepository;
 import Chopsticks.HairHaeJoBackend.entity.designer.DesignerProfileRepository;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,7 @@ public class PortfolioService {
         portfolio.setTag(requestDto.getTag());
         portfolio.setGender(requestDto.getGender());
         portfolio.setText(requestDto.getText());
+        portfolio.setUpdatedAt(LocalDateTime.now());
         if (image != null) {
             portfolio.setImage(s3UploadService.upload(image));
         }
@@ -69,7 +71,7 @@ public class PortfolioService {
     public List<PortfolioResponseDto> getDesignerPortfolios(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("디자이너 정보가 없습니다."));
-        List<Portfolio> portfolios = portfolioRepository.findByDesignerId(user);
+        List<Portfolio> portfolios = portfolioRepository.findByDesignerIdOrderByUpdatedAtDesc(user);
         List<PortfolioResponseDto> response = new ArrayList<>();
         for (Portfolio portfolio : portfolios) {
             response.add(toResponseDto(portfolio));
@@ -131,7 +133,7 @@ public class PortfolioService {
             .gender(portfolio.getGender())
             .category(portfolio.getCategory())
             .designerId(portfolio.getDesignerId().getId())
-            .createdAt(portfolio.getCreatedAt())
+            .updatedAt(portfolio.getUpdatedAt())
             .designerImage(portfolio.getDesignerId().getProfileImage())
             .designerName(portfolio.getDesignerId().getName())
             .hairSalonAddress(profile.getHairSalonAddress())
