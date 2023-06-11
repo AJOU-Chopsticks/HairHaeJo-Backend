@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.ChangeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.itemViewDto;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventory;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventoryRepository;
 import Chopsticks.HairHaeJoBackend.entity.inventory.Item;
@@ -80,7 +81,7 @@ public class InventoryService {
 
     }
 
-    public Collection<ChangeInventoryDto> View(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
+    public Collection<itemViewDto> View(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
         isHairDesigner();
 
         return designerInventoryRepository.listfilter(category, name, orderBystock, orderByprice, isWarning,SecurityUtil.getCurrentMemberId());
@@ -95,6 +96,7 @@ public class InventoryService {
         isHairDesigner();
         Item item=itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
         DesignerInventory designerInventory=designerInventoryRepository.findByitemId(itemId);
+        if(designerInventory.getUserId()!=SecurityUtil.getCurrentMemberId()) throw new RuntimeException("본인 아이템이 아닙니다");
         designerInventoryRepository.delete(designerInventory);
         itemRepository.delete(item);
 

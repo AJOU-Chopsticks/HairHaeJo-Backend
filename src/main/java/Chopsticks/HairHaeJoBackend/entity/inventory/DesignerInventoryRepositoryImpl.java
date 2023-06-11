@@ -1,6 +1,7 @@
 package Chopsticks.HairHaeJoBackend.entity.inventory;
 
 import Chopsticks.HairHaeJoBackend.dto.Inventory.ChangeInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.itemViewDto;
 import Chopsticks.HairHaeJoBackend.dto.article.ArticlelistResponseDto;
 import Chopsticks.HairHaeJoBackend.entity.article.QArticle;
 import Chopsticks.HairHaeJoBackend.entity.user.QUser;
@@ -23,7 +24,7 @@ public class DesignerInventoryRepositoryImpl implements DesignerInventoryReposit
     EntityManager em;
 
 
-    public Collection<ChangeInventoryDto> listfilter(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning,long userid) {
+    public Collection<itemViewDto> listfilter(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning,long userid) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
         QItem Item= QItem.item;
         BooleanBuilder booleanBuilder = new BooleanBuilder();
@@ -35,7 +36,7 @@ public class DesignerInventoryRepositoryImpl implements DesignerInventoryReposit
         if(isWarning) booleanBuilder.and(Item.stock.lt(Item.warningStock.add(1)));
         OrderSpecifier[] orderSpecifiers=createOrderSpecifier(orderBystock,orderByprice);
 
-        return queryFactory.select(Projections.fields(ChangeInventoryDto.class,Item.itemId,Item.itemName,Item.itemCategory,Item.stock,Item.warningStock,Item.itemPrice)).from(DesignerInventory).innerJoin(DesignerInventory.item,Item).where(booleanBuilder.and(DesignerInventory.userId.eq(userid))).orderBy(orderSpecifiers).fetch();
+        return queryFactory.select(Projections.fields(itemViewDto.class,Item.itemId,Item.itemName,Item.itemCategory,Item.itemPhoto,Item.stock,Item.warningStock,Item.itemPrice)).from(DesignerInventory).innerJoin(DesignerInventory.item,Item).where(booleanBuilder.and(DesignerInventory.userId.eq(userid))).orderBy(orderSpecifiers).fetch();
 
 
     }
