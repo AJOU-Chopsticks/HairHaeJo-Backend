@@ -3,6 +3,7 @@ package Chopsticks.HairHaeJoBackend.service;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.ChangeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.itemViewDto;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventory;
 import Chopsticks.HairHaeJoBackend.entity.inventory.DesignerInventoryRepository;
 import Chopsticks.HairHaeJoBackend.entity.inventory.Item;
@@ -80,7 +81,7 @@ public class InventoryService {
 
     }
 
-    public Collection<ChangeInventoryDto> View(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
+    public Collection<itemViewDto> View(String category, String name, boolean orderBystock, boolean orderByprice, boolean isWarning) throws IOException {
         isHairDesigner();
 
         return designerInventoryRepository.listfilter(category, name, orderBystock, orderByprice, isWarning,SecurityUtil.getCurrentMemberId());
