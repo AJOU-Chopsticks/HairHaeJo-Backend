@@ -60,7 +60,7 @@ public class InventoryService {
 
     }
 
-    public boolean Change(MultipartFile itemImage,ChangeInventoryDto inventoryDto) throws IOException {
+    public boolean Change(MultipartFile itemImage,itemViewDto inventoryDto) throws IOException {
         isHairDesigner();
         Item item=itemRepository.findById(inventoryDto.getItemId()).orElseThrow(() -> new RuntimeException("아이템 불러오기를 실패했습니다"));
         item.setItemCategory(inventoryDto.getItemCategory());
