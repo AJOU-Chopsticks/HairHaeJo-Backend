@@ -4,6 +4,7 @@ import Chopsticks.HairHaeJoBackend.dto.APIMessages;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.ChangeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.MakeInventoryDto;
 import Chopsticks.HairHaeJoBackend.dto.Inventory.UseInventoryDto;
+import Chopsticks.HairHaeJoBackend.dto.Inventory.itemViewDto;
 import Chopsticks.HairHaeJoBackend.dto.article.MakeArticleDto;
 import Chopsticks.HairHaeJoBackend.dto.holiday.HolidayDto;
 import Chopsticks.HairHaeJoBackend.service.InventoryService;
@@ -56,7 +57,7 @@ public class InventoryController {
     @PutMapping("")
     public ResponseEntity<APIMessages> ChangeInventory(@RequestPart(value = "itemImage",required = false) MultipartFile itemImage,@RequestParam("jsonList") String jsonList) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule());
-            ChangeInventoryDto InventoryDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
+            itemViewDto InventoryDto = objectMapper.readValue(jsonList, new TypeReference<>() {});
         APIMessages apiMessages=APIMessages.builder().success(true)
                 .message("인벤토리 변경 성공")
                 .data(inventoryService.Change(itemImage,InventoryDto))
